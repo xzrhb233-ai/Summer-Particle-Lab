@@ -56,6 +56,8 @@ jobs:
           cache-dependency-path: cad/requirements.txt
       - run: pnpm install --frozen-lockfile
       - run: python -m venv .venv-cad
-      - run: .venv-cad/bin/python -m pip install --only-binary=:all: -r cad/requirements.txt
+      - name: Install native CAD dependencies
+        run: |
+          .venv-cad/bin/python -m pip install --only-binary=:all: -r cad/requirements.txt
       - name: Actual SMLib and TetGen tests (missing prerequisites fail)
         run: node scripts/test.mjs --suite native-cad
