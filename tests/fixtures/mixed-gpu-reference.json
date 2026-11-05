@@ -1,0 +1,275 @@
+{
+  "schema": "summer-project/1",
+  "name": "MPM–FEM · 热块撞击弹性梁",
+  "units": {
+    "length": "m",
+    "mass": "kg",
+    "time": "s",
+    "temperature": "degC"
+  },
+  "parts": [
+    {
+      "id": "beam",
+      "name": "悬臂梁",
+      "method": "fem",
+      "geometry": {
+        "shape": "box",
+        "center": [
+          0.6,
+          0.5,
+          0
+        ],
+        "size": [
+          1.2,
+          0.15,
+          0.4
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ]
+      },
+      "material": {
+        "model": "linear-elastic",
+        "young": 4000000,
+        "poisson": 0.3,
+        "density": 1000,
+        "cp": 500,
+        "conductivity": 50,
+        "expansion": 0,
+        "referenceTemperature": 20
+      },
+      "initial": {
+        "temperature": 20,
+        "velocity": [
+          0,
+          0,
+          0
+        ]
+      },
+      "boundary": {},
+      "discretization": {
+        "element": "tet4",
+        "divisions": [
+          8,
+          2,
+          3
+        ]
+      }
+    },
+    {
+      "id": "hot-block",
+      "name": "热 MPM 块",
+      "method": "mpm",
+      "geometry": {
+        "shape": "box",
+        "center": [
+          1,
+          0.75,
+          0
+        ],
+        "size": [
+          0.2,
+          0.2,
+          0.2
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ]
+      },
+      "material": {
+        "model": 0,
+        "fracture": {
+          "enabled": false,
+          "onset": 0.08,
+          "failure": 0.16
+        },
+        "density": 1000,
+        "thermalMaterial": {
+          "Tref": 20,
+          "Thot": 180,
+          "hotRatio": 0.08,
+          "A": 0.04,
+          "H": 0.04,
+          "rate": 0.0005,
+          "Q": 35000,
+          "n": 3,
+          "stress": 0.04
+        },
+        "phaseChange": {
+          "enabled": false,
+          "meltingPoint": 120,
+          "latentHeat": 120000
+        },
+        "plasticity": {
+          "A": 0.025,
+          "B": 0.08,
+          "n": 0.35,
+          "C": 0.025,
+          "rate0": 1,
+          "Tref": 20,
+          "Tm": 1000,
+          "m": 1
+        },
+        "pressure": {
+          "cohesion": 0.025,
+          "slope": 0.6,
+          "dilatancy": 0.15,
+          "tension": 0.01,
+          "alpha": 1.5,
+          "plateau": 0.015,
+          "gamma": 0.01,
+          "densify": 0.02,
+          "beta": 2,
+          "epsD": 0.7
+        },
+        "yieldStrain": 0.025,
+        "friction": 35
+      },
+      "initial": {
+        "temperature": 160,
+        "velocity": [
+          0,
+          -0.5,
+          0
+        ]
+      },
+      "boundary": {
+        "fixedFace": "none"
+      },
+      "discretization": {
+        "sampling": {
+          "enabled": false,
+          "strength": 0.2,
+          "seed": 42
+        }
+      }
+    }
+  ],
+  "loads": [
+    {
+      "id": "beam-fixed",
+      "type": "fem-fixed",
+      "target": "beam",
+      "selection": "beam-support"
+    },
+    {
+      "id": "beam-traction",
+      "type": "fem-force",
+      "target": "beam",
+      "selection": "beam-load",
+      "force": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "mpm-heat",
+      "type": "region-heat",
+      "target": "mpm",
+      "center": [
+        0,
+        0.5,
+        0
+      ],
+      "radius": 0.5,
+      "power": 0
+    }
+  ],
+  "connections": [],
+  "couplings": [
+    {
+      "id": "rigid-mpm",
+      "type": "contact",
+      "methods": [
+        "rigid",
+        "mpm"
+      ],
+      "mechanical": true,
+      "thermal": true,
+      "friction": 0.3,
+      "contactConductance": 1000,
+      "thermalScale": 1
+    }
+  ],
+  "contactPairs": [
+    {
+      "id": "block-beam",
+      "name": "热块 ↔ 弹性梁",
+      "a": "hot-block",
+      "b": "beam",
+      "mechanical": true,
+      "thermal": true,
+      "friction": 0.2,
+      "contactConductance": 1000,
+      "thermalToleranceRatio": 0.05
+    }
+  ],
+  "frames": [],
+  "selectionSets": [
+    {
+      "id": "beam-support",
+      "name": "悬臂梁 / x-",
+      "part": "beam",
+      "entity": "face",
+      "region": {
+        "type": "face",
+        "face": "x-"
+      }
+    },
+    {
+      "id": "beam-load",
+      "name": "悬臂梁 / x+",
+      "part": "beam",
+      "entity": "face",
+      "region": {
+        "type": "face",
+        "face": "x+"
+      }
+    }
+  ],
+  "curves": [],
+  "loadBindings": [],
+  "environment": {
+    "gravity": [
+      0,
+      0,
+      0
+    ]
+  },
+  "discretization": {
+    "mpm": {
+      "lower": [
+        -0.3,
+        0,
+        -0.5
+      ],
+      "upper": [
+        1.5,
+        1.3,
+        0.5
+      ],
+      "cellSize": 0.1,
+      "particlesPerAxis": 2
+    }
+  },
+  "solver": {
+    "adapter": "cpu-fem-mpm",
+    "analysis": "linear-dynamic",
+    "tolerance": 1e-8,
+    "maxIterations": 4000,
+    "dt": 0.0002,
+    "iterations": 12,
+    "mpmEnabled": true,
+    "safety": 0.8,
+    "damping": 1,
+    "initialState": "rest",
+    "duration": 0.5,
+    "thermal": true,
+    "stiffness": 1
+  }
+}

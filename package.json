@@ -1,0 +1,28 @@
+{
+  "name": "summer-particle-lab",
+  "version": "0.71.0",
+  "private": true,
+  "description": "Local multiphysics simulation workbench with MPM, FEM, PBF, rigid bodies, CAD and evidence-based verification tools",
+  "packageManager": "pnpm@10.19.0",
+  "engines": {"node": ">=22.10 <25"},
+  "type": "module",
+  "scripts": {
+    "dev": "node server.mjs",
+    "start": "node server.mjs",
+    "start:ai": "node ai-server.mjs",
+    "test": "node scripts/test.mjs",
+    "test:cad": "node scripts/test.mjs --suite native-cad",
+    "test:all": "node scripts/test.mjs --suite all",
+    "check:repo": "node scripts/check-release.mjs",
+    "check:release": "node scripts/check-release.mjs --release",
+    "validate:mixed": "node tests/run-mixed-validation.mjs",
+    "validate:thermal-contact": "node tests/run-thermal-contact-validation.mjs",
+    "validate:fem-contact": "node tests/run-fem-contact-validation.mjs",
+    "validate:fem-dynamic": "node tests/run-fem-dynamic-validation.mjs",
+    "validate:numerics": "node tests/run-validation.mjs",
+    "validate:vv": "node tests/run-vv-validation.mjs"
+  },
+  "dependencies": {
+    "@dimforge/rapier3d-compat": "0.19.3"
+  }
+}

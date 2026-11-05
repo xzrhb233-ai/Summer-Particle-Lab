@@ -1,0 +1,81 @@
+#cad-modeler{margin:12px 0;border:1px solid var(--line,#aac0c5);border-radius:10px;padding:12px}
+#cad-modeler>summary{font-weight:700;cursor:pointer}
+#cad-modeler [hidden]{display:none!important}
+#cad-canvas{position:relative;display:block;width:100%;height:240px;margin-top:12px;border:1px solid #9cbbc0;border-radius:8px;touch-action:none;cursor:grab}
+#cad-modeler .cad-error{color:#c4492b}
+#cad-status{white-space:pre-wrap;border-left:3px solid #3b9b94;padding:8px}
+.cad-template-row{display:flex;align-items:center;gap:6px}.cad-template-row select{flex:1;min-width:0}.cad-template-row button{flex:none}
+#cad-template-info{font-variant-numeric:tabular-nums;line-height:1.5}
+#cad-ask-ai{margin-top:10px;width:100%;border-color:#3b9b94}
+#cad-curve-modeler{margin-top:14px;padding-top:12px;border-top:1px solid var(--line,#aac0c5)}
+#cad-curve-modeler>summary{font-weight:700;cursor:pointer}
+#cad-curve-modeler [hidden]{display:none!important}
+#cad-curve-points{box-sizing:border-box;width:100%;min-height:110px;resize:vertical;font-family:ui-monospace,monospace;line-height:1.6}
+#cad-curve-canvas{position:relative;display:block;width:100%;height:210px;margin-top:10px;border:1px solid #9cbbc0;border-radius:8px;touch-action:none;cursor:grab}
+#cad-curve-status{white-space:pre-wrap;border-left:3px solid #3b9b94;padding:8px;font-variant-numeric:tabular-nums}
+#cad-curve-modeler .buttons{flex-wrap:wrap}
+#cad-curve-ai{margin-top:8px;width:100%;border-color:#3b9b94}
+#cad-mesh-modeler{margin-top:14px;border-top:1px solid var(--rule);padding-top:10px}
+#cad-mesh-canvas{display:block;width:100%;height:260px;background:var(--card);border:1px solid var(--rule);border-radius:5px;touch-action:none;margin:10px 0}
+#cad-mesh-status{white-space:pre-wrap;color:#26806c}
+#cad-mesh-status.cad-error{color:#bf3f45}
+#cad-mesh-cut{width:100%}
+#cad-surface-modeler{margin-top:14px;padding-top:12px;border-top:1px solid var(--line,#aac0c5)}
+#cad-surface-modeler>summary{font-weight:700;cursor:pointer}
+#cad-surface-modeler .buttons{flex-wrap:wrap}
+#cad-surface-canvas{display:block;width:100%;height:250px;margin:12px 0;border:1px solid #9cbbc0;border-radius:8px;touch-action:none;cursor:grab}
+#cad-surface-net{box-sizing:border-box;width:100%;font-family:ui-monospace,monospace;resize:vertical}
+#cad-surface-status{white-space:pre-wrap;border-left:3px solid #3b9b94;padding:8px}
+#cad-profile-editor{margin:10px 0;padding:10px;border:1px solid var(--line,#aac0c5);border-radius:7px}
+#cad-profile-plot{display:block;width:100%;height:190px;background:var(--card,#f3f7f7);border:1px solid var(--line,#aac0c5);border-radius:5px}
+#cad-profile-plot text{font-size:11px;fill:var(--ink,#1f4046)}
+.cad-profile-axis-line{stroke:#8fa9ae;stroke-width:1;stroke-dasharray:3 3}
+.cad-profile-polygon{fill:#369e9828;stroke:#23857e;stroke-width:2;stroke-linejoin:round}
+.cad-profile-point{fill:#d67637;stroke:#fff;stroke-width:1}
+.cad-profile-table-wrap{max-height:220px;overflow:auto;overscroll-behavior:contain}
+.cad-profile-table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
+.cad-profile-table th,.cad-profile-table td{padding:4px 2px;text-align:left;font-size:11px}
+.cad-profile-table th{position:sticky;top:0;background:var(--card,#f3f7f7);z-index:1}
+#cad-modeler .cad-profile-table input{box-sizing:border-box;width:100%;min-width:0;margin:0;padding:5px;font-size:12px}
+.cad-profile-table td:nth-child(2),.cad-profile-table td:nth-child(3){width:32%}
+.cad-profile-actions{white-space:nowrap}
+#cad-modeler .cad-profile-actions button{padding:4px 6px;margin:0 1px;font-size:12px;min-width:24px}
+#cad-profile-json{box-sizing:border-box;width:100%;min-height:100px;resize:vertical;font:12px/1.6 ui-monospace,monospace}
+#cad-profile-status{line-height:1.5}
+#cad-parametric-modeler>summary,#cad-advanced-modeler>summary{font-weight:700;cursor:pointer}
+#cad-advanced-modeler{border-top:1px solid var(--line,#aac0c5);margin-top:18px;padding-top:12px}
+.parametric-fields{display:grid;grid-template-columns:1fr 1fr;gap:4px 12px;margin-top:12px}
+#cad-parametric-modeler .parametric-fields label{min-width:0;line-height:1.5}
+#cad-parametric-modeler .parametric-fields input{box-sizing:border-box;min-width:0;width:100%;margin-top:4px}
+#parametric-canvas{display:block;width:100%;height:230px;border:1px solid var(--line,#aac0c5);border-radius:6px;touch-action:none;margin:10px 0;cursor:grab}
+#parametric-status{white-space:pre-wrap;border-left:3px solid #3b9b94;padding:8px;line-height:1.6}
+#parametric-diff{font-size:12px;line-height:1.8;font-variant-numeric:tabular-nums}
+#parametric-diff ul{padding-left:17px;margin:4px 0 12px}
+.parametric-before{color:var(--muted,#677d80)}
+.parametric-after,#parametric-description strong{color:#167e72}
+#parametric-ai{width:100%;border-color:#3b9b94}
+#parametric-description{border-top:1px solid var(--line,#aac0c5);padding-top:10px;line-height:1.7}
+#parametric-show-mesh-label{display:flex;gap:6px;align-items:center}
+#parametric-show-mesh{width:auto}
+#surface-canvas{display:block;width:100%;height:230px;touch-action:none;border:1px solid var(--line,#aac0c5);border-radius:8px;background:rgba(229,242,245,.7);cursor:grab}
+#surface-canvas:active{cursor:grabbing}
+#surface-measure,#surface-status{white-space:pre-line;overflow-wrap:anywhere}
+#project-surfaces>details{margin-top:12px;padding-top:8px;border-top:1px solid var(--line,#aac0c5)}
+#surface-apply{color:#fff;background:#137d73}
+#surface-apply:disabled{opacity:.45}
+#project-archive-panel select,#project-surfaces select{max-width:100%;width:100%}
+#project-archive-panel .buttons{flex-wrap:wrap}
+#project-archive-panel,#project-surfaces{scroll-margin-top:14px}
+#project-vv pre{max-height:340px;overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere;font-size:11px;line-height:1.5}
+#project-vv>details{margin:10px 0;border-top:1px solid var(--line,#aac0c5);padding-top:8px}
+#project-vv input,#project-vv select,#project-vv textarea{max-width:100%}
+#vv-checks .vv-check{border-left:3px solid #778c93;padding-left:8px;margin:10px 0}
+#vv-checks .vv-observed{border-color:#ba5141}
+#vv-checks .vv-risk{border-color:#b58228}
+#vv-checks .vv-within-threshold{border-color:#2a8270}
+#vv-checks summary{font-size:12px;line-height:1.5}
+#vv-progress,#vv-origin{white-space:pre-wrap}
+#project-vv summary{color:var(--ink,#25343b);line-height:1.65;cursor:pointer;padding-block:5px;overflow-wrap:anywhere}
+#project-vv p:not(.hint){color:var(--ink,#25343b)}
+#vv-benchmark-report>details{border-top:1px solid var(--rule,#60798336);padding-top:8px;margin-top:10px}
+#vv-benchmark-report>details>details{padding-left:7px;border-left:2px solid var(--rule,#60798336);margin-block:6px}

@@ -1,0 +1,56 @@
+/* Four-entry workspace; the summary occupies inspector space, never the canvas. */
+.simple-workspace{--right:370px}
+.simple-workspace aside{display:flex;flex-direction:column;overflow:hidden}
+.simple-workspace #controls{flex:1;min-height:0;padding-bottom:14px}
+.simple-workspace .archive-chapter:not(.simple-expanded)>[data-simple-advanced]{display:none!important}
+.simple-workspace.fem-active:not(.fem-dynamic) #fem-solver{display:block!important}
+.simple-workspace #unified-advanced,.simple-workspace label:has(>#unified-advanced){display:none!important}
+.simple-workspace .simple-advanced-toggle{width:100%;margin:0 0 12px;font-size:11px;color:var(--muted)}
+.simple-workspace #project-parts-panel{display:none!important}
+.simple-workspace #project-run-panel>summary{font-size:13px}
+.simple-workspace #project-run-window{margin:0!important;width:100%;max-width:100%}
+.simple-workspace #project-run-window .run-fields{display:block}
+.simple-workspace #project-run-window label{margin-top:12px}
+.simple-workspace #project-run-window>details:first-child>summary{display:none}
+.simple-workspace #run-coupling-panel{margin-top:10px}
+.simple-workspace #run-apply-coupling,.simple-workspace #run-extend,.simple-workspace #run-framework{display:none!important}
+.simple-workspace :is(#project-compute-panel,#mixed-device-settings,#project-capabilities-panel){display:none!important}
+.simple-workspace :is(#mbd-dt,#mbd-duration,#mbd-run,#mbd-step,#fem-dt,#fem-duration,#fem-run,#fem-pause,#fem-step),
+.simple-workspace label:is([for=mbd-dt],[for=mbd-duration],[for=fem-dt],[for=fem-duration]){display:none!important}
+.simple-workspace #simple-solver-advanced{border-top:1px solid var(--rule);margin-top:15px;padding-top:10px}
+.simple-workspace #simple-device-status{overflow-wrap:anywhere;white-space:pre-line}
+.simple-workspace #workspace-summary{flex-shrink:0;border-top:1px solid var(--rule);padding:12px 16px;background:var(--sheet);max-height:230px;overflow:auto;scrollbar-width:thin}
+.simple-workspace #workspace-summary p{font-size:12px;line-height:1.8;color:var(--ink);margin:7px 0 0;overflow-wrap:anywhere}
+.simple-workspace .context-heading{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.simple-workspace .context-heading strong{font-size:12px}
+.simple-workspace #context-copy{padding:5px 7px;min-height:30px;font-size:10px}
+.simple-workspace #context-description strong{font-weight:600}
+.simple-workspace .context-info{color:#24699c}.simple-workspace .context-enabled{color:#167b67}.simple-workspace .context-pending{color:#a45808}.simple-workspace .context-error{color:#b42d3c}
+.simple-workspace[data-theme=graphite] .context-info{color:#82c5fa}.simple-workspace[data-theme=graphite] .context-enabled{color:#75dabd}.simple-workspace[data-theme=graphite] .context-pending{color:#ffc676}.simple-workspace[data-theme=graphite] .context-error{color:#ff98a4}
+.simple-workspace #context-feedback:empty{display:none}
+.simple-workspace #project-menu,.simple-workspace #context-dialog{color:var(--ink);background:var(--sheet);border:1px solid var(--rule);border-radius:10px;width:650px;max-width:calc(100vw - 24px);max-height:85dvh;overflow:auto;padding:20px}
+.simple-workspace #project-menu::backdrop,.simple-workspace #context-dialog::backdrop{background:#06121c60;backdrop-filter:blur(4px)}
+.simple-workspace #project-menu .archive-chapter{margin-top:15px}
+.simple-workspace #context-json{width:100%;height:50vh;color:var(--ink);background:var(--card);font:12px/1.6 Consolas,monospace;resize:vertical}
+.simple-workspace #project-menu-open{white-space:nowrap}
+.simple-workspace #simple-part-tree{border-top:1px solid var(--rule);padding:14px 10px;max-height:200px;overflow:auto;scrollbar-width:thin}
+.simple-workspace #simple-part-tree>strong{font-size:11px;font-weight:500;color:var(--muted)}
+.simple-workspace #simple-part-items{display:grid;gap:5px;margin-top:9px;font-size:11px;color:var(--muted)}
+.simple-workspace #simple-part-items button{text-align:left;font-size:11px;overflow-wrap:anywhere}
+.simple-workspace .archive-index{overflow:auto;scrollbar-width:thin}
+.simple-workspace .index-bottom{position:static;margin-top:auto}
+.simple-workspace .subdirectory{overflow:visible}
+.simple-workspace .subdirectory:not([open])>:not(summary){display:none!important}
+@media(max-width:760px){.simple-workspace header{display:flex;flex-wrap:wrap;gap:5px}.simple-workspace #simple-part-tree{display:none}.simple-workspace #workspace-summary{max-height:150px;padding:8px 12px}.simple-workspace .context-heading{flex-wrap:wrap}.simple-workspace #workspace-summary p{font-size:11px}.simple-workspace .index-entries{display:grid;grid-template-columns:repeat(4,1fr)}}
+
+.simple-workspace .model-project-actions{display:flex;gap:6px;margin:6px 0 12px}
+.simple-workspace .model-project-actions button{flex:1;min-width:0;font-size:11px}
+.simple-workspace .simple-part-row{display:flex;gap:4px;align-items:stretch}
+.simple-workspace .simple-part-row>button:first-child{flex:1;min-width:0}
+.simple-workspace .simple-part-row>.part-delete{flex:0 0 30px;text-align:center;color:var(--ink);font-size:18px}
+.simple-workspace #model-editing-status{border-left:3px solid #bf7b27;padding:8px;line-height:1.7}
+.simple-workspace #unified-remove{margin:6px 0 10px}
+
+#unified-material-panel{border:1px solid var(--rule);padding:12px;margin:12px 0;border-radius:6px}
+#unified-material-panel h3{font-size:13px;margin:0 0 10px}
+#unified-material-panel input[readonly]{opacity:.75;background:var(--sheet)}

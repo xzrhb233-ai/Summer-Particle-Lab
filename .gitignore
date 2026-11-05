@@ -1,0 +1,31 @@
+.venv-gpu/
+.taichi-cache/
+__pycache__/
+*.pyc
+gpu/*.log
+node_modules/
+.pnpm-store/
+
+.venv-cad/
+
+# Local runs, recordings, reports and scratch data (regenerate from tests).
+artifacts/
+tmp/
+.diagnostics/
+.codex/
+.agents/
+coverage/
+*.log
+
+# Credentials and workstation-only configuration. Tracked files are still
+# checked by scripts/check-release.mjs even when an ignore rule matches.
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+credentials*.json
+.venv*/
+.DS_Store
+Thumbs.db
+Desktop.ini

@@ -1,0 +1,26 @@
+.instrument{border-top:1px solid #30414b;margin-top:16px;padding-top:12px}
+.instrument summary{font-size:12px;color:#cdb6e5;cursor:pointer}
+#performance3{white-space:pre-line;font:10px/1.9 Consolas,monospace;color:#a5b8c3;margin-top:10px;font-variant-numeric:tabular-nums}
+#force-chart3{width:100%;height:90px;background:#0c151d;border-radius:7px}
+#force-chart3 text{fill:#99aeb7;font-size:8px;font-family:inherit}
+#press-readout3{white-space:pre-line;font-variant-numeric:tabular-nums}
+#mechanics-legend3{position:absolute;left:28px;bottom:60px;pointer-events:none;max-width:320px;padding:10px;background:#0b141ce8;border:1px solid #253640;border-radius:8px;font-size:10px;color:#afc2cc}
+#mechanics-legend3 .ramp{height:6px;width:180px;background:linear-gradient(90deg,#1f4cd9,#40e0a1,#ff3b14);margin-bottom:8px;border-radius:3px}
+#mechanics-legend3 p{margin:5px 0 0;font-size:9px}
+@media(max-width:760px){#mechanics-legend3{left:16px;bottom:48px;max-width:220px}}
+
+.gravity-coordinates{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.gravity-coordinates input{width:100%;min-width:0;box-sizing:border-box}
+[hidden]{display:none!important}
+.plasticity-fields{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.plasticity-fields input{width:100%;min-width:0;box-sizing:border-box}
+.plasticity-fields label{min-height:30px;line-height:1.4}
+#plasticity-error3{color:#c64d36;font-size:11px}
+#pressure-error3{color:#c64d36;font-size:11px}
+#pressure-formula3{overflow-wrap:anywhere;font-family:Consolas,monospace}
+#plasticity-formula3{overflow-wrap:anywhere;font-family:Consolas,monospace}
+
+#experiment3 input[type=text]{width:100%;padding:9px;border:1px solid #30414b;border-radius:7px;background:#18252e;color:#c4d4dc;font-size:11px}
+#part-info3{white-space:pre-line}#part-chart3{width:100%;height:110px;background:#0c151d;border-radius:7px}#part-chart3 text{fill:#99aeb7;font-size:9px}#experiment3 button{margin-top:6px}
+
+#thermal-material-error3{color:#b33b32}#thermal-formula3{overflow-wrap:anywhere}

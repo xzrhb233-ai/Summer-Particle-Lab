@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Summer 3D — 固体与流体实验室</title><link rel="stylesheet" href="./src/three/style.css"><link rel="stylesheet" href="./src/three/instruments.css"><link rel="stylesheet" href="./src/three/workbench.css"><link rel="stylesheet" href="./src/three/glass.css"><link rel="stylesheet" href="./src/multibody/style.css"><link rel="stylesheet" href="./src/three/simple-workspace.css"><link rel="stylesheet" href="./src/three/assistant.css"><link rel="stylesheet" href="./src/three/cad.css"></head>
+<body><main>
+<canvas id="world3" aria-label="三维粒子实验画布" tabindex="0"></canvas>
+<header><a href="./">SUMMER <span>3D LAB</span></a><a class="back" href="./" target="_blank">打开二维模式 ↗</a></header>
+<div class="summary"><span class="eyebrow">VOLUME / MOTION / HEAT</span><h1>让物质，拥有深度。</h1><p>固体 MLS-MPM · 流体 PBF · 三维接触传热</p><div id="live">正在生成三维世界…</div></div>
+<aside aria-label="三维实验控制"><div class="panel-head"><strong>实验台 <small>v0.71.0 / 3D</small></strong><button id="collapse" aria-expanded="true" aria-label="收起控制面板">−</button></div><div id="controls">
+<label for="backend3">计算后端（切换会重置场景）</label><select id="backend3"><option value="cpu">CPU · 浏览器 Worker</option><option value="gpu">GPU · Taichi 本地服务</option></select><div id="gpu-port-controls3" hidden><label for="gpu-port3">本机 GPU 服务端口</label><input id="gpu-port3" type="number" min="8765" max="8799" step="1" value="8765"><p class="hint">每个服务只运行一个实验。保留旧实验时，可启动另一个端口的服务，再连接该端口。</p></div><p id="backend-status3" class="hint" role="status">CPU · 浏览器 Worker</p><button id="reconnect3" hidden>重新连接 GPU（重置场景）</button>
+<label for="scene3">场景</label><select id="scene3"><option value="planet">PBF 流体星球 · 20,000 粒子 · GPU</option><option value="million">百万 PBF 压力测试 · GPU</option><option value="coupled">软体悬臂 + 水池</option><option value="melting">熔化与凝固 · MPM ↔ PBF · 2,156 粒子</option><option value="thermomech">温度本构对比 · 冷热试样 · 2,156 粒子</option><option value="porous">岩土与泡沫压缩 · 随机采样 · 2,156 粒子</option><option value="metals">金属塑性压缩 · 四种新本构 · 2,156 粒子</option><option value="compression">四种本构压缩试验 · 2,156 粒子</option><option value="models">四种本构对比 · 3,388 粒子</option><option value="large">万粒子材料塔 · 12,584 粒子</option><option value="thermal">冷热水相遇</option><option value="empty">空白三维空间</option></select>
+<p id="scene-note3" class="hint"></p>
+<div class="buttons"><button id="pause3">暂停</button><button id="reset3">重置场景</button><button id="camera3">复位视角</button></div>
+<details class="instrument" id="gravity-panel3" open><summary>重力场</summary>
+<label for="gravity-mode3">重力模式</label><select id="gravity-mode3"><option value="scene">跟随场景默认</option><option value="none">无重力</option><option value="uniform">定向重力</option><option value="self">粒子自引力 · GPU</option><option value="attract">中心吸引</option><option value="repel">中心排斥</option></select>
+<label for="gravity-strength3">重力强度 <output id="gravity-strength3-value">1.00 ×</output></label><input id="gravity-strength3" type="range" min="0" max="4" step="0.05" value="1">
+<div id="gravity-direction-controls3"><label for="gravity-direction3">重力方向</label><select id="gravity-direction3"><option value="down">向下 · −Y</option><option value="up">向上 · +Y</option><option value="left">向左 · −X</option><option value="right">向右 · +X</option><option value="front">向前 · +Z</option><option value="back">向后 · −Z</option></select></div>
+<div id="gravity-center-controls3" hidden><label>力场中心（世界坐标）</label><div class="gravity-coordinates"><label>X<input id="gravity-x3" aria-label="力场中心 X" type="number" min="-240" max="240" step="4" value="0"></label><label>Y<input id="gravity-y3" aria-label="力场中心 Y" type="number" min="-240" max="240" step="4" value="0"></label><label>Z<input id="gravity-z3" aria-label="力场中心 Z" type="number" min="-240" max="240" step="4" value="0"></label></div><button id="gravity-origin3">中心归零</button></div>
+<div id="gravity-softening-controls3" hidden><label for="gravity-softening3">软化半径 <output id="gravity-softening3-value">8</output></label><input id="gravity-softening3" type="range" min="4" max="32" step="1" value="8"></div>
+<p class="hint" id="gravity-note3"></p><button id="gravity-default3">恢复场景默认重力</button></details>
+<details id="press-panel3" open class="instrument"><summary>压缩试验台</summary>
+<label class="check"><input id="press3" type="checkbox">启用水平压板</label>
+<div class="buttons"><button id="press-down3">下压</button><button id="press-up3">抬起</button><button id="press-hold3">保持位置</button></div>
+<label for="press-target3">目标高度 <output id="press-target3-value">64</output></label><input id="press-target3" type="range" min="-32" max="72" step="1" value="64">
+<label for="press-speed3">移动速度 <output id="press-speed3-value">8</output></label><input id="press-speed3" type="range" min="1" max="20" step="1" value="8">
+<p id="press-readout3" class="hint">压板未启用</p>
+<svg id="force-chart3" viewBox="0 0 240 90" role="img" aria-label="压板反力与位移曲线"><path d="M24 8V68H232" fill="none" stroke="#50626b"/><polyline id="force-line3" fill="none" stroke="#cdb1f1" stroke-width="1.5"/><text id="force-max3" x="24" y="8">0</text><text id="force-range3" x="24" y="84">位移 0</text></svg>
+<p class="hint">压板覆盖整个容器，灰线为当前位置，暗金线为目标。暂停时只设定目标，继续后移动；反力采用模拟单位，非工程标定值。</p></details>
+<label for="mechanics3">力学着色</label><select id="mechanics3"><option value="0">材料颜色</option><option value="1">相对应力 · σeq / E</option><option value="2">累积塑性应变</option></select>
+<label for="mechanics-max3">色阶上限 <output id="mechanics-max3-value">0.30</output></label><input id="mechanics-max3" type="range" min="0.05" max="2" step="0.05" value="0.3">
+<details class="instrument" open><summary id="performance-title3">性能面板 · CPU 求解</summary><div id="performance3">等待首个物理步…</div></details>
+<label>左键工具</label><div class="tools" role="group" aria-label="三维工具">
+<button data-tool="orbit" aria-pressed="true">旋转视角</button><button data-tool="create" aria-pressed="false">创建体积</button><button data-tool="drag" aria-pressed="false">拖拽形变</button><button data-tool="erase" aria-pressed="false">删除</button><button data-tool="heat" aria-pressed="false">加热</button><button data-tool="cool" aria-pressed="false">冷却</button><button data-tool="anchor" aria-pressed="false">固定</button><button data-tool="release" aria-pressed="false">释放</button>
+</div><p id="tool-description" class="hint">拖动旋转，滚轮缩放；右键始终旋转视角。</p>
+<label for="material3">创建材料</label><select id="material3"><option value="11">MPM 材料 · 可选本构</option><option value="2">水 · PBF 流体</option><option value="4">冰 · MPM 固体</option><option value="1">熔岩 · PBF 流体</option></select>
+<label for="model3">固体本构（新建 MPM 材料）</label><select id="model3"><option value="0">共旋转弹性 · 紫色</option><option value="1">Neo-Hookean 超弹性 · 绿色</option><option value="2">雪 · 弹塑性 · 白色</option><option value="3">砂 · Drucker–Prager · 金色</option><option value="4">理想弹塑性 · J2 · 蓝色</option><option value="5">线性强化 · J2 · 珊瑚色</option><option value="6">Johnson–Cook · 橙色</option><option value="7">简化 Johnson–Cook · 青色</option><option value="8">黏聚岩土 · Drucker–Prager · 棕色</option><option value="9">泡沫金属 · Deshpande–Fleck · 玫红色</option><option value="10">温度相关 J2 塑性 · 红色</option><option value="11">Norton–Arrhenius 蠕变 · 青柠色</option></select><p class="hint" id="model-description">紫色 · 形变后回弹，适合软体与悬臂。</p>
+<div id="yield-controls" hidden><label for="yield3">压缩屈服应变 <output id="yield3-value">2.5%</output></label><input id="yield3" type="range" min="0.5" max="8" step="0.5" value="2.5"></div>
+<div id="friction-controls" hidden><label for="friction3">内摩擦角 <output id="friction3-value">35°</output></label><input id="friction3" type="range" min="15" max="50" step="1" value="35"></div>
+<div class="two"><div><label for="plane3">绘制平面</label><select id="plane3"><option value="2">XY 平面</option><option value="1">XZ 平面</option><option value="0">YZ 平面</option></select></div><div><label for="temperature3">初始温度 °C</label><input type="number" id="temperature3" value="20" min="-273" max="2000"></div></div>
+<label for="position3">平面位置 <output id="position3-value">0</output></label><input id="position3" type="range" min="-44" max="60" step="4" value="0">
+<label for="depth3">体积厚度 <output id="depth3-value">16</output></label><input id="depth3" type="range" min="8" max="40" step="4" value="16">
+<label class="check"><input type="checkbox" id="fixed3">创建时固定 X 最小面</label>
+<label for="stiffness3">固体刚度 <output id="stiffness3-value">1 ×</output></label><input id="stiffness3" type="range" min="0.25" max="4" step="0.25" value="1">
+<label class="check"><input id="thermal3" type="checkbox" checked>接触传热与相变</label>
+<label class="check"><input id="heatmap3" type="checkbox">温度着色</label><select id="heatmax3" aria-label="温度色阶上限"><option value="100">0–100°C</option><option value="200">0–200°C</option><option value="1600">0–1600°C</option></select>
+<label class="check"><input id="cut3" type="checkbox">剖切观察（隐藏 Z 更大的一侧）</label><label for="cutz3">剖切位置 <output id="cutz3-value">0</output></label><input id="cutz3" type="range" min="-64" max="64" value="0">
+<label for="marker-scale3">粒子显示大小 <output id="marker-scale3-value">100%</output></label><input id="marker-scale3" type="range" min="20" max="120" step="5" value="100">
+<label class="check"><input id="marker-centers3" type="checkbox">显示物质点中心（MPM 固体）</label>
+<p id="marker-note3" class="hint">中心模式用小圆点显示固体采样位置。暂停后切换，配合旋转和剖切，可区分显示球重叠与点中心聚集。显示大小不代表物理粒径，不改变质量、体积、接触或计算结果。</p>
+<p class="hint">GPU 上限 1,000,000；CPU 上限 20,000。超过 100,000 时抽样预览，全部粒子仍参与物理。GPU 需运行项目中的 start-gpu.ps1；当前本地服务一次接入一个 GPU 页面。物理耗时与画面 FPS 分开显示。十二种固体本构共享基础热物性；雪与砂为本构演示，冰可融化成水。</p>
+</div></aside>
+<div id="mechanics-legend3" hidden><div class="ramp"></div><span id="mechanics-caption3"></span><p>固体着色；流体显示灰色。超过上限显示红色。</p></div>
+<footer><span>X / Y / Z</span><span>右键旋转 · 滚轮缩放 · 空格暂停</span></footer><div id="toast3" role="status"></div><div id="error3" role="alert" hidden></div>
+</main><script type="module" src="./src/three/app.js"></script></body></html>
