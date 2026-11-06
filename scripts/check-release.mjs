@@ -8,14 +8,31 @@ const ROOT=fileURLToPath(new URL('../',import.meta.url));
 const excluded=new Set(['.git','node_modules','.pnpm-store','.taichi-cache','__pycache__','artifacts','tmp','.diagnostics','.codex','.agents','coverage']);
 const normalized=path=>path.split(sep).join('/');
 const inside=(root,file)=>file.startsWith(root.endsWith(sep)?root:root+sep);
-const required=['README.md','CONTRIBUTING.md','SECURITY.md','docs/INSTALL.md','docs/ARCHITECTURE.md','docs/THIRD_PARTY.md','docs/PROVENANCE.md','docs/CAD_LICENSE_REVIEW.md','docs/cad-dependencies.lock.json','docs/cad-source-evidence.json','third_party/cad/README.md','docs/OPEN_SOURCE_CHECKLIST.md','docs/VV.md','pnpm-lock.yaml','.github/workflows/ci.yml'];
+const required=['README.md','CONTRIBUTING.md','SECURITY.md','docs/INSTALL.md','docs/ARCHITECTURE.md','docs/THIRD_PARTY.md','docs/PROVENANCE.md','docs/CAD_LICENSE_REVIEW.md','docs/cad-dependencies.lock.json','docs/cad-source-evidence.json','third_party/cad/README.md','docs/SOURCE_RELEASE_REVIEW.md','docs/source-release-evidence.json','docs/runtime-license-evidence.json','docs/OPEN_SOURCE_CHECKLIST.md','docs/VV.md','pnpm-lock.yaml','.github/workflows/ci.yml'];
 // Keep package/native files in candidate discovery so they fail visibly, even
 // when tracked despite ignore rules or containing misleading plain text.
 const privatePath=path=>path.split('/').some(p=>excluded.has(p)||p.startsWith('.venv'))||/(^|\/)(?:\.env(?:\..+)?|credentials[^/]*\.json)$/.test(path)&&!path.endsWith('/.env.example')&&path!=='.env.example'||/\.(?:log|pem|key|pyc|pyd|exe|dll|whl|so(?:\.\d+)*|dylib|wasm|a|lib|o|zip|tar|tgz|gz|bz2|xz|zst|7z|rar|msi|msix|cab|dmg|iso|deb|rpm|egg|jar)$/i.test(path);
 const cadEvidencePath='docs/cad-dependencies.lock.json',cadRequirementsPath='cad/requirements.txt';
+const sourceEvidencePath='docs/source-release-evidence.json';
 
 // Evidence paths are untrusted data. Compare only files already read through
 // the repository candidate checks; never open a path from the evidence JSON.
+function auditNoticeCopies(notices,manifest,{evidencePath,pathPrefix,rulePrefix}){
+  const findings=[],fail=(rule,path=evidencePath,entry)=>findings.push({severity:'error',rule:rulePrefix+rule,path,...(entry===undefined?{}:{entry})});
+  if(!Array.isArray(notices)||!notices.length){fail('invalid-notices');return findings;}
+  const hashes=new Map(manifest.map(file=>[file.path,file.sha256])),seen=new Set();
+  for(const [index,notice] of notices.entries()){
+    const path=notice?.path,entry=index+1;
+    if(typeof path!=='string'||!path.startsWith(pathPrefix)||!path.split('/').every(part=>/^[A-Za-z0-9_.+-]+$/.test(part)&&part!=='.'&&part!=='..')){fail('unsafe-notice-path',evidencePath,entry);continue;}
+    const identity=path.toLowerCase();
+    if(seen.has(identity)){fail('duplicate-notice',evidencePath,entry);continue;}seen.add(identity);
+    if(typeof notice.sha256!=='string'||!/^[a-fA-F0-9]{64}$/.test(notice.sha256)){fail('invalid-notice-hash',evidencePath,entry);continue;}
+    if(!hashes.has(path))fail('notice-missing',path);
+    else if(hashes.get(path)!==notice.sha256.toLowerCase())fail('notice-hash-mismatch',path);
+  }
+  return findings;
+}
+
 function auditCADEvidence(names,manifest,texts){
   if(!names.has(cadEvidencePath))return [];
   const findings=[],fail=(rule,path=cadEvidencePath,entry)=>findings.push({severity:'error',rule,path,...(entry===undefined?{}:{entry})});
@@ -41,18 +58,17 @@ function auditCADEvidence(names,manifest,texts){
   });
   if(!packagesValid)fail('cad-evidence-invalid-packages');
   else if(texts.has(cadRequirementsPath)&&pinsValid&&(packages.length!==pins.size||packages.some(pkg=>pins.get(pkg.name)!==pkg.version)))fail('cad-evidence-package-drift');
-  if(!Array.isArray(evidence.notices)||!evidence.notices.length){fail('cad-evidence-invalid-notices');return findings;}
-  const hashes=new Map(manifest.map(file=>[file.path,file.sha256])),seen=new Set();
-  for(const [index,notice] of evidence.notices.entries()){
-    const path=notice?.path,entry=index+1;
-    if(typeof path!=='string'||!path.startsWith('third_party/cad/')||!path.split('/').every(part=>/^[A-Za-z0-9_.+-]+$/.test(part)&&part!=='.'&&part!=='..')){fail('cad-evidence-unsafe-notice-path',cadEvidencePath,entry);continue;}
-    const identity=path.toLowerCase();
-    if(seen.has(identity)){fail('cad-evidence-duplicate-notice',cadEvidencePath,entry);continue;}seen.add(identity);
-    if(typeof notice.sha256!=='string'||!/^[a-fA-F0-9]{64}$/.test(notice.sha256)){fail('cad-evidence-invalid-notice-hash',cadEvidencePath,entry);continue;}
-    if(!hashes.has(path))fail('cad-evidence-notice-missing',path);
-    else if(hashes.get(path)!==notice.sha256.toLowerCase())fail('cad-evidence-notice-hash-mismatch',path);
-  }
+  findings.push(...auditNoticeCopies(evidence.notices,manifest,{evidencePath:cadEvidencePath,pathPrefix:'third_party/cad/',rulePrefix:'cad-evidence-'}));
   return findings;
+}
+
+function auditSourceEvidence(names,manifest,texts){
+  if(!names.has(sourceEvidencePath))return [];
+  const fail=rule=>[{severity:'error',rule:'source-evidence-'+rule,path:sourceEvidencePath}];
+  if(!texts.has(sourceEvidencePath))return fail('unreadable');
+  let evidence;try{evidence=JSON.parse(texts.get(sourceEvidencePath));}catch{return fail('invalid-json');}
+  if(!evidence||Array.isArray(evidence)||evidence.schema!=='summer-source-release-evidence/1')return fail('invalid-schema');
+  return auditNoticeCopies(evidence.notices,manifest,{evidencePath:sourceEvidencePath,pathPrefix:'third_party/',rulePrefix:'source-evidence-'});
 }
 
 /** Reports only rule, file and line: never the matched secret or source line. */
@@ -78,7 +94,7 @@ export async function candidateFiles(root=ROOT){
   }
 }
 export async function auditRepository({root=ROOT,release=false,files}={}){
-  root=resolve(root);const candidates=files?{source:'explicit-candidate-list',files:[...new Set(files)].sort()}:await candidateFiles(root),findings=[],manifest=[],cadTexts=new Map();
+  root=resolve(root);const candidates=files?{source:'explicit-candidate-list',files:[...new Set(files)].sort()}:await candidateFiles(root),findings=[],manifest=[],evidenceTexts=new Map();
   for(const path of candidates.files){
     const file=resolve(root,path);
     if(!inside(root,file)){findings.push({severity:'error',rule:'outside-repository',path});continue;}
@@ -88,17 +104,17 @@ export async function auditRepository({root=ROOT,release=false,files}={}){
     if(stat.size>5*1024*1024){findings.push({severity:'error',rule:'file-exceeds-5-MiB-review-limit',path,bytes:stat.size});continue;}
     const data=await readFile(file);manifest.push({path,bytes:data.length,sha256:createHash('sha256').update(data).digest('hex')});
     if(data.includes(0)){findings.push({severity:release?'error':'warning',rule:'binary-needs-manual-review',path});continue;}
-    if(path===cadEvidencePath||path===cadRequirementsPath)cadTexts.set(path,data.toString('utf8'));
+    if(path===cadEvidencePath||path===cadRequirementsPath||path===sourceEvidencePath)evidenceTexts.set(path,data.toString('utf8'));
     findings.push(...scanText(data.toString('utf8'),path));
   }
   const names=new Set(candidates.files);
   for(const path of required)if(!names.has(path))findings.push({severity:'error',rule:'missing-project-document',path});
-  findings.push(...auditCADEvidence(names,manifest,cadTexts));
+  findings.push(...auditCADEvidence(names,manifest,evidenceTexts),...auditSourceEvidence(names,manifest,evidenceTexts));
   const license=['LICENSE','LICENSE.md','LICENSE.txt'].find(p=>names.has(p));
   if(!license)findings.push({severity:release?'error':'warning',rule:'project-license-undecided',path:'LICENSE'});
   let commits=0;try{commits=Number(execFileSync('git',['rev-list','--all','--count'],{cwd:root,encoding:'utf8',stdio:['ignore','pipe','pipe']}).trim())||0;}catch{}
   return {schema:'summer-repository-audit/1',mode:release?'release-gate':'repository-hygiene',candidateSource:candidates.source,files:manifest.length,totalBytes:manifest.reduce((s,r)=>s+r.bytes,0),gitCommitCount:commits,status:findings.some(f=>f.severity==='error')?'blocked':'passed',findings,manifest,
-    limitations:['Pattern checks are not a comprehensive secret or malware audit.','Only the current index/working-tree candidates are inspected; historical commit contents are not scanned.','A license file is an existence check, not a legal compatibility or provenance review.','CAD evidence checks compare declared dependency pins and notice hashes, not licensing rights or compatibility.','No package is published, remote is created, files are staged, or local data is removed.','Ignore rules do not remove already tracked files or secrets from Git history.']};
+    limitations:['Pattern checks are not a comprehensive secret or malware audit.','Only the current index/working-tree candidates are inspected; historical commit contents are not scanned.','A license file is an existence check, not a legal compatibility or provenance review.','CAD evidence checks compare declared dependency pins and notice hashes, not licensing rights or compatibility.','Source release evidence checks validate declared notice paths and hashes, not authorship, licensing rights or legal approval.','No package is published, remote is created, files are staged, or local data is removed.','Ignore rules do not remove already tracked files or secrets from Git history.']};
 }
 if(process.argv[1]&&resolve(process.argv[1])===fileURLToPath(import.meta.url)){
   const args=process.argv.slice(2);if(args.some(a=>!['--release','--json'].includes(a)))throw Error('Usage: node scripts/check-release.mjs [--release] [--json]');

@@ -1,0 +1,47 @@
+{
+  "schema": "summer-runtime-license-evidence/1",
+  "reviewDate": "2026-11-05",
+  "scope": "Source-only release; no general native binary redistribution clearance",
+  "components": [
+    {
+      "name": "rapier3d-compat",
+      "version": "0.19.3",
+      "sourceRepository": "https://github.com/dimforge/rapier.js",
+      "sourceRevision": "0fd32c1cbbc7018af36f09b190c16ce72fbb9301",
+      "licenseUrl": "https://raw.githubusercontent.com/dimforge/rapier.js/0fd32c1cbbc7018af36f09b190c16ce72fbb9301/LICENSE",
+      "licensePath": "third_party/runtime/rapier3d-compat-0.19.3/LICENSE",
+      "licenseSha256": "4c05555705e3efde601fb1252ae48f1d63992af8a8fb8947745b7fa834e8f519",
+      "npmDistribution": {
+        "url": "https://registry.npmjs.org/@dimforge/rapier3d-compat/-/rapier3d-compat-0.19.3.tgz",
+        "integrity": "sha512-mMVdSj1PRTT108s9Swbu2GQOmHbn8kbJANRV5xfczL3s0T4vkgZAuoMRgvBzQcHanpKusbC0ZJj6z3mC3aj3vg==",
+        "sha256": "09c411bc02d85a2bcf9b2cb01b55fca2edcb6fad52e1e093ddafd25d66db087c",
+        "gitHead": "0fd32c1cbbc7018af36f09b190c16ce72fbb9301",
+        "identicalFiles": 50,
+        "missing": [],
+        "different": []
+      }
+    },
+    {
+      "name": "taichi",
+      "version": "1.7.4",
+      "sourceRepository": "https://github.com/taichi-dev/taichi",
+      "sourceRevision": "b4b956fdaa67fd3e198527fd607053ecb9bf4aa2",
+      "licenseUrl": "https://raw.githubusercontent.com/taichi-dev/taichi/b4b956fdaa67fd3e198527fd607053ecb9bf4aa2/LICENSE",
+      "licensePath": "third_party/runtime/taichi-1.7.4/LICENSE",
+      "licenseSha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+      "installedLicenseSha256": "1eb85fc97224598dad1852b5d6483bbcf0aa8608790dcc657a5a2a761ae9c8c6",
+      "installedLicenseMatchesIgnoringCRLF": true
+    },
+    {
+      "name": "websockets",
+      "version": "15.0.1",
+      "sourceRepository": "https://github.com/python-websockets/websockets",
+      "sourceRevision": "37c9bc0781f0cc5af7c729947ef1833c1e12b70d",
+      "licenseUrl": "https://raw.githubusercontent.com/python-websockets/websockets/37c9bc0781f0cc5af7c729947ef1833c1e12b70d/LICENSE",
+      "licensePath": "third_party/runtime/websockets-15.0.1/LICENSE",
+      "licenseSha256": "3d6a0c050d8bec52fabad502e45fb25bd02bcadbd70dea34d447b6a0ff4e6da8",
+      "installedLicenseSha256": "0f44514998aca209d3482d10204a8adf2aa4296ff157a36a5c0922f2280632d3",
+      "installedLicenseMatchesIgnoringCRLF": true
+    }
+  ]
+}

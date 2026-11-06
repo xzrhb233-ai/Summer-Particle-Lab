@@ -6,11 +6,13 @@ import {dirname,join,resolve,sep} from 'node:path';
 import {createHash} from 'node:crypto';
 import {scanText,auditRepository,candidateFiles} from '../scripts/check-release.mjs';
 
-const evidenceDocuments=['docs/PROVENANCE.md','docs/CAD_LICENSE_REVIEW.md','docs/cad-dependencies.lock.json','docs/cad-source-evidence.json','third_party/cad/README.md'];
+const evidenceDocuments=['docs/PROVENANCE.md','docs/CAD_LICENSE_REVIEW.md','docs/cad-dependencies.lock.json','docs/cad-source-evidence.json','third_party/cad/README.md','docs/SOURCE_RELEASE_REVIEW.md','docs/source-release-evidence.json','docs/runtime-license-evidence.json'];
 const sourceScaffold=['README.md','CONTRIBUTING.md','SECURITY.md','docs/INSTALL.md','docs/ARCHITECTURE.md','docs/THIRD_PARTY.md','docs/OPEN_SOURCE_CHECKLIST.md','docs/VV.md','pnpm-lock.yaml','.github/workflows/ci.yml','LICENSE',...evidenceDocuments];
 const evidencePath='docs/cad-dependencies.lock.json',noticePath='third_party/cad/meshpy/LICENSE',noticeText='Complete test notice copy.\n';
 const digest=text=>createHash('sha256').update(text).digest('hex');
 const coherentEvidence=()=>({schema:'summer-cad-dependency-evidence/1',packages:[{name:'meshpy',version:'2026.1.1'}],notices:[{path:noticePath,sha256:digest(noticeText)}]});
+const sourceEvidencePath='docs/source-release-evidence.json',sourceNoticePath='third_party/numerics/reference/LICENSE',sourceNoticeText='Complete numerical implementation notice.\n';
+const coherentSourceEvidence=()=>({schema:'summer-source-release-evidence/1',notices:[{path:sourceNoticePath,sha256:digest(sourceNoticeText)}]});
 async function auditFixture(t,extra={}){
   const prefix=resolve(tmpdir(),'summer-release-hygiene-'),root=await mkdtemp(prefix);
   t.after(async()=>{
@@ -18,7 +20,7 @@ async function auditFixture(t,extra={}){
     assert.ok(resolve(root).startsWith(prefix)&&!root.slice(prefix.length).includes(sep));
     await rm(root,{recursive:true,force:true});
   });
-  const entries={...Object.fromEntries(sourceScaffold.map(path=>[path,'Source release review fixture.\n'])),'cad/requirements.txt':'meshpy==2026.1.1\n',[evidencePath]:JSON.stringify(coherentEvidence()),[noticePath]:noticeText,...extra};
+  const entries={...Object.fromEntries(sourceScaffold.map(path=>[path,'Source release review fixture.\n'])),'cad/requirements.txt':'meshpy==2026.1.1\n',[evidencePath]:JSON.stringify(coherentEvidence()),[noticePath]:noticeText,[sourceEvidencePath]:JSON.stringify(coherentSourceEvidence()),[sourceNoticePath]:sourceNoticeText,...extra};
   for(const [path,content] of Object.entries(entries)){
     const file=join(root,path);await mkdir(dirname(file),{recursive:true});await writeFile(file,content);
   }
@@ -61,7 +63,7 @@ test('binary content under an ordinary source filename warns in repo mode and bl
   assert.deepEqual(release.findings,[{severity:'error',rule:'binary-needs-manual-review',path:'src/native-hidden.js'}]);
   assert.ok(release.manifest.some(file=>file.path==='src/native-hidden.js'),'binary finding must retain its file hash in the manifest');
 });
-test('source publication requires provenance and CAD dependency evidence documents',async t=>{
+test('source publication requires provenance, CAD and source release evidence documents',async t=>{
   const fixture=await auditFixture(t);
   assert.equal((await auditRepository({...fixture,release:true})).status,'passed');
   for(const missing of evidenceDocuments){
@@ -106,6 +108,50 @@ test('CAD evidence validates JSON, schema, unique packages and nonempty unique n
   ];
   for(const [content,rule] of cases){
     const fixture=await auditFixture(t,{[evidencePath]:content}),report=await auditRepository({...fixture,release:true});
+    assert.equal(report.status,'blocked');assert.equal(report.findings.length,1);assert.equal(report.findings[0].rule,rule);
+  }
+});
+
+test('source evidence accepts scanned numerical, UI and runtime notices without treating extra metadata as approval',async t=>{
+  const evidence=coherentSourceEvidence(),uiPath='third_party/ui/design/LICENSE',runtimePath='third_party/runtime/engine/LICENSE';
+  evidence.notices.push({path:uiPath,sha256:digest('UI notice.\n').toUpperCase()},{path:runtimePath,sha256:digest('Runtime notice.\n'),component:'fixture'});
+  evidence.legalApproval=false;
+  const fixture=await auditFixture(t,{[sourceEvidencePath]:JSON.stringify(evidence),[uiPath]:'UI notice.\n',[runtimePath]:'Runtime notice.\n'});
+  const report=await auditRepository({...fixture,release:true});
+  assert.equal(report.status,'passed');assert.deepEqual(report.findings,[]);
+  assert.ok(report.limitations.some(text=>text.includes('not authorship, licensing rights or legal approval')));
+});
+
+test('source evidence detects tampered notices and notices absent from the scanned inventory',async t=>{
+  const fixture=await auditFixture(t,{[sourceNoticePath]:'A shortened numerical notice.\n'});
+  const changed=await auditRepository({...fixture,release:true});
+  assert.deepEqual(changed.findings,[{severity:'error',rule:'source-evidence-notice-hash-mismatch',path:sourceNoticePath}]);
+  const missing=await auditRepository({...fixture,release:true,files:fixture.files.filter(path=>path!==sourceNoticePath)});
+  assert.deepEqual(missing.findings,[{severity:'error',rule:'source-evidence-notice-missing',path:sourceNoticePath}]);
+});
+
+test('source evidence rejects unsafe paths without reading unscanned referenced content',async t=>{
+  const sentinel='Private source-audit fixture that must not enter the report.';
+  for(const path of ['third_party/../outside-notice.txt','third_party/numerics/../../outside-notice.txt','third_party//LICENSE','third_party/numerics\\LICENSE','/third_party/LICENSE','docs/PROVENANCE.md']){
+    const evidence={...coherentSourceEvidence(),notices:[{path,sha256:digest(sentinel)}]};
+    const fixture=await auditFixture(t,{[sourceEvidencePath]:JSON.stringify(evidence),'outside-notice.txt':sentinel});
+    const report=await auditRepository({...fixture,release:true,files:fixture.files.filter(path=>path!=='outside-notice.txt')});
+    assert.deepEqual(report.findings,[{severity:'error',rule:'source-evidence-unsafe-notice-path',path:sourceEvidencePath,entry:1}]);
+    assert.ok(!JSON.stringify(report).includes(sentinel));assert.ok(!report.manifest.some(file=>file.path==='outside-notice.txt'));
+  }
+});
+
+test('source evidence requires valid JSON, schema and nonempty unique notice hashes',async t=>{
+  const duplicate=coherentSourceEvidence();duplicate.notices.push({...duplicate.notices[0],path:sourceNoticePath.toUpperCase().replace('THIRD_PARTY/','third_party/')});
+  const cases=[
+    ['{invalid','source-evidence-invalid-json'],
+    [JSON.stringify({...coherentSourceEvidence(),schema:'unknown'}),'source-evidence-invalid-schema'],
+    [JSON.stringify({...coherentSourceEvidence(),notices:[]}),'source-evidence-invalid-notices'],
+    [JSON.stringify(duplicate),'source-evidence-duplicate-notice'],
+    [JSON.stringify({...coherentSourceEvidence(),notices:[{path:sourceNoticePath,sha256:'not-a-hash'}]}),'source-evidence-invalid-notice-hash'],
+  ];
+  for(const [content,rule] of cases){
+    const fixture=await auditFixture(t,{[sourceEvidencePath]:content}),report=await auditRepository({...fixture,release:true});
     assert.equal(report.status,'blocked');assert.equal(report.findings.length,1);assert.equal(report.findings[0].rule,rule);
   }
 });

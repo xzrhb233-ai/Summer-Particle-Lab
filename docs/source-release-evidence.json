@@ -1,0 +1,2003 @@
+{
+  "schema": "summer-source-release-evidence/1",
+  "reviewDate": "2026-11-05",
+  "sourceBaseCommit": "22c9f16d9ec9c7c8dc05b7ae3f6a948627782bc7",
+  "scope": "Source-only publication review. Inventory hashes are exact Git blob bytes at the implementation baseline, not platform checkout bytes or proof that every line was traced.",
+  "maintainerStatements": [
+    {
+      "topic": "Non-CAD code, icons and examples",
+      "statement": "Generated during this project, with no additional copying/imports beyond registered dependencies.",
+      "status": "Maintainer attestation; independent origin not proven. Known method/implementation references remain recorded and notices retained."
+    },
+    {
+      "topic": "Commercial reference software",
+      "statement": "A formally licensed version permitting the maintainer research/development was used.",
+      "status": "Maintainer attestation; not permission to redistribute proprietary code, manuals or assets. The trial-specific restriction is not presumed applicable."
+    }
+  ],
+  "implementationMappings": [
+    {
+      "id": "NUM-01",
+      "kind": "implementation_reference_or_adaptation_notice_preserved",
+      "topic": "MLS-MPM/APIC and fixed-corotated stress; snow projection",
+      "local": [
+        "src/solid-mpm.js:1-2,10-17,30-35,47-88",
+        "src/three/mpm.js:24-30,66-78",
+        "src/three/constitutive.js:48-58",
+        "gpu/solver.py:469-485,523-524,549-563"
+      ],
+      "upstream": "https://github.com/yuanming-hu/taichi_mpm/blob/3a680ab0fdc6e95077f08a91bc9079e1ef41478e/mls-mpm88.cpp#L18-L67",
+      "finding": "Quadratic weights, stress-times-affine transfer and F update correspond to the published method. Snow's upper/lower yield ratio 0.3 and Jp clamp [0.6,20] also correspond to the author's implementation choices; these provide a concrete reason to preserve the upstream MIT notice. Local layouts, units, bounds, materials and coupling differ.",
+      "action": "Added original Taichi MPM Authors MIT text under third_party/numerics; classified conservatively as implementation reference/adaptation, without a forensic copying claim."
+    },
+    {
+      "id": "NUM-02",
+      "kind": "implementation_reference_or_adaptation_notice_preserved",
+      "topic": "Sand Drucker-Prager logarithmic return",
+      "local": [
+        "src/three/constitutive.js:65-74",
+        "gpu/solver.py:533-543"
+      ],
+      "upstream": "https://github.com/taichi-dev/taichi_elements/blob/d19678869a28b09a32ef415b162e35dc929b792d/engine/mpm_solver.py#L322-L342",
+      "finding": "The log-principal-strain calculation, stored dilation/history in the trace, tensile branch reset, and compressive projection sequence align with sand_projection. Local sigma floor, parameter handling and data structures differ. This is an identified implementation reference, not only an unnamed textbook formula.",
+      "action": "Added original Taichi Elements Developers MIT text under third_party/numerics. Taichi runtime Apache-2.0 does not replace this separate notice."
+    },
+    {
+      "id": "NUM-03",
+      "kind": "theory_reference_no_copied_implementation_identified",
+      "topic": "Position Based Fluids",
+      "local": [
+        "src/simulation.js:386",
+        "src/three/simulation.js:189-251"
+      ],
+      "sources": [
+        "https://matthias-research.github.io/pages/publications/pbf_sig_preprint.pdf",
+        "https://blog.mmacklin.com/project/pbf/"
+      ],
+      "finding": "Density lambda, gradient-based correction and artificial-pressure treatment map to the published PBF method. Local volume weighting, unequal mass, phase-transition relaxation, common correction bounds and energy handling differ from the paper's equal-mass presentation. No third-party implementation source was identified from this comparison; paper equations are not evidence that a software implementation was imported."
+    },
+    {
+      "id": "NUM-04",
+      "kind": "theory_reference_no_copied_implementation_identified",
+      "topic": "Linear Tet4 elasticity, explicit dynamics and thermoelasticity",
+      "local": [
+        "src/fem/mesh.js:7-14",
+        "src/fem/solver.js:6-50,72-83",
+        "src/fem/dynamic.js:56-102",
+        "src/fem/thermal.js:6-32"
+      ],
+      "sources": [
+        "https://comet-fenics.readthedocs.io/en/latest/demo/thermoelasticity/thermoelasticity.html",
+        "https://www.sandia.gov/files/sierra/SM_Theory_5_30/main/dynamics.html",
+        "https://www.dynasupport.com/tutorial/ls-dyna-users-guide/time-integration"
+      ],
+      "finding": "Observed standard Tet4 gradients, Lame stiffness assembly, Jacobi-preconditioned CG, velocity-Verlet with symmetric damping, and thermal strain stress. The inspected FEniCS tutorial is a Python/UFL 2D steady example, unlike this explicit JavaScript 3D Tet4 assembly; no substantial code/text reproduction was identified. The tutorial labels itself CC BY-SA 4.0, relevant if its protected text/code were actually reused; method correspondence alone does not establish that reuse."
+    },
+    {
+      "id": "NUM-05",
+      "kind": "algorithm_family_identified_actual_source_unconfirmed",
+      "topic": "Closest point on triangle by Voronoi regions",
+      "local": [
+        "src/fem/contact.js:38-56",
+        "gpu/mixed_solver.py:132-148"
+      ],
+      "sources": [
+        "https://raw.githubusercontent.com/mrdoob/three.js/r180/src/math/Triangle.js",
+        "https://realtimecollisiondetection.net/books/rtcd/"
+      ],
+      "finding": "The d1..d6, va/vb/vc scalar names, vertex/edge/face branch sequence and barycentric expressions identify the Ericson Real-Time Collision Detection closest-point algorithm family, also used by official Three.js and Bullet. Local functions return weights and perform their own array operations and degeneracy handling. This does NOT establish Three.js or Bullet as the copied source.",
+      "action": "Record Ericson as algorithm lineage; do not list Three.js/Bullet as dependencies or assert their source/license applies absent actual-copy evidence. No numerical rewrite requested."
+    },
+    {
+      "id": "NUM-06",
+      "kind": "runtime_api_integration",
+      "topic": "Rigid bodies, joints and MPM coupling",
+      "local": [
+        "src/multibody/engine.js:1,17-51,116-121",
+        "src/multibody/contact.js:12-41",
+        "src/multibody/attachments.js:6-9",
+        "src/mixed/contact.js:39-42"
+      ],
+      "sources": [
+        "https://rapier.rs/docs/user_guides/javascript/rigid_bodies/",
+        "https://rapier.rs/docs/user_guides/javascript/joints/"
+      ],
+      "finding": "Engine imports rapier3d-compat and constructs/steps official API objects. Coupling adapters add authored schema conversion, impulses, thermal state and transaction restore. No vendored Rapier solver implementation was identified in these application files; exact runtime and transitive license inventory is handled by the separate dependency audit."
+    },
+    {
+      "id": "NUM-07",
+      "kind": "recorded_public_theory_reference",
+      "topic": "Contact and coupling, solid sampling and thermal constitutive formulae",
+      "local": [
+        "src/mixed/contact.js",
+        "src/mixed/swept-contact.js",
+        "src/multibody/material-contact.js",
+        "src/three/solid-sampling.js",
+        "src/three/thermal-plasticity.js:12-46",
+        "src/three/metal-plasticity.js:12-43",
+        "src/three/pressure-plasticity.js:11-54"
+      ],
+      "finding": "Public records map Bardenhagen/APIC contact, particle shifting, MOOSE/COMSOL thermal plasticity/creep, Abaqus plastic work conversion and Itasca contact models. Local code contains formula adaptations and application-specific coupling. This workstream did not identify an additional copied public implementation requiring another software notice. Historical commercial-manual use is separately recorded in SOURCE_RELEASE_REVIEW.md; later public citations do not erase it."
+    },
+    {
+      "id": "NUM-08",
+      "kind": "comparison_source_not_established_dependency",
+      "topic": "Author-linked JavaScript MLS-MPM port",
+      "local": [
+        "src/solid-mpm.js"
+      ],
+      "upstream": "https://github.com/r03ert0/mls-mpm.js/blob/b42823a05cf6365c2637784226458e29e3c0e501/mls-mpm.js",
+      "finding": "Inspected as a bounded secondary comparator linked from Hu's paper page. Its particle-object/matrix-helper implementation differs from local typed-array/scalar implementation. No independent evidence establishes it as a historical project source, so no claim of dependency or additional mandatory notice is made. Snapshot and MIT license remain in ignored evidence only."
+    }
+  ],
+  "uiReview": {
+    "localSourceFiles": 13,
+    "upstreamTextFiles": 122,
+    "wholeFileMatches": 0,
+    "lexicalComparison": "13 generic CSS overlaps of at most 25 tokens; no local JavaScript exact overlap of 20 or more tokens in the bounded comparison.",
+    "inlineIcons": "20 icons matched their local development backup; simple line matches to public icon libraries do not establish source ancestry.",
+    "upstreamAssets": "No imported RhineLabUI fonts, audio, GLB, Blender or branding assets identified in this source candidate.",
+    "notices": "RhineLabUI design/interaction reference and optimized Gaussian shader implementation reference; original MIT texts retained."
+  },
+  "notices": [
+    {
+      "path": "third_party/numerics/taichi_mpm-3a680ab0fdc6/LICENSE",
+      "sha256": "56a5e8e12587f5baef49c1d012f32007ffac2b9a1524e97d6f4f5a6d7b240b7c",
+      "component": "Taichi MPM",
+      "sourceUrl": "https://raw.githubusercontent.com/yuanming-hu/taichi_mpm/3a680ab0fdc6e95077f08a91bc9079e1ef41478e/LICENSE",
+      "sourceRevision": "3a680ab0fdc6e95077f08a91bc9079e1ef41478e"
+    },
+    {
+      "path": "third_party/numerics/taichi_elements-d19678869a28/LICENSE",
+      "sha256": "ce0ce084f4ba8ac93909499c21680567f9a2170d34f1f1443c9f7c7aed12c3fe",
+      "component": "Taichi Elements",
+      "sourceUrl": "https://raw.githubusercontent.com/taichi-dev/taichi_elements/d19678869a28b09a32ef415b162e35dc929b792d/LICENSE",
+      "sourceRevision": "d19678869a28b09a32ef415b162e35dc929b792d"
+    },
+    {
+      "path": "third_party/ui/rhinelabui-12cc5e4013ac/LICENSE",
+      "sha256": "b42f104f4b3687773c76efbf990c1ab7b306a8c59035958c0b886dfbbcf2cd91",
+      "component": "RhineLabUI",
+      "sourceRevision": "12cc5e4013acb9408f753ff71de6b8492299b7c8",
+      "sourceUrl": "https://raw.githubusercontent.com/LBEILC/RhineLabUI/12cc5e4013acb9408f753ff71de6b8492299b7c8/LICENSE"
+    },
+    {
+      "path": "third_party/ui/glsl-fast-gaussian-blur-5dbb6e97aa43/LICENSE",
+      "sha256": "fb153e8eaf70c10aa169bc3d7401946a9d51163cafaca23458cea8e67de972f4",
+      "component": "glsl-fast-gaussian-blur",
+      "sourceRevision": "5dbb6e97aa43d4be9369bdd88e835f47023c5e2a",
+      "sourceUrl": "https://raw.githubusercontent.com/Jam3/glsl-fast-gaussian-blur/5dbb6e97aa43d4be9369bdd88e835f47023c5e2a/LICENSE.md"
+    },
+    {
+      "path": "third_party/runtime/rapier3d-compat-0.19.3/LICENSE",
+      "sha256": "4c05555705e3efde601fb1252ae48f1d63992af8a8fb8947745b7fa834e8f519",
+      "component": "rapier3d-compat",
+      "sourceRevision": "0fd32c1cbbc7018af36f09b190c16ce72fbb9301",
+      "sourceUrl": "https://raw.githubusercontent.com/dimforge/rapier.js/0fd32c1cbbc7018af36f09b190c16ce72fbb9301/LICENSE"
+    },
+    {
+      "path": "third_party/runtime/taichi-1.7.4/LICENSE",
+      "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+      "component": "taichi",
+      "sourceRevision": "b4b956fdaa67fd3e198527fd607053ecb9bf4aa2",
+      "sourceUrl": "https://raw.githubusercontent.com/taichi-dev/taichi/b4b956fdaa67fd3e198527fd607053ecb9bf4aa2/LICENSE"
+    },
+    {
+      "path": "third_party/runtime/websockets-15.0.1/LICENSE",
+      "sha256": "3d6a0c050d8bec52fabad502e45fb25bd02bcadbd70dea34d447b6a0ff4e6da8",
+      "component": "websockets",
+      "sourceRevision": "37c9bc0781f0cc5af7c729947ef1833c1e12b70d",
+      "sourceUrl": "https://raw.githubusercontent.com/python-websockets/websockets/37c9bc0781f0cc5af7c729947ef1833c1e12b70d/LICENSE"
+    }
+  ],
+  "files": [
+    {
+      "path": "3d.html",
+      "bytes": 11895,
+      "sha256": "fc6effee4e5e598d9da94f3caa7c89a765fdd6f50e34984cb5e822d95603dac9",
+      "gitBlob": "3d0581a27fc1ea1293302d68e0e224598fefe2ba"
+    },
+    {
+      "path": "cad/requirements.txt",
+      "bytes": 46,
+      "sha256": "141c3276d2a14e3a8e6ebbfbb84c23bab0ef6207886277e3e4a4daafdd6bc6f0",
+      "gitBlob": "c91a2356d14e247300e2e59a7d456dfd3dff9c8e"
+    },
+    {
+      "path": "gpu/benchmark.py",
+      "bytes": 875,
+      "sha256": "71eeb5885ec512ea8d116ddee01155873383193bc3deb62f9b99863f712d907f",
+      "gitBlob": "56187dafabe53e5a52fa7414da05fd71a13694b2"
+    },
+    {
+      "path": "gpu/benchmark_climb.py",
+      "bytes": 2008,
+      "sha256": "52cbd145f0b861345498100f4090d9f250c2d6b97af8b24aee0aa358a4e03c7b",
+      "gitBlob": "8f0a8018fc89e7b9c89ffe1f6e99d5978ff51bd6"
+    },
+    {
+      "path": "gpu/benchmark_coupling.py",
+      "bytes": 10230,
+      "sha256": "024961d7064b1e575fbff88e15d8da0086340aa2bf88037ba87734d7244aba40",
+      "gitBlob": "7133de0372c5c782f72721674f1871843fb7c902"
+    },
+    {
+      "path": "gpu/benchmark_course.py",
+      "bytes": 2353,
+      "sha256": "5bebb2be14fcfbb3eb3cba217e15766059e28158b51e87aac5977b517e326903",
+      "gitBlob": "404029bd356c9b532870527fe69b72e615c7e4af"
+    },
+    {
+      "path": "gpu/benchmark_four.py",
+      "bytes": 2914,
+      "sha256": "39e7d4a0ac91caa509410482d022498190c70ae8407a51e9bbe4967acf2f79a0",
+      "gitBlob": "d3cfdc61ff99e7fe0e269504a344cd49f3e0f389"
+    },
+    {
+      "path": "gpu/benchmark_mixed.py",
+      "bytes": 3103,
+      "sha256": "a8a391a9a5cb8ad3b007909ac67282ac6d75910761303696c102f819374d4f5f",
+      "gitBlob": "0e03c1cfd8771beaff1a92918775f1c0766df4a2"
+    },
+    {
+      "path": "gpu/benchmark_project.py",
+      "bytes": 2629,
+      "sha256": "b8c2a0e104dfe1ba8869b41ecc9193e3eb524c53f34978ca14df2aba04691fe8",
+      "gitBlob": "64c8c244ad2d723216709dcc5df388ebab515d70"
+    },
+    {
+      "path": "gpu/check_mixed_onset.py",
+      "bytes": 642,
+      "sha256": "b88cee51e3b84a738fdc9d7dc95eb4c80f162299596b19630788c33f8bb0c2cf",
+      "gitBlob": "251344639786ef797ce8f2e3fb95f60d2ff47fe3"
+    },
+    {
+      "path": "gpu/compare_four_performance.py",
+      "bytes": 1947,
+      "sha256": "45a2153f2f4966a24ab7507bb17a23d0db63b623ac691c724c05a50853578508",
+      "gitBlob": "d0bac6f308d61b964a8f33bbacc81c479fd72f83"
+    },
+    {
+      "path": "gpu/contact_validation.py",
+      "bytes": 5534,
+      "sha256": "9d14ee2a6206e0e249cc8cb748e4c36f3ec279a7e9bb5d31376d5ebc49355595",
+      "gitBlob": "3b9d045a2cb2167795fca12e26a04500f048027d"
+    },
+    {
+      "path": "gpu/diagnose_four_timestep.py",
+      "bytes": 902,
+      "sha256": "ae10394e980bfed464d53ab699aa16543dd0fd5954025c4a371a087718e05d0c",
+      "gitBlob": "424e8ab0dd20f133ae4ba8c5c5263d57b20e8fea"
+    },
+    {
+      "path": "gpu/discretization.py",
+      "bytes": 4308,
+      "sha256": "56d7993d67f2e005aa580f39415952dbe08d6a5280f0af69351c9c70662dc711",
+      "gitBlob": "184f5f1cf73efdd987267723ae3f120fb4f286f1"
+    },
+    {
+      "path": "gpu/four_solver.py",
+      "bytes": 155,
+      "sha256": "02abbcd5affbe230d4478e01e0f88bb2eb70408dc98748b075182ee6f642e922",
+      "gitBlob": "bd6740f11d21b659f95dc55e01cab0ab88b8aab3"
+    },
+    {
+      "path": "gpu/gravity.py",
+      "bytes": 4289,
+      "sha256": "518816107000c54678e1e24692b4b83cd41892a90eba6c99a07a321c61fb176a",
+      "gitBlob": "ace62cabfc8852c2a319acf6df6bc0018c7b5770"
+    },
+    {
+      "path": "gpu/investigate_clock.py",
+      "bytes": 2013,
+      "sha256": "eb1dbcd7d586de00c49903e7c44ffb8aca8466877d35200aa01fe502f19a685b",
+      "gitBlob": "1c16fb26792e13e7f66f5e0ef8e0d152e0133400"
+    },
+    {
+      "path": "gpu/laboratory.py",
+      "bytes": 4311,
+      "sha256": "812f08bc27e72d736213007be134d71fb09a88f50136c70210db835d0b902ea2",
+      "gitBlob": "c8774184774a4d757d4c8be16c273b247078591c"
+    },
+    {
+      "path": "gpu/material_contact.py",
+      "bytes": 10656,
+      "sha256": "53851c57277c695d58fcb15f01b815b99a5bc8964c80f58c1899f781437db769",
+      "gitBlob": "443cd12714039a68dcae333190802833a092acda"
+    },
+    {
+      "path": "gpu/materials.py",
+      "bytes": 867,
+      "sha256": "c4aff5447ab2be6fda62a1f5ff17ed44f5b5c20f0d9326e01de79ebbba9b35b8",
+      "gitBlob": "524be6bd5e1177accb4df56d67284399629f3f52"
+    },
+    {
+      "path": "gpu/metal_plasticity.py",
+      "bytes": 2017,
+      "sha256": "ec35830205384847d384947059c64b1c27206e85e1ee682c49032aece727dfc6",
+      "gitBlob": "e0263264b554e045c5148f1b733a4e896038d8d9"
+    },
+    {
+      "path": "gpu/mixed_energy.py",
+      "bytes": 14312,
+      "sha256": "7e5519dd06243caaa550218e0a80787bc459845d918e3b9b80aebece5cd7074b",
+      "gitBlob": "32dd3293b6fb0fab4eafc97e24353a9c4de27ede"
+    },
+    {
+      "path": "gpu/mixed_material.py",
+      "bytes": 9781,
+      "sha256": "1cbc5bbe1f84b782a5a7db088a5c6b02cccdcb91bcfa63b3169813673c473b09",
+      "gitBlob": "0bcc14973da3b20d49689dbb5deec6d228961971"
+    },
+    {
+      "path": "gpu/mixed_process.py",
+      "bytes": 2101,
+      "sha256": "fbbcfd31a15c8fdee50744a6cbd360f61f879d6dda8fc264f8f7c261cbf79a8d",
+      "gitBlob": "69b70604e5a65f0871dadd463dc25e2990cc056c"
+    },
+    {
+      "path": "gpu/mixed_program.py",
+      "bytes": 2768,
+      "sha256": "5db46f818103e51697096d4898a017061ac386f46c379e00b4f3c29792564dba",
+      "gitBlob": "755b7bd7615ce28cf03203ef0365eb597ccbb5d7"
+    },
+    {
+      "path": "gpu/mixed_server.py",
+      "bytes": 3309,
+      "sha256": "7a5a21df530fda59333e1adf23a5f34bc8827bce3e3073633e79ef9cce1e3db9",
+      "gitBlob": "469ffcc962ea401c41275e64c88b22f700017c39"
+    },
+    {
+      "path": "gpu/mixed_solver.py",
+      "bytes": 35853,
+      "sha256": "cfab9681d9ba8c631f619b5d22a69eebcc4daab3fb26ffccfe1dac15ab0432d0",
+      "gitBlob": "360e6e511965128329d64d841d41c2c621ece7d1"
+    },
+    {
+      "path": "gpu/mixed_thermal.py",
+      "bytes": 5115,
+      "sha256": "bb93088ba78850b7503b6b924b4828e1b6f39d517164e900b354283e48431889",
+      "gitBlob": "7cef4f6663553e177af2616a734c48a1d615fcbf"
+    },
+    {
+      "path": "gpu/mpm_framework.py",
+      "bytes": 6596,
+      "sha256": "2f927c71eb6b7598f2b6d05d2ba8afd7c17029c17be74d4b3673510e535fbf4a",
+      "gitBlob": "349015e23bb5e8b993dee2f29c45b238d34918f8"
+    },
+    {
+      "path": "gpu/mpm_unified_solver.py",
+      "bytes": 40366,
+      "sha256": "262d635c48890f07d6e1619709ec9c403367352b0c4722402d4ff3632acc0e92",
+      "gitBlob": "302a26fc1471f085d7349e6cf944518a1b8c5ca4"
+    },
+    {
+      "path": "gpu/pair_contacts.py",
+      "bytes": 9611,
+      "sha256": "c66b31489f5f5510525b639f15b8ad4f4396fc9e83afce0fee35da0e62fe8717",
+      "gitBlob": "325248c07a81ce2076ee93353f6f7f0f4751f3bf"
+    },
+    {
+      "path": "gpu/part_thermal_loads.py",
+      "bytes": 4226,
+      "sha256": "aa13c0d5289236fd61b2040652ee5a240adfed588f73cfceb6de5b9972c2eb37",
+      "gitBlob": "373538633789f4166c8640b726df0fd240936f1a"
+    },
+    {
+      "path": "gpu/particle_interface.py",
+      "bytes": 5009,
+      "sha256": "753b3bcd71e02dd2c5198d3c98c59574818a01eae0f05999fa310231cb7cbe50",
+      "gitBlob": "66a7e14f9e338d3fd011d9b08e5312c64fe7d22d"
+    },
+    {
+      "path": "gpu/phase_change.py",
+      "bytes": 840,
+      "sha256": "f647ecebf4857e4a98c86545bd03e57f7e578eb725b341c0d350c79dd1da4e73",
+      "gitBlob": "262180a1f9bd0ee9f511a04608a98e980eaec177"
+    },
+    {
+      "path": "gpu/physics_clock.py",
+      "bytes": 1527,
+      "sha256": "1eedeecdf3bb3aaf0edda2fd2e9bab131c2fcdb3308e727832315b5d81263f98",
+      "gitBlob": "dcb7cbf604cfe408bd28a12af4cfe1cf4825acbf"
+    },
+    {
+      "path": "gpu/pressure_plasticity.py",
+      "bytes": 2559,
+      "sha256": "1f588d44f64e29fe881d826d512a3cd9dabf4f14270c41aaea4f58e438d12b6f",
+      "gitBlob": "63ee5bab7df2b0f3e3b91dec20dabad05d3248ef"
+    },
+    {
+      "path": "gpu/project_server.py",
+      "bytes": 3980,
+      "sha256": "09de7a70573c6fde08c3cdba1761df53310ef4caf58837c65ddc88894ade610c",
+      "gitBlob": "00c842dc967fc5a2a2eab1ab01e9677dba65e115"
+    },
+    {
+      "path": "gpu/project_solver.py",
+      "bytes": 24594,
+      "sha256": "14c13d6fd85b53e979bb2eb04b4a33a652a42e3b1c0b4f112c084d03e679a3a9",
+      "gitBlob": "49704d634b0ada27bc605c75b1747a8af6f5023a"
+    },
+    {
+      "path": "gpu/project_thermal.py",
+      "bytes": 10975,
+      "sha256": "6a57dacf7973d66edbc0a082e53a27a986934b66811dcf0169f74423b6e1d22c",
+      "gitBlob": "285454cf485c9c405ae676fc90c437557d2d5871"
+    },
+    {
+      "path": "gpu/region_constraints.py",
+      "bytes": 21594,
+      "sha256": "84d57b763c4335563a9afd26ee687bb75c273c9873199624731f0f005014f44d",
+      "gitBlob": "cb63ae20c6f08fcfa1917bfcec01ce6dd383f6cc"
+    },
+    {
+      "path": "gpu/requirements.txt",
+      "bytes": 46,
+      "sha256": "2f478e6c90f61dca239cd291e17ccfeb540b450c1668bf195535191e60554fa7",
+      "gitBlob": "ed942b406c93505996dd1a1f924cd6b6d78cc025"
+    },
+    {
+      "path": "gpu/run_control.py",
+      "bytes": 1144,
+      "sha256": "b4f4b4cb79b2e5e3dcaf305920af1738abdf4809a2ef11022882f0e013dc3a36",
+      "gitBlob": "f714b2fdef4b7ff0446471f08e6d43e085ee00b4"
+    },
+    {
+      "path": "gpu/runtime.py",
+      "bytes": 1248,
+      "sha256": "875ea44b87b74df7c1f8b0616e6d8aa80627930ab8e3f23af201948669a0e428",
+      "gitBlob": "58c9c23948f2fbe41f538f6a277e3500f7b137d3"
+    },
+    {
+      "path": "gpu/sampling.py",
+      "bytes": 1916,
+      "sha256": "621b59c5423328859516b2535019c850c9bf70456fa2712c1a7107fdbfdff88a",
+      "gitBlob": "2bf170ae1ca90d55374212ffaf244274494f165f"
+    },
+    {
+      "path": "gpu/server.py",
+      "bytes": 7003,
+      "sha256": "4950815154ec21f2f2d6ff588578569ceb4877814bf3b43f5f95ce7f1ff64d96",
+      "gitBlob": "b18e8614bd550b2098f6be12f32f9c9b0b215c54"
+    },
+    {
+      "path": "gpu/smoke.py",
+      "bytes": 291,
+      "sha256": "9fcc8c9f6f281b25bf33ddd0d7b86a23086b99e2981944c7ff3bfe9c0e7af858",
+      "gitBlob": "39327009a834a27aeed09fa00e3781759d6a6fc9"
+    },
+    {
+      "path": "gpu/solver.py",
+      "bytes": 59116,
+      "sha256": "e03ebc516e68f2b4bfbf85f721edb7234944c01ad5976a536553b6ad57b16345",
+      "gitBlob": "eca2dc5d01bc87b36c004c6d8eeb477c8f96a2bd"
+    },
+    {
+      "path": "gpu/test_compact_neighbors.py",
+      "bytes": 2216,
+      "sha256": "90ce05d86c6a4ca0641579e1f9178995f35801c89ae069fdb09b18326dbfd7f8",
+      "gitBlob": "4f99d165f745cd87794b18ef5d032ef292dafb27"
+    },
+    {
+      "path": "gpu/test_contact_pairs.py",
+      "bytes": 3900,
+      "sha256": "352062784d2c81f1517ad5eb70836f444a482637dc4cb49538bdfdc9c0cb86f3",
+      "gitBlob": "5378e7b371281231df04606a71064bbd4790ac3d"
+    },
+    {
+      "path": "gpu/test_course.py",
+      "bytes": 4269,
+      "sha256": "74ef58d62dd006a1a9b5b98616ec892570759ba9280872ef52dc70a70c542adf",
+      "gitBlob": "183b61f6138d84b6e0b29525f12a308d84ff8147"
+    },
+    {
+      "path": "gpu/test_curves.py",
+      "bytes": 3716,
+      "sha256": "1654dded23694225b457fdb00cc4f0077db5683aac475ba907fc797e292af7c8",
+      "gitBlob": "3d025c7425e4c419ea6c82dffd623edfc5a0e609"
+    },
+    {
+      "path": "gpu/test_discretization.py",
+      "bytes": 3741,
+      "sha256": "72b38eacd31340a41a23543a7326fc6cfd9e97c27b566bc676670bc2ad24717f",
+      "gitBlob": "30ef2e4f46c4e1c0770ba0e00d8537270b9a668a"
+    },
+    {
+      "path": "gpu/test_fluid_solid_pairs.py",
+      "bytes": 2372,
+      "sha256": "011ad797fb946fd65e5de8bdf904d8b493a1206eb072f813596b033d0ccb7cdb",
+      "gitBlob": "4614424ca13dcec03c478ff7d1a3ff938ca3956b"
+    },
+    {
+      "path": "gpu/test_four_contact_motion.py",
+      "bytes": 2263,
+      "sha256": "d7a0dcf723fe017aef95f50435f74c43cefb113df802b6a211c47ceef7132bf4",
+      "gitBlob": "a055b0e2838d60168504811bb848e47b178647d3"
+    },
+    {
+      "path": "gpu/test_four_continuation.py",
+      "bytes": 1723,
+      "sha256": "2e623dcfa99a0d7eabc2667ec08d2ec6428f37b5b0d5267fac9b78524a016f49",
+      "gitBlob": "4b81b8149b32de0481738f283c89561a0fc9b40b"
+    },
+    {
+      "path": "gpu/test_four_invariants.py",
+      "bytes": 3962,
+      "sha256": "578715d9b0bc947683a3f142d427a84fa082c3e99b41f907b3eab7bc63b8a6fd",
+      "gitBlob": "025b6953d3eb2c4b47c2bdf0b02eb86e4e29b4da"
+    },
+    {
+      "path": "gpu/test_four_metals.py",
+      "bytes": 2206,
+      "sha256": "992ca8551ba8ff458b6e7e07af543fe410d43dffa38fc2af0d725c93431354c9",
+      "gitBlob": "5b478773d60aa623c12f9c06a4a46c086673b0e2"
+    },
+    {
+      "path": "gpu/test_four_requested_step.py",
+      "bytes": 2176,
+      "sha256": "6e7e0ca5d4e9f9d48d00d714e517752f2314f0dc871516c92c044ce98d0b6051",
+      "gitBlob": "bb8a03cca969ed051842cc867f955aaa09379493"
+    },
+    {
+      "path": "gpu/test_four_resume.py",
+      "bytes": 1075,
+      "sha256": "eb05b996db431ed9820ad6cd81c149ff0bf7e131b9707adbaf208e4b8ed233a0",
+      "gitBlob": "7a9d7c5176746fd9035eab2af71cceff7c834efd"
+    },
+    {
+      "path": "gpu/test_four_sweep.py",
+      "bytes": 3044,
+      "sha256": "5a7efb3e91aa00b1e3dee5816b645ba23545f0f3fdeb801e5252d144897ceba7",
+      "gitBlob": "a76fa5433c66a5970599ffc715a74ce58fce4b4a"
+    },
+    {
+      "path": "gpu/test_gravity_options.py",
+      "bytes": 2994,
+      "sha256": "e590902cda1a29d8a46a0dbe874a16f27e4419c22cc3e04b216c84b2e99ebbd3",
+      "gitBlob": "40246ef1cb42c9fc5f8b16cb0f1a25bfa2722d71"
+    },
+    {
+      "path": "gpu/test_laboratory.py",
+      "bytes": 2638,
+      "sha256": "b0deebab80b9eeb623130810d652bce04e4e12a29ea1bc9a58b9cc495953d16a",
+      "gitBlob": "a51a79061e3529ccc71f52b1ac11d4bd79dfd1f1"
+    },
+    {
+      "path": "gpu/test_material_contact.py",
+      "bytes": 6190,
+      "sha256": "114423c0482a2cb4431750fe45ebb7dff237d5db41b8dc9846a417cb22c398ad",
+      "gitBlob": "ac9b5a4f3f60b7b5653258d1dab731392385f1d7"
+    },
+    {
+      "path": "gpu/test_metal_plasticity.py",
+      "bytes": 3141,
+      "sha256": "fa3f89245f1ade18936088765503ccf2cff939417264e12ed8682477933c3496",
+      "gitBlob": "1fe933f0335b218fcc65404545fdb7c048702b31"
+    },
+    {
+      "path": "gpu/test_mixed.py",
+      "bytes": 3078,
+      "sha256": "fbb6783adf56196c078df1375780edf5793a3bc2a7fc9f9d9179a2e6a705d0bb",
+      "gitBlob": "1c835d44662119de847287e09336154095a66aee"
+    },
+    {
+      "path": "gpu/test_mixed_contact_heating.py",
+      "bytes": 3241,
+      "sha256": "6a467577986e16ab1bb987a0a1e4149c192bcba266ff1822e27b2e4c2585f724",
+      "gitBlob": "fa987d70831ebaa6811d402ff04ed1ec2386905f"
+    },
+    {
+      "path": "gpu/test_mixed_energy.py",
+      "bytes": 10077,
+      "sha256": "2800035f442972f09cd208af131d1d55e5e40beecd7bec0e4d43c42a8a1ceb94",
+      "gitBlob": "ead840421e530f55225d24993ccf7bccc1e4e1de"
+    },
+    {
+      "path": "gpu/test_mixed_friction_heat.py",
+      "bytes": 10222,
+      "sha256": "42d9c20e483a25ee29c8fcfd03578cc8d57890fd0c7c3454ca2201dc865014f6",
+      "gitBlob": "d0b856dd05429c401e96c91a499a78efbed5ae86"
+    },
+    {
+      "path": "gpu/test_mixed_material_energy.py",
+      "bytes": 6391,
+      "sha256": "b99ec1709fb69053fee40c7590543ced5827abb7789a7e30eb53f1c349ee53b0",
+      "gitBlob": "1c180c7a0cfb62ccc429152dac592cfb837d0424"
+    },
+    {
+      "path": "gpu/test_mixed_metals.py",
+      "bytes": 3892,
+      "sha256": "6d704800be4c981f35e9dc2e700c48ac5753c9e11b16bb2c0478b0a657de49d0",
+      "gitBlob": "961233f24257e9674768f49dc0d89e89f1976591"
+    },
+    {
+      "path": "gpu/test_mixed_plastic_heat.py",
+      "bytes": 5344,
+      "sha256": "737fbc85118587ce211fd507e0ace77c4bc4ef8f7e5121cb9c6c46c09596b1b5",
+      "gitBlob": "445c2c55f961bd6f56655e129a9633887d5442ea"
+    },
+    {
+      "path": "gpu/test_mixed_thermal.py",
+      "bytes": 6515,
+      "sha256": "eb8c46a777764c57189319b3393797fe9d6f529c9f6a41d87c222898298575b5",
+      "gitBlob": "50e0807feda57a99502b487ffc97b9dd5b4f672d"
+    },
+    {
+      "path": "gpu/test_mixed_thermomechanical.py",
+      "bytes": 5514,
+      "sha256": "d4e7e24e3b7a4bf9a057048462e9db38516dc529e8f98a3dc27fb2e9a4cecddd",
+      "gitBlob": "cbbf6a5fbdb835138cafb637daf6549d2458211a"
+    },
+    {
+      "path": "gpu/test_mpm_framework.py",
+      "bytes": 2430,
+      "sha256": "03c256aaa589ed2c663131ab5a29ed0faf9f76f777529f358c30a85f92b2ed42",
+      "gitBlob": "4032833fe1a5514ea0f0830230008954e5877fd5"
+    },
+    {
+      "path": "gpu/test_mpm_framework_parity.py",
+      "bytes": 2316,
+      "sha256": "dd9432bee6733299fe44fd8d0392390c7356f03b34c8c8755df2623e65a6e6e4",
+      "gitBlob": "7f92e3197e6b13d21443f0157ec037b11de3c002"
+    },
+    {
+      "path": "gpu/test_pair_regions.py",
+      "bytes": 1447,
+      "sha256": "18ebf37624197ecdbb5a8a1a29ca9538dcb072c4075ab47a44db1dddfe21355c",
+      "gitBlob": "1d92c1e4127a6020da279993e004d8d932132ee6"
+    },
+    {
+      "path": "gpu/test_part_thermal_loads.py",
+      "bytes": 2382,
+      "sha256": "c6744091d4427ec6c530b65ec20e34784a9c1fd71170a6a73fe939e326de667c",
+      "gitBlob": "3dd14ae4eaed845947d77d8a9ba0aebce74990f5"
+    },
+    {
+      "path": "gpu/test_particle_interface.py",
+      "bytes": 3083,
+      "sha256": "8da713d4880048ea423ad834720c5873ef84a7254d01628cfc01cd4394d667a4",
+      "gitBlob": "04580209b256ab4c1403fea4bd95aececb6e63d2"
+    },
+    {
+      "path": "gpu/test_particle_interface_impact.py",
+      "bytes": 1406,
+      "sha256": "9de1f3a5c5d59dab9a6b229f6b215eaa20a70eb15ae874b02a6ba36d15170c1b",
+      "gitBlob": "1e7040d0e9fef224fc5fc7ba57b04c4747dddc99"
+    },
+    {
+      "path": "gpu/test_pbd_surface_contacts.py",
+      "bytes": 2626,
+      "sha256": "efeb7817558aecc596e51351e8b78dd168e9e89b1da70c75589fb652d1aa4b0b",
+      "gitBlob": "5dec2e3f5c1aed7323fdbd2c9700bae536ae8fed"
+    },
+    {
+      "path": "gpu/test_planet.py",
+      "bytes": 4765,
+      "sha256": "64f51659b843558a3bf5363ddc558085494acb5aac9a36ec59ffc2ad3be8b929",
+      "gitBlob": "725e8e30b222218121586edc918a2bfbce29a64d"
+    },
+    {
+      "path": "gpu/test_pressure_plasticity.py",
+      "bytes": 2859,
+      "sha256": "d4a8354dd0dc87a2aa395c2f0b43b747c4e747b72ccd967cebbb7d637ef69030",
+      "gitBlob": "d30921ed3c14ba314ddc7e89bf63c16a983c7f2c"
+    },
+    {
+      "path": "gpu/test_project.py",
+      "bytes": 4314,
+      "sha256": "c4bcc6110c52c11aec60d676bd13f6fd2fc3c7c34722eb570516a60b1e95eba2",
+      "gitBlob": "8ab9eb6982d42e9e70bb8489673957846d6a3ed7"
+    },
+    {
+      "path": "gpu/test_project_thermal.py",
+      "bytes": 8152,
+      "sha256": "1fd3408b9e1457b62829bacd949d87b62c5b05e14931fd18a3e8a582f63922d2",
+      "gitBlob": "e9c5981aebe11401284d6fa97484ccbd624a26b2"
+    },
+    {
+      "path": "gpu/test_references.py",
+      "bytes": 2307,
+      "sha256": "8e7d827180cc18a54671620bdf1d1b7b16025b4352e063955bcb8e7810045067",
+      "gitBlob": "c8c18bbef79bc2abfef8e89f35d133a8102bb1ff"
+    },
+    {
+      "path": "gpu/test_regions.py",
+      "bytes": 9747,
+      "sha256": "9805f9c831e59f09a8b4dbccf7ff413c571a0a088acc30d1e9bf74797345726d",
+      "gitBlob": "619927b2f3617579d93b308b09836737271e009a"
+    },
+    {
+      "path": "gpu/test_sampling.py",
+      "bytes": 2336,
+      "sha256": "d8cdf5cc576bf1187326e18f652f8c566d269cde4b3f0de145900d516fcf4c59",
+      "gitBlob": "b0c3732be7b86221f1f02cc9d03cccad67eea3bc"
+    },
+    {
+      "path": "gpu/test_service.py",
+      "bytes": 10722,
+      "sha256": "5f8090e470df8acdf3aa6c04982453c4bb1d717bc33f841b3f68b1206425580d",
+      "gitBlob": "d99a6a3f4e7a9211d0c55cb72d272e175cd6940b"
+    },
+    {
+      "path": "gpu/test_solid_sampling.py",
+      "bytes": 3950,
+      "sha256": "1107d491faec237dcd9db39533761cb4a339d959be01c8b72da1369ac430cbcc",
+      "gitBlob": "8872f7454bc3dab8414a932798a03661a4e90143"
+    },
+    {
+      "path": "gpu/test_solver.py",
+      "bytes": 15580,
+      "sha256": "4577c506f944bf28039173fc853234ad7819a1f71786f95100723b243c12925f",
+      "gitBlob": "71b0b9a21f769fcef6681955457cdedcf794291e"
+    },
+    {
+      "path": "gpu/test_swept_contact.py",
+      "bytes": 1831,
+      "sha256": "9237495f4a6d53e553c6508028fc89de5f68886ecc2fcfe0e415f682aa97e4d3",
+      "gitBlob": "de9dc3e94fdc2d8c50ad37af7df847413129011f"
+    },
+    {
+      "path": "gpu/test_thermal_plasticity.py",
+      "bytes": 3839,
+      "sha256": "87917b9e9276d0ea4cfe95a7ef6ef8c85560ca2cc5e71feaa0be3f448fd44872",
+      "gitBlob": "f7f1edc7bfc995fbd70335bc07c901866bf3f9ea"
+    },
+    {
+      "path": "gpu/test_unified_pbd.py",
+      "bytes": 4099,
+      "sha256": "f5ca601b18cb53b47fa0036f846673d6e0f01ed1f2fdcf04ed8b3f185c12e042",
+      "gitBlob": "d60cbdde72d26374d5cb602bd6121099a9c14399"
+    },
+    {
+      "path": "gpu/test_validation_service.py",
+      "bytes": 3075,
+      "sha256": "03a07dc77240438052cbb9cc3696cb36c2e3752eae15516fb2dfc2ab0518067d",
+      "gitBlob": "6b0c4558d64347b67cb0cd989b87e3b578124b32"
+    },
+    {
+      "path": "gpu/thermal_plasticity.py",
+      "bytes": 1672,
+      "sha256": "eaebd79ef938a0e7a8e8e80e14c730c76ebcfb34c64e6a28d771a924257c47ab",
+      "gitBlob": "427a5456362786c1e40a266730d120c6aa9035ab"
+    },
+    {
+      "path": "gpu/unified_pbd.py",
+      "bytes": 8063,
+      "sha256": "aa78d86168e1176b35f0431550a8f61370adcb5274bd776e0f9cf23ef2d8f109",
+      "gitBlob": "ba608220d41d8a6d5a04eda481070051b7e90661"
+    },
+    {
+      "path": "gpu/validate_four.py",
+      "bytes": 1565,
+      "sha256": "b701b4c348ae6a83109f2dcd761fc5bc3767d29f9b06f93be2ca4f82ee71b34f",
+      "gitBlob": "48dfff4a9514ba537cfe967d0841f19b37d5fbee"
+    },
+    {
+      "path": "gpu/validate_mixed.py",
+      "bytes": 5741,
+      "sha256": "255041de12a94fda685c15e2a9bebc95a587d6d15c1d71d99121c1e6bc6b16ff",
+      "gitBlob": "33144b13ea1dfe740fe448ef7c674022c66ff78d"
+    },
+    {
+      "path": "gpu/validate_mixed_dissipation.py",
+      "bytes": 8403,
+      "sha256": "48572c535afd977de530c21d17ccc857772cd89dfa67770aeb2688a71a7e59ff",
+      "gitBlob": "94e702dbf8395d4180c985865e9fe20b221b52dc"
+    },
+    {
+      "path": "gpu/validate_mixed_energy.py",
+      "bytes": 7248,
+      "sha256": "c696d1bafbca5994714a9c00b5a767f8ab5083fffd2d1e353a83601e24b58959",
+      "gitBlob": "721c6dd79c32bd04202eca22e421b4a0ab2bfdb8"
+    },
+    {
+      "path": "gpu/validate_mixed_thermal.py",
+      "bytes": 2764,
+      "sha256": "ec43464281d558245c9feb862dd544b8f9d87bcd5000f80a247d05eb46497f36",
+      "gitBlob": "fb43e1c61a966c48433c98d79d757665923d3bcf"
+    },
+    {
+      "path": "gpu/validate_mixed_thermomechanical.py",
+      "bytes": 2974,
+      "sha256": "da4952b13266d731b851537854c9e1533b2eb9e719ee58c4e8021e8dc80e68e9",
+      "gitBlob": "01339f041f0d8d0d6469c926456b017a58a18451"
+    },
+    {
+      "path": "gpu/validation_service.py",
+      "bytes": 3310,
+      "sha256": "370f5c6f5a4a68de53a92acf1ed891eb30248ea69a7f8b245e636aa9c8404dac",
+      "gitBlob": "9224898cf7a8c1e03de2a6a363eb3fa04622baed"
+    },
+    {
+      "path": "gpu/verify_course_recording.py",
+      "bytes": 3402,
+      "sha256": "35354cad62630df57a3e9cc00f785c5ad9f76c5d1826a9c45082bed272195eb5",
+      "gitBlob": "bbb976fc646b71b9cd29b62231d30459c3887825"
+    },
+    {
+      "path": "gpu/verify_filled_pool.py",
+      "bytes": 1674,
+      "sha256": "3f7ace083c073cccaa3845c423170656d2d521cda47499c1393bfd7077ca1256",
+      "gitBlob": "ee83d8bc853d0b51ea397e90cdbcd68269a988eb"
+    },
+    {
+      "path": "gpu/verify_ramps.py",
+      "bytes": 1922,
+      "sha256": "a46362f071488409de1e2e38752380ace83a107b77de4efb333ce45119ba9783",
+      "gitBlob": "4710416040041571778589268875a52f3e57160a"
+    },
+    {
+      "path": "index.html",
+      "bytes": 18816,
+      "sha256": "eb8c3235aede4ffc92defa643a17fdbcfa93f17525a8ed3caddcaf549176200d",
+      "gitBlob": "509b7772eeee59c57b2a381e0cc0ae4f4b98578f"
+    },
+    {
+      "path": "package.json",
+      "bytes": 1182,
+      "sha256": "ed88a97bec90be1b762fe1f7a140ee919341913129448dc2e092b94ab6dc4d17",
+      "gitBlob": "372fa15084ea65e89496e810d434057e7514ae63"
+    },
+    {
+      "path": "pnpm-lock.yaml",
+      "bytes": 443,
+      "sha256": "4910540bd53f2ab5cd43403baf12b64b6494b857781d0c7026d0c8787ec2a20a",
+      "gitBlob": "7ea54295706a02dfe45c245c969423ae8d31a662"
+    },
+    {
+      "path": "src/app.js",
+      "bytes": 22210,
+      "sha256": "12ad170d9b4e6630c6bbbd6be5ba4f139ae4cb917ccc6ee421811f3572f8c592",
+      "gitBlob": "92dcd9b89f307ea0aae1bada5f6db9784e48ff91"
+    },
+    {
+      "path": "src/fem/adapter.js",
+      "bytes": 3029,
+      "sha256": "557644d3fae1e01cb4d7c64dd1a0d98a1a5bbca54d297285c4cfa81a0cdeafa4",
+      "gitBlob": "2c020a22c8b8dc42dc5b3ffb035ede0712ad5eb8"
+    },
+    {
+      "path": "src/fem/contact.js",
+      "bytes": 14096,
+      "sha256": "276a5b86681eb4a0d3c4b26d242c6103d8318542073cd4bb895eec8fe15d741e",
+      "gitBlob": "54fb869f5bac8e7ff3a65bd1bcba4d2d5ee9493e"
+    },
+    {
+      "path": "src/fem/dynamic-validation.js",
+      "bytes": 3546,
+      "sha256": "fe729d92a0bf017b172c645fa9202f72d7c93e46d5a9aa8a3d2ed24c8a8d065d",
+      "gitBlob": "d7776d1aa6155fdac4e8efb30cb4651bbc56ecf7"
+    },
+    {
+      "path": "src/fem/dynamic.js",
+      "bytes": 17297,
+      "sha256": "81966c272697e1e678dd3480eedb1b9029bdcf137894d3581102250a6d12021e",
+      "gitBlob": "e4e96ee88e9321c9c28aacce35ecf75dbb0cb71c"
+    },
+    {
+      "path": "src/fem/explicit-mesh.js",
+      "bytes": 4323,
+      "sha256": "af580bbee3e0a9b4c1cc69bb655131b7cb77d65081305af71af07f5e9b1726ed",
+      "gitBlob": "99fcc67b1a7ef55e63ee14554fe8b5f2d80613ce"
+    },
+    {
+      "path": "src/fem/fem-contact.js",
+      "bytes": 14065,
+      "sha256": "9c8ad16397f5a91d524793b19bfad8b4f2532e9c0fafeb5726cff701f230769a",
+      "gitBlob": "f3a23fe99231af7c24dde5da471c1df21e5c050b"
+    },
+    {
+      "path": "src/fem/locale.js",
+      "bytes": 18477,
+      "sha256": "386e872d04190fe043c6e04502d295f0380baa9123b75058f23d56867347f05f",
+      "gitBlob": "c9df839fae7a4b70055c9a1bf2ad7c0c1a03a47e"
+    },
+    {
+      "path": "src/fem/mesh.js",
+      "bytes": 4615,
+      "sha256": "d78fab6d7ff859258268a93966e91d067620e1480fe83160a582ffc1752b5297",
+      "gitBlob": "6fe5e9a7b26f931ac67fd941239cb55c8e714339"
+    },
+    {
+      "path": "src/fem/model.js",
+      "bytes": 10744,
+      "sha256": "319bfa3e80f167ffa7855d6fb245f0365aa9030e58ed5e0e88442554ed1875c5",
+      "gitBlob": "a00d732ef48c17262b715aba5fd2329d044c3ffc"
+    },
+    {
+      "path": "src/fem/program.js",
+      "bytes": 2187,
+      "sha256": "e3846822bc78b20d23fc85844d27add1c8ac2d8d98b17844cfc6e0178b3adc4d",
+      "gitBlob": "8054d96327faa3cabf0f8d85d4563cde9a26d8f9"
+    },
+    {
+      "path": "src/fem/renderer.js",
+      "bytes": 4684,
+      "sha256": "12d9efb1bea22325841cfcc9452d74a428914f16c6f7e355b62a31c32872b784",
+      "gitBlob": "a37ef39462b347a1b1c59d84c522c3228baac892"
+    },
+    {
+      "path": "src/fem/rigid-editor.js",
+      "bytes": 1705,
+      "sha256": "07b0914ab3f1c7a06ed79f09beb5a197dcebfcfeacc84bcfd72a95dca2f5b4ff",
+      "gitBlob": "7bace3df49e9f7d6d5b385a2bdbe0ab3de026353"
+    },
+    {
+      "path": "src/fem/solver.js",
+      "bytes": 9037,
+      "sha256": "41736d7ca908db9b4dd07b2a1e7b2f2600bc415794b2d69c4cc7fc3a05d34b74",
+      "gitBlob": "216c7f3d962ae2fcd909dc0b80ba88409449ae69"
+    },
+    {
+      "path": "src/fem/thermal.js",
+      "bytes": 7646,
+      "sha256": "9bb14087760a0d9df0865067efc3522b18d92cb87c141aa9f5033f7e68614c13",
+      "gitBlob": "2b44917f6988728527e9eaf3e6f5e8de67976148"
+    },
+    {
+      "path": "src/fem/ui.js",
+      "bytes": 35747,
+      "sha256": "19dc14c37bc51c864943dc442e280488e7b0e077f324a5c0ae9e255eaa86fce8",
+      "gitBlob": "f8ef78f009f9995f985c154b8689f4bad4d63cb8"
+    },
+    {
+      "path": "src/fem/validation.js",
+      "bytes": 2357,
+      "sha256": "4612d5f589f0ee78552574ea4dc7335179c8c3974ac380cf41f55e416a7c0945",
+      "gitBlob": "2e87b5d583d03bd462d4de7db1a3b954f2684e35"
+    },
+    {
+      "path": "src/fem/worker.js",
+      "bytes": 975,
+      "sha256": "08f98f52a4fdbfc3de689c0839fe8feb5b10f30e0be6c2834f6b50a55947c00a",
+      "gitBlob": "9129099e121a9e7412291c9b0e6fc179febc122e"
+    },
+    {
+      "path": "src/gravity.js",
+      "bytes": 4955,
+      "sha256": "a41b82ae1b99fc327e69aa0ba1c43429526298e50dc387f9c17ec8040c9fb0bd",
+      "gitBlob": "38437570ea95f518967a9f2221cba5d7600793f1"
+    },
+    {
+      "path": "src/materials.js",
+      "bytes": 4347,
+      "sha256": "bc10e720837c5bcf707f34738d1fee45d31ed04c58be0048443c2ee979100084",
+      "gitBlob": "807cca3a02bd2ef205082d2cf6cba9dfcba83296"
+    },
+    {
+      "path": "src/mixed/adapter.js",
+      "bytes": 2056,
+      "sha256": "5fd9fa54ed7579d7f634bb36b3498e5af6e49879836c4341ae99b25d9c981eea",
+      "gitBlob": "263b424350085f3f12f71a522447ad8a8427677e"
+    },
+    {
+      "path": "src/mixed/contact-motion.js",
+      "bytes": 4426,
+      "sha256": "84f883e06ef51b7b8c721a450e856bc3ee78ab64654af1911fd19e2962f5c19c",
+      "gitBlob": "fc10fff40f52114380185a53a5a3cc7f6651b7c7"
+    },
+    {
+      "path": "src/mixed/contact.js",
+      "bytes": 12584,
+      "sha256": "d59b2f1bfe18f6a5c325ed7962e906f8ace1a834bc82a514c28a1bea1b36fc22",
+      "gitBlob": "0b06f61b1da91f11718025982314d73ea43a4cb0"
+    },
+    {
+      "path": "src/mixed/energy.js",
+      "bytes": 9937,
+      "sha256": "62219d27e31cfde2328725ccb4abd77f68028ae20c622c5af3f8e1b8fa9f07cc",
+      "gitBlob": "f70ea616f0a498c8e5a72286875079fb3d500811"
+    },
+    {
+      "path": "src/mixed/fixed-thermal.js",
+      "bytes": 1676,
+      "sha256": "80122e55313c3625a78c023c763ea807d56869339ab8486f56a8f5ad6ed65af9",
+      "gitBlob": "78051386e9a480460b9390bc9ff5faf5987362d9"
+    },
+    {
+      "path": "src/mixed/fluid-contact.js",
+      "bytes": 3362,
+      "sha256": "e80950f9d71eb4a5940db65d210fc9601a5b8c3ee51adb71efb67dc38f84f942",
+      "gitBlob": "daea34f18ebbefbe1f29446e76eb1fb3f0fcefe2"
+    },
+    {
+      "path": "src/mixed/four-gpu-model.js",
+      "bytes": 7478,
+      "sha256": "3be6af3c37414cc7a5f925e945a478711ed24a82c463b2e9732f7010f157aa80",
+      "gitBlob": "96d00a1a78e5c05f8a93f5ca66792414d29539dd"
+    },
+    {
+      "path": "src/mixed/gpu-adapter.js",
+      "bytes": 9322,
+      "sha256": "524b472b8ae97faddd6669161b75394d96131b2b38dfdf824da088aa2923c600",
+      "gitBlob": "c68857320b775d402f1ba9367f1bcd8dc9102f96"
+    },
+    {
+      "path": "src/mixed/gpu-model.js",
+      "bytes": 8801,
+      "sha256": "6608a47d2a19b8152af100b89a4693068fa59334bf9fffa6591fab9b6404077e",
+      "gitBlob": "da5ff120f61d5f9efa3056cb7833ece5f729d6d7"
+    },
+    {
+      "path": "src/mixed/gpu-thermal.js",
+      "bytes": 1086,
+      "sha256": "8dc06eea47c4cb0270b7d982edd7da1340d927d1355c242af2b99f90c1afd81f",
+      "gitBlob": "42b74b172668e3de57b5d13efd98cebfbe16e0df"
+    },
+    {
+      "path": "src/mixed/material-capabilities.js",
+      "bytes": 690,
+      "sha256": "d556c5144f4618b47ae8e9a1def8b929ea8c5d26eed8efcf2f88ac05fcdb10bf",
+      "gitBlob": "b5e4d85fe3c434eb46a966dc86866c15cab38765"
+    },
+    {
+      "path": "src/mixed/material-ui.js",
+      "bytes": 10849,
+      "sha256": "a65409b4d5c347748dca686ab4b0011b87e8ba07ea7db921563505aeae864314",
+      "gitBlob": "28a1ebf48bf5dbceb8e5a6d9f42cff08004d8610"
+    },
+    {
+      "path": "src/mixed/model.js",
+      "bytes": 10454,
+      "sha256": "8ffee9718d42f9e74db19ab8d28dc4c7d525cac1433f8012cf1b87ed6458bf55",
+      "gitBlob": "5f2d72e58f72efd5e2c3bb9eb79c3f657cd1a5f2"
+    },
+    {
+      "path": "src/mixed/rigid-contact.js",
+      "bytes": 2749,
+      "sha256": "a19f88b18234e2e1ba6c592979a6e8ade34cb67349aaae2c77baf725aeb9b525",
+      "gitBlob": "c54b9ab8aeb9f3f2de5fe950b8fac644b786fffe"
+    },
+    {
+      "path": "src/mixed/rigid-geometry.js",
+      "bytes": 7228,
+      "sha256": "18e1f03ad14b9c742a5a4d9646f1b63c345487d590322f142b4dee08c04fe114",
+      "gitBlob": "2648e5e7816e27940b8a82bfa798b27d0bb46c21"
+    },
+    {
+      "path": "src/mixed/simulation.js",
+      "bytes": 14701,
+      "sha256": "3f6bd184795fdcc89e25d1b97b70137f751c5bbc18814b288934e83080c5dd6e",
+      "gitBlob": "decc5288493820cea6b2886c754a54d81f3ff2f2"
+    },
+    {
+      "path": "src/mixed/swept-contact.js",
+      "bytes": 2879,
+      "sha256": "1775bac0a42eb48541e17e81e55d359aa07213eaf1edee5921ead35799dcacec",
+      "gitBlob": "2fb132ac6103bc4af42e3c964f59c18c12615cfd"
+    },
+    {
+      "path": "src/mixed/thermomechanical.js",
+      "bytes": 1817,
+      "sha256": "7567807fe3158df76d313bc31a009eefd4125b2209def389cf80ad3ea36f5522",
+      "gitBlob": "553c4d914d7659d858a9103714b92bb7fd01030e"
+    },
+    {
+      "path": "src/mixed/ui.js",
+      "bytes": 17002,
+      "sha256": "57cb9dc827e2d9cac84ee5b7f090d3804f9f8f6bfc8b14aa46b4a547da368fe2",
+      "gitBlob": "5c8c06fc6c40f78a62c6ef42b729523a41b637fc"
+    },
+    {
+      "path": "src/mixed/worker.js",
+      "bytes": 619,
+      "sha256": "320c088b5ac3d88614306d3a3f8516b0134bf9f2a20c82627b2891c2c36f3c2a",
+      "gitBlob": "6ca6cdd30bfd517dac13d95229f35fabd78f6c3c"
+    },
+    {
+      "path": "src/multibody/appearance.js",
+      "bytes": 893,
+      "sha256": "c9a53f898f8a6b1721616af43cc12b34dce6b0bdebb7c777f66bf87f0499e059",
+      "gitBlob": "12e9ff98f8defeb82aa57cd65c5ebd19b9c807ce"
+    },
+    {
+      "path": "src/multibody/attachment-model.js",
+      "bytes": 1334,
+      "sha256": "1d02954be2f96057497d1abeb748a48bb1b3f702b16d83e955d8207d7bef4c61",
+      "gitBlob": "501debb2a867944c002a725f56239ef60a11a952"
+    },
+    {
+      "path": "src/multibody/attachments.js",
+      "bytes": 8088,
+      "sha256": "9800f9c49f56a7e4eaf26a0ae033f283f5dfbefdddbff78ff9cac80275efedab",
+      "gitBlob": "c1f6b93a4a5e31ec74c8b245db42ee148c20429a"
+    },
+    {
+      "path": "src/multibody/bicycle.js",
+      "bytes": 16857,
+      "sha256": "44f288fe8908e989e185c3f76f76e25f6f506a3a10dcd15df21cecdaeb808942",
+      "gitBlob": "a8d5eea58a653b18bdabe222571821059d60e2d6"
+    },
+    {
+      "path": "src/multibody/contact.js",
+      "bytes": 4551,
+      "sha256": "f961873b7ba3ec56a2b86fb2f394926626fcfe5047398b36b4440c523e79949c",
+      "gitBlob": "32b6ef534c6db1eb5b0d1eef0946adc43f9d473a"
+    },
+    {
+      "path": "src/multibody/coupled.js",
+      "bytes": 16759,
+      "sha256": "ed52013f8c490a4f85dec14dc62571f32f2d882cad8e1e91dc7c535352d9a7aa",
+      "gitBlob": "ca1965630c74337f171914ba4666f80bf618f22d"
+    },
+    {
+      "path": "src/multibody/coupling-model.js",
+      "bytes": 5733,
+      "sha256": "06016039464e0fcc89f710e72439a2fa62ce4af7514cf3a46aac4ffffdc27f2b",
+      "gitBlob": "6789b6cd41c58a973a0f4324f306d408c882ba5e"
+    },
+    {
+      "path": "src/multibody/coupling-ui.js",
+      "bytes": 11622,
+      "sha256": "0d67c9ce13d4b76634aa56541d5a9eca61e7167a6b7a2d03107be8b6235b41b9",
+      "gitBlob": "2131441804e4009e661f6ace63308ba73dc64ed1"
+    },
+    {
+      "path": "src/multibody/engine.js",
+      "bytes": 14247,
+      "sha256": "608aea723f046b78335d672d449fc8563841f66672b787e0724bf1263e32db0f",
+      "gitBlob": "9bc6801b22c3e9f472f96975ddbb6913cef7f29a"
+    },
+    {
+      "path": "src/multibody/locale.js",
+      "bytes": 14392,
+      "sha256": "112f0c798066a28817099ae92519d4abdb2e4763761705d1e4f4479e22e17c25",
+      "gitBlob": "cc7f894b4ef8c3a2fb7a46c7f8dbebcd3be0c6f0"
+    },
+    {
+      "path": "src/multibody/material-contact.js",
+      "bytes": 5547,
+      "sha256": "9b8712ccdcdf6863d7c5f24071592d45cb7a0e28e9c34e604c87706367307e56",
+      "gitBlob": "e02491b9d06322611c2ff2be3306a28ca6f4acfe"
+    },
+    {
+      "path": "src/multibody/model.js",
+      "bytes": 6706,
+      "sha256": "527f2b87b5f64569ebc63d9bafdb2db74d4888cfb4616b2513d2e43f41c53339",
+      "gitBlob": "9d66939d29db358dcd9dcc2b74d253c5fee1afd8"
+    },
+    {
+      "path": "src/multibody/pair-contact.js",
+      "bytes": 5984,
+      "sha256": "c42d18cf98e0b34ed23f0430fdd971970d85134f74176f45120ced7dad2fb1f3",
+      "gitBlob": "c97381d76a0bed9639a13459b8f0a713bb7d51c5"
+    },
+    {
+      "path": "src/multibody/presets.js",
+      "bytes": 3921,
+      "sha256": "31f9bd2468b6ae1a31da220dab55a33fdba82868b87cea90ce6a607658aa26bf",
+      "gitBlob": "8b52f5fd1ce82d16d75eb888fb2c72808d578b8a"
+    },
+    {
+      "path": "src/multibody/renderer.js",
+      "bytes": 14504,
+      "sha256": "1c937ba92103188f5d0c6bd1e065cf03094ed2d3c00e86c6b7aa371dc11e3940",
+      "gitBlob": "683b9b9d2de640a5baf3c8a420fadc7ec2e15033"
+    },
+    {
+      "path": "src/multibody/ui.js",
+      "bytes": 190,
+      "sha256": "2b82eaf2184dcc1a4ac287e44f3987949f7bcb1b83218b5a2ac43fd3e6dfcf5f",
+      "gitBlob": "6fef3c123aef91c3fefecbb5211dafa018118701"
+    },
+    {
+      "path": "src/renderer.js",
+      "bytes": 14582,
+      "sha256": "c307d1bd38a0de1a41c91c539c79a0bbda64101b58a9a36cae97da11b7fc53ac",
+      "gitBlob": "ab6db62806a278592fd5054e9090add488961ab1"
+    },
+    {
+      "path": "src/simulation.js",
+      "bytes": 23859,
+      "sha256": "b970df959ea5de7e1431d583fd0b3ab8266bc764a460f2a6179f96be347bec0f",
+      "gitBlob": "b8eb0735be593aea0ccb5af40753de6f1a71d951"
+    },
+    {
+      "path": "src/simulation/assistant-commands.js",
+      "bytes": 42705,
+      "sha256": "9e22aab99d46db4f5926cb7d7f98d8053b4000ce41d73396ebde2a011f1dcff2",
+      "gitBlob": "1ce443d7745280181e1348ef95cb2d83b85f9788"
+    },
+    {
+      "path": "src/simulation/assistant-context.js",
+      "bytes": 25572,
+      "sha256": "40e70c02ce734398011ab051c20f5da4d15e89d8dd8a1722f13d6f13c3428e24",
+      "gitBlob": "dcbaa98feefebe5b44e6e46c52e16be6c64bf950"
+    },
+    {
+      "path": "src/simulation/assistant-physics.js",
+      "bytes": 8862,
+      "sha256": "bb69748ebf12d5edc89679a46bd42525aa57f847d3072eeb02bef1f01797d72b",
+      "gitBlob": "d8a9be6b91ff01cdd53cc6714e58b845825b19d2"
+    },
+    {
+      "path": "src/simulation/assistant-ui.js",
+      "bytes": 27746,
+      "sha256": "92691143e9ae626c21db9442817883033505338ff01bfb4a57bec3c37f3b5e3d",
+      "gitBlob": "bf71c0e03fa930c8c9ea9ac22aaae2f6b510bc99"
+    },
+    {
+      "path": "src/simulation/attachment-ui.js",
+      "bytes": 6236,
+      "sha256": "90003505d9e85f3af17eb067df4f974d5f303576c8a46cecf243115d0995095e",
+      "gitBlob": "b14838b2ba6e3616319a04f6e603885ad91107ad"
+    },
+    {
+      "path": "src/simulation/authoring-preview.js",
+      "bytes": 1747,
+      "sha256": "b530775d8f17fba26030287bc786ec80eb734feada43bd342c1ff4c5459529a9",
+      "gitBlob": "d0f0dc23cb9fb16910235e15b52d2d4498c0050f"
+    },
+    {
+      "path": "src/simulation/cad-client.js",
+      "bytes": 3305,
+      "sha256": "139dbb07962e11656d24f69d452a72562d03de8a0b37406f0e3c499cfb84e86c",
+      "gitBlob": "5e125631319aa36a35812c65dc4811e2f0541c35"
+    },
+    {
+      "path": "src/simulation/cad-curve-ui.js",
+      "bytes": 13363,
+      "sha256": "b429c7359658e605965e5b78c296245db4c0c4a4ac1eac7d8d090225a70d61ce",
+      "gitBlob": "7f1e1cf7a50afde22d0799483604319808e6bdf6"
+    },
+    {
+      "path": "src/simulation/cad-example.js",
+      "bytes": 334,
+      "sha256": "60e47d582939e28538a44d2177ff038dd484bc0a1c6629c495f4b5b793e10515",
+      "gitBlob": "7b022a623c2ec020969fe0e455fb0b999c31e7bc"
+    },
+    {
+      "path": "src/simulation/cad-mesh-model.js",
+      "bytes": 1236,
+      "sha256": "91316950926322dce96972631b941b3c5ea28459477a865e0889dc53eda56172",
+      "gitBlob": "6fe511c08f406a2bbfed83059e2ad647dfbd6347"
+    },
+    {
+      "path": "src/simulation/cad-mesh-ui.js",
+      "bytes": 7025,
+      "sha256": "2ef7a42699d2daa700e67048c14f3cbca42d7fcd47f7c7ab34df10a5f870c239",
+      "gitBlob": "111a53ca5111230b59ebe83b3acf388173b4cb02"
+    },
+    {
+      "path": "src/simulation/cad-parametric-ui.js",
+      "bytes": 16633,
+      "sha256": "1567afc09594e4ab9357d54c16c2b9e86bc793c7e0f9c7e61b0289d716f5d884",
+      "gitBlob": "d1d4136887b9a195a70ca1a393fba41aa05bb2a2"
+    },
+    {
+      "path": "src/simulation/cad-parametric.js",
+      "bytes": 8283,
+      "sha256": "c951b5257f3c3ee989111d7d4e7f37064f4832a26ba2082e8229e8560ef573a0",
+      "gitBlob": "472f3a3fa65d105ca809edc79073d5d48377c36c"
+    },
+    {
+      "path": "src/simulation/cad-preview.js",
+      "bytes": 5807,
+      "sha256": "faea58f7460c419d42aaa52497eca91dc431f423a056837ec19d9e0984c0dee7",
+      "gitBlob": "e077d07372d303e75a25a4baebfb5d234c720318"
+    },
+    {
+      "path": "src/simulation/cad-profile-editor.js",
+      "bytes": 7803,
+      "sha256": "1c4c0d7898d7a0e67f977a91ddcd102c6b0130f02006b698b26a937728fd7e69",
+      "gitBlob": "d5d9aa8c564fbf5ab98f04e6887cd8c230597a20"
+    },
+    {
+      "path": "src/simulation/cad-surface-ui.js",
+      "bytes": 14617,
+      "sha256": "3fdcfdc6b8d964a2510a747b1b675ce4c56338b174bbee7edb9c6aa5ba796f11",
+      "gitBlob": "44614024f630171de3c720aa7202652ae7a11847"
+    },
+    {
+      "path": "src/simulation/cad-templates.js",
+      "bytes": 3057,
+      "sha256": "3915408d13716ce806b644a494d668b1716a606acd512fdd9d30b60cf629fdd6",
+      "gitBlob": "e8c81dbabf66542a27aa0455de37ebd324bbaca1"
+    },
+    {
+      "path": "src/simulation/cad-ui.js",
+      "bytes": 15739,
+      "sha256": "0ee0d3e43db43de7ee0f09d8bee51da656e11f8cde80facba8375106f26934c5",
+      "gitBlob": "e7a8114ab6c54dcdc61c171954b31c025d0f755c"
+    },
+    {
+      "path": "src/simulation/contact-example.js",
+      "bytes": 2360,
+      "sha256": "5cf1a2c1ee1bb217a13ecf0b5ed722c1bf3e351527c39be56b480fd58812afb8",
+      "gitBlob": "c810890c4c00fb83440ba72bbb9a2d10d9ad2d66"
+    },
+    {
+      "path": "src/simulation/contact-pairs.js",
+      "bytes": 2988,
+      "sha256": "ea357b4f8503d4ab2e0dd49d05443ee94338394f5c619db648679471e4636ff4",
+      "gitBlob": "84141d2a042b9ddd181d73ae83ae17a98e44f6cf"
+    },
+    {
+      "path": "src/simulation/contact-safety-example.js",
+      "bytes": 1436,
+      "sha256": "a1a023be8f9c9a6341e977409f6c90a7f97def7dd35fc8414995ad98211c0f6c",
+      "gitBlob": "aad01054c7df58da33f5833eb4b3a34307a383b6"
+    },
+    {
+      "path": "src/simulation/contact-squeeze-example.js",
+      "bytes": 1076,
+      "sha256": "66f065fc3b4de0f789891f44c1be74a250d40068fc40ec8bee5356bd31cc8b15",
+      "gitBlob": "08c7517f24c583b48fd2fc65e45b77af24caa6c6"
+    },
+    {
+      "path": "src/simulation/contact-ui.js",
+      "bytes": 24641,
+      "sha256": "79c28520d68f29dccb155cb6bea6f380a98d238393bb70c06ffdca1005ad5cdb",
+      "gitBlob": "5f97e3b8f57503f158a26d1de8d9b6039dc91d2c"
+    },
+    {
+      "path": "src/simulation/contact-validation-ui.js",
+      "bytes": 12112,
+      "sha256": "1a591cd72589282091718db9bfd0b6f1c8c7b86185982a0f37e596ce9eb2c191",
+      "gitBlob": "b0b49a60f177bdf2f4c7c1fad9dff98b026f2b7d"
+    },
+    {
+      "path": "src/simulation/contact-validation.js",
+      "bytes": 9909,
+      "sha256": "3337331d429692e0d9139bed0eddefc42f66b0f1e6da9afb2fb4c3ef0fcebebc",
+      "gitBlob": "3dab846b41afd3db91e63a19925d0d7aab596bc4"
+    },
+    {
+      "path": "src/simulation/coupling-interface.js",
+      "bytes": 4512,
+      "sha256": "35bf40229898274d9fa3ca9de088fae4884cf930b881fa2f806b70d462fbd683",
+      "gitBlob": "bbf641deb2cd6c10c73389d6623df6d894c91fb1"
+    },
+    {
+      "path": "src/simulation/coupling-mode.js",
+      "bytes": 815,
+      "sha256": "ec0d3bfac449c7bcf49fd89e525f715161848f394c542e122e31d96c6374419f",
+      "gitBlob": "924778c065535c5c4e78e1c772ab69ae54422e89"
+    },
+    {
+      "path": "src/simulation/cpu-adapter.js",
+      "bytes": 3358,
+      "sha256": "f49e11cdd4d0aa0a967169d1e028c2e16bca1334db1aa663fa47ee1028ffd200",
+      "gitBlob": "bce1ce1ba338521f8366e150aee19f1b0d2214cb"
+    },
+    {
+      "path": "src/simulation/curve-ui.js",
+      "bytes": 14232,
+      "sha256": "1d33bcc0a4a1a85f30a32c0a8843e2d286fc32a392b79812547a13a25d3b9888",
+      "gitBlob": "d80a4cdadf8b541840fdf32b5fb179e8d63f1328"
+    },
+    {
+      "path": "src/simulation/curves.js",
+      "bytes": 6395,
+      "sha256": "de199cb536fa7509c760dda70b4aa57d5270f399f2385e53bb32f833c5b331fd",
+      "gitBlob": "319efe51c8326c3f10bab1dcfdaa34cbde8b0a06"
+    },
+    {
+      "path": "src/simulation/gpu-adapter.js",
+      "bytes": 5787,
+      "sha256": "dfcf46d3d23a5fccba23bda2021c24649495de21ccaeb85673b14c02b4a266e4",
+      "gitBlob": "ab8be5111705412f99e9f88d51c49c8e0084b8de"
+    },
+    {
+      "path": "src/simulation/gpu-contract.js",
+      "bytes": 1601,
+      "sha256": "17552426bc548dd1b47055946b53d235757a8a68d9f214ee8e0d0635a29489ee",
+      "gitBlob": "12ea906191bf1eaa4a373c579cb12e0b2dbb6931"
+    },
+    {
+      "path": "src/simulation/grip-example.js",
+      "bytes": 2165,
+      "sha256": "ea61b1446e39687242e7500c37b46d9a8afe92e80f500d9cfda16a99b74b023f",
+      "gitBlob": "a205ac5410a202a62b5da7e524dd721a992ffc9d"
+    },
+    {
+      "path": "src/simulation/interactive-interval.js",
+      "bytes": 544,
+      "sha256": "8387f9f491a7fa3b4fbce1c1b9ada9cf71d627ee510ce90117dff82a0889cb77",
+      "gitBlob": "90b6dee08934068167988e4ac70520a7b6d3ce63"
+    },
+    {
+      "path": "src/simulation/load-program.js",
+      "bytes": 4477,
+      "sha256": "f126da6743d7f878b9c38748b922c60a6da0bd3e52e1483fbf021b9004b7596e",
+      "gitBlob": "10c2e3b8229e685579bfbf5109aadbb437bce518"
+    },
+    {
+      "path": "src/simulation/locale.js",
+      "bytes": 41444,
+      "sha256": "84ef8cb0fd436bf80d365ce763ffd5d04a3d8ffae345a749f790751ab7842de5",
+      "gitBlob": "856c6a4f96e0766f5a0a771e7d1845f6306e3bd5"
+    },
+    {
+      "path": "src/simulation/material-contact-example.js",
+      "bytes": 1003,
+      "sha256": "f133ee75c6ec69ec26235daf0503372c8ec9e0ebd47a1fb5a77c642c1506f05a",
+      "gitBlob": "7adcd2b0c571f399d1ac798c7ef4c48847318ff3"
+    },
+    {
+      "path": "src/simulation/material-editor.js",
+      "bytes": 2165,
+      "sha256": "2242492d034c24a59e45c94ff156c1da001a6bfbed91c3f9004f1adae757c6f5",
+      "gitBlob": "e70186780947c08eb933a190092cee97a8a8edbb"
+    },
+    {
+      "path": "src/simulation/mechanical-diagnostics.js",
+      "bytes": 9009,
+      "sha256": "8029f73a06cce84b5568fb6e1826d9d922b8c4f387b5d5c5fcfeb02a8beb0ef8",
+      "gitBlob": "a947ac52d4f797154b24c88a558431216f2e9746"
+    },
+    {
+      "path": "src/simulation/part-builder.js",
+      "bytes": 14476,
+      "sha256": "d975786081ab9e3783865b8eea7ed6a1a99ff479ff2bba05f25002e59d5b61fd",
+      "gitBlob": "937f70dcb4a001967a3f0752f0692f0ea89b0f25"
+    },
+    {
+      "path": "src/simulation/part-thermal-example.js",
+      "bytes": 1741,
+      "sha256": "6820bc6c1a21636709cc8c2e059bc85c50345ff480638782b8293e4b1680e525",
+      "gitBlob": "b7b39543be7c7993f5ce3b2de8d08f38ebd3e6ed"
+    },
+    {
+      "path": "src/simulation/particle-health.js",
+      "bytes": 1686,
+      "sha256": "b8e80708e8e215a15220667073c67d07142d185afabe8abd278322f9ee9ca976",
+      "gitBlob": "268b356aca1ecc41968ae386254d3da4d4d2ad0c"
+    },
+    {
+      "path": "src/simulation/physics-clock.js",
+      "bytes": 1460,
+      "sha256": "4653689a15ff5e05ebc3cef1fa09e71f95880c509addcaa01070da7fde1876e4",
+      "gitBlob": "95dfb28407e7021c67cf18d644ccb20395e15254"
+    },
+    {
+      "path": "src/simulation/project-archive-ui.js",
+      "bytes": 8389,
+      "sha256": "a3cb25ca43cc0c16c7e8df3978386c8d1770e4b246b00f635efa702f51b4373b",
+      "gitBlob": "1d511d11b7f2614e495193c05c3709985bf95709"
+    },
+    {
+      "path": "src/simulation/project-archive.js",
+      "bytes": 13315,
+      "sha256": "fa2397bcddc2ad9f117f4683b0cc7061128be61c454e2386222388835b1ac2e4",
+      "gitBlob": "ea72969dc45dc117e4cc90d564a3f7157f581937"
+    },
+    {
+      "path": "src/simulation/project-io.js",
+      "bytes": 1141,
+      "sha256": "ba9f0683f327725d5fec4e8fd84b29499b00cf6a70535725a9c7a8c98fb09992",
+      "gitBlob": "d33b668d1b90b6d9b5e816b0f828cd86037349a7"
+    },
+    {
+      "path": "src/simulation/project.js",
+      "bytes": 14828,
+      "sha256": "7f75fd62cbed87ab04bf2dbaf904aa3ff179fdfb9d024723f792c1ed8ae4c544",
+      "gitBlob": "c8f3253dd02da4a003426c4f225f3ece02539e02"
+    },
+    {
+      "path": "src/simulation/recording.js",
+      "bytes": 1854,
+      "sha256": "d3d1699e473b4608cba7698250ceffbb43e4b26b7c9620ae8dc0637a24b93863",
+      "gitBlob": "30329929fa564555ed0a0c37a5755c4f530e3718"
+    },
+    {
+      "path": "src/simulation/reference-example.js",
+      "bytes": 1065,
+      "sha256": "7a3ec985b6022616c79b36b27d0057875c2acbc0208c85e8cac09a68fc5bd135",
+      "gitBlob": "1ab695a2aea5cced5ef5b524ad417f7163358df0"
+    },
+    {
+      "path": "src/simulation/reference-ui.js",
+      "bytes": 11607,
+      "sha256": "33ab0417446c08d2c1c777b0550e285c8821f71067629c67d555aba10886691c",
+      "gitBlob": "c1bfa781539d680d2fe43da00eb4872f19be7190"
+    },
+    {
+      "path": "src/simulation/references.js",
+      "bytes": 8937,
+      "sha256": "f8bd2115faac587fb9b93f962ed9ad6f6c9c2e6bccfe6ce82d91d2faf4f6b143",
+      "gitBlob": "4ef7a8eefe00c28b86ed63a32572020c4f8d5a1a"
+    },
+    {
+      "path": "src/simulation/result-query-ui.js",
+      "bytes": 4088,
+      "sha256": "223e5a2c32421187b71eb2214d7656b3686865dbfa1ae2b695ac15e1b6fcbb99",
+      "gitBlob": "8dcd48d5c12e68306c9c4dfc79c0502e95f1a8b9"
+    },
+    {
+      "path": "src/simulation/result-query.js",
+      "bytes": 8510,
+      "sha256": "0fb5141173d062bd8042ce66e4a2cc752aa2a4e37486d75e0359ee1ab1e71849",
+      "gitBlob": "92b5f41a4b1983d05c6b83b63cf72455f61e3a25"
+    },
+    {
+      "path": "src/simulation/results.js",
+      "bytes": 924,
+      "sha256": "9f7cdebb58433b49080de0a3f1ed6b0fe02320458757c2d41abe91bebcae2383",
+      "gitBlob": "c832417355727c1d41510add2546d5945d73727e"
+    },
+    {
+      "path": "src/simulation/run-monitor.js",
+      "bytes": 1133,
+      "sha256": "246f5719d8161c7a8c6f3bcb151f061f98a9d48bcadb87e44208f57215997e40",
+      "gitBlob": "b4b2b04f77723b919c4ceb0e7906ed9df8235b7b"
+    },
+    {
+      "path": "src/simulation/run-record.js",
+      "bytes": 4390,
+      "sha256": "2632a646c40bac261c2ce68bc7fbd83bf14d10d8de04a4b371b1c46502d48333",
+      "gitBlob": "177cc0ae88897a54d31c326ce02ce87ccc3f2cf5"
+    },
+    {
+      "path": "src/simulation/session.js",
+      "bytes": 3215,
+      "sha256": "5495ea3b4b86bd339ca4f836c81c1f113b0333719a8724290142d61a422e6f0d",
+      "gitBlob": "3934b75851363fd5bda9c42f882d0a6d8b76a851"
+    },
+    {
+      "path": "src/simulation/simple-settings.js",
+      "bytes": 2119,
+      "sha256": "9a667d199b4f5383e00e9de4922f7eb36c54077c1da92d3643432b2b7966f9bc",
+      "gitBlob": "819168d19dcc002ee22c17276d0c60c6c8662f69"
+    },
+    {
+      "path": "src/simulation/simple-workspace-ui.js",
+      "bytes": 14912,
+      "sha256": "aad8cc83faa28648788b30c4b0b368ac4a0cedd5862febbed74f3f842b50bfcd",
+      "gitBlob": "46dbfea882454aa53c7f0accce513ff28dbb4fa0"
+    },
+    {
+      "path": "src/simulation/staged-example.js",
+      "bytes": 1059,
+      "sha256": "9a8727cb9f8f818ae60776f2078fe96c397e554bf82c3e25b333b135b5228f09",
+      "gitBlob": "edf989da7676a435d98c0840aad46a301511d4b4"
+    },
+    {
+      "path": "src/simulation/step-status.js",
+      "bytes": 2065,
+      "sha256": "1082389a700f72c5f587919f40fac7857187f11922f67bf235fa9927c86d1f14",
+      "gitBlob": "808394a8bd78cd068e5ed80fbad4e10b74ce453b"
+    },
+    {
+      "path": "src/simulation/surface-example.js",
+      "bytes": 1998,
+      "sha256": "842956c563757e4600e6fb241200b9de2c92784d24c9b73232c5bc771cc998c0",
+      "gitBlob": "a6f0bc243888679139b80b427ddf3fdca4c1e2c7"
+    },
+    {
+      "path": "src/simulation/surface-preview.js",
+      "bytes": 3544,
+      "sha256": "ee7eeaa682b70947a1d005c193783c5f5f44975cdaea236fab5c057d5d5ba663",
+      "gitBlob": "620a4cc39bb4ef69dbeb0a2816e805b7c8a40178"
+    },
+    {
+      "path": "src/simulation/surface-selections.js",
+      "bytes": 9204,
+      "sha256": "824bd2e8d42a21433e0a0d533ed5a89cc7814a923818524ef97496227fe8395d",
+      "gitBlob": "83ab05c4fdc4ed13836dd772d2c2d5e07c544c6b"
+    },
+    {
+      "path": "src/simulation/surface-ui.js",
+      "bytes": 11926,
+      "sha256": "4e2814cda1ed8f7c1f1923a071b6b6050e075b92c06666414a8547eada51582e",
+      "gitBlob": "b971809e8b19d5e46d57b8d63ea6d6b4d41106aa"
+    },
+    {
+      "path": "src/simulation/temperature-display.js",
+      "bytes": 1952,
+      "sha256": "492435c79b78f2117a0147a0bf59951639c040c74b9c4d51ded6fc960c37129d",
+      "gitBlob": "f38b838d97ef20aa3ffec3246379f2e66eaf057a"
+    },
+    {
+      "path": "src/simulation/thermal-command.js",
+      "bytes": 840,
+      "sha256": "9775d1b2571b5d2523322fd512543be29a96b0e53c401c820060f066a159089f",
+      "gitBlob": "dfe562a36de460bf8088d34c6df2695f0ef86242"
+    },
+    {
+      "path": "src/simulation/thermal-example.js",
+      "bytes": 1263,
+      "sha256": "fcae53eabecf49c61675ed24705f253517434676a92200d3e29ba678d85f664d",
+      "gitBlob": "a585ee96b99e9881a35027a2444ab9d6bdf9cc78"
+    },
+    {
+      "path": "src/simulation/thermal-history.js",
+      "bytes": 1384,
+      "sha256": "df033ed48c4c01cf4b2c72b8b7603fad9da3e5310a6ec677e48c33c88dd0f296",
+      "gitBlob": "cad457537567b7561ff1e786d5384d372e8ff85a"
+    },
+    {
+      "path": "src/simulation/thermal-loads.js",
+      "bytes": 6397,
+      "sha256": "33d545ef8c957b328d233955b340f122ac6b68fdc70b17ff2fc50e45e127dbd9",
+      "gitBlob": "3c990c3666bb851bdbad1664d02581162552c707"
+    },
+    {
+      "path": "src/simulation/thermal-ports.js",
+      "bytes": 3182,
+      "sha256": "9c21b0c013ce88441095c795ede357e8f78d9d1ffac9fefd838bf7812e8c430f",
+      "gitBlob": "3dafd2e7f30827723f5db27902d3de74e5e40737"
+    },
+    {
+      "path": "src/simulation/thermal-ui.js",
+      "bytes": 14768,
+      "sha256": "f322f164d8855ba07bddb3fcd2f72caeaa18071b70bb870e3160aa36d311bc95",
+      "gitBlob": "7b9cad846b798069353aaac842eece28c3f89024"
+    },
+    {
+      "path": "src/simulation/unified-example.js",
+      "bytes": 3138,
+      "sha256": "70fc007ba3c4b7c4fbe8e5917de615b65eee3d45fc9ccf7623c25647388ba733",
+      "gitBlob": "5a1fd6fdd0dace8338e613a5031fccd33e9a0145"
+    },
+    {
+      "path": "src/simulation/unified-locale.js",
+      "bytes": 3252,
+      "sha256": "367c847ca1295b8d207fc123792074d4631881f61bd7b20dcccce95ad9b7088f",
+      "gitBlob": "6277c929ae8a6ae34d2da355c830e006f9ff51dc"
+    },
+    {
+      "path": "src/simulation/unified-ui.js",
+      "bytes": 25236,
+      "sha256": "d679692cd65ab2d316c16f4f5e4418c41752e6005980ce193f45b84879c47045",
+      "gitBlob": "ad0f124c0e9508144797cdfd914656f5331cdc48"
+    },
+    {
+      "path": "src/simulation/validation-ui.js",
+      "bytes": 11107,
+      "sha256": "85d9a5d626e432591759cb583fd2fcc5b1950615d754fe86f1b5b86e36da54e0",
+      "gitBlob": "06d0c7517f016439473fcd4f76041c92f8e3dd78"
+    },
+    {
+      "path": "src/simulation/validation-worker.js",
+      "bytes": 480,
+      "sha256": "370bfd941dceab01ac8de0de734c6a87291d15b8e93e519b66a792909cbee381",
+      "gitBlob": "9592fc8e4cdca54bd7b74262839d0ad369d8824c"
+    },
+    {
+      "path": "src/simulation/validation.js",
+      "bytes": 7364,
+      "sha256": "babf253b572fbf0d62c376b5770415b15577620823c641a2749bf771bb6e86a4",
+      "gitBlob": "cdc07b6c0cec6dd55678f5778b1fe19ab790fc81"
+    },
+    {
+      "path": "src/simulation/vv-benchmarks.js",
+      "bytes": 22540,
+      "sha256": "e77c83a6d0127193ff3b738b548b9b146f8d9e705648a1e6d79047178a9a567a",
+      "gitBlob": "9c8720a8dad71ad1492c2836c932fce5837cf093"
+    },
+    {
+      "path": "src/simulation/vv-diagnostics.js",
+      "bytes": 12908,
+      "sha256": "746ede61b6d66cb9ff558e7d34d883c78d8b26c834d4bba1b46c78ff4a983e0c",
+      "gitBlob": "2b1e5061bd787af0d24ccc3c79b7eba6922acb75"
+    },
+    {
+      "path": "src/simulation/vv-metrics.js",
+      "bytes": 22408,
+      "sha256": "b149ea90f8e61d081dfcab4642e38a8e72d5e6f0ddb6611102e5fbf16585b7f9",
+      "gitBlob": "d751ac76baa225c570a2af2d6f167a2f650b9f15"
+    },
+    {
+      "path": "src/simulation/vv-mpm.js",
+      "bytes": 7505,
+      "sha256": "303c38066c2752106839d99c8c72927fecaac875412a2e64d549e35a2aabd025",
+      "gitBlob": "6e22b5d25f23e160b1516e5c12c49637a9db59bf"
+    },
+    {
+      "path": "src/simulation/vv-observables.js",
+      "bytes": 2534,
+      "sha256": "ad36f5ebf057a629fc96495ab89ce676d0139e8f850b7fbe94bcf8d07912398f",
+      "gitBlob": "f1d52978c2776e0529f69c4ada5f49c7ab6d4c1d"
+    },
+    {
+      "path": "src/simulation/vv-ui.js",
+      "bytes": 14158,
+      "sha256": "af6ba444547493e6bc015f2ffcac68073b88e903ce2641c141c25bc88c741111",
+      "gitBlob": "e9007081e0c0bf29d616e38579d8f7aac0228ec1"
+    },
+    {
+      "path": "src/simulation/vv-worker.js",
+      "bytes": 1287,
+      "sha256": "9982502c21c918d03833a0b819a989808b56796a9b605be7044a65812ca3f862",
+      "gitBlob": "a8ec83a6c6c60f319aac19b1f456e663c774e90b"
+    },
+    {
+      "path": "src/simulation/workflow.js",
+      "bytes": 12251,
+      "sha256": "e8ae3e2c12fdad434e49d0e6104bde1ecc01e473172e179630f006d8b03401c5",
+      "gitBlob": "ac740463d71f5311bfd2bf1dd44e645321ccd215"
+    },
+    {
+      "path": "src/simulation/workspace-context.js",
+      "bytes": 9928,
+      "sha256": "b66d354d9d0531dae3e271cbbe130731e742ddcda6574d806f489e0bde0ee438",
+      "gitBlob": "393ea03f9d9a8f190ac92b3d6b4b27e23060b9c6"
+    },
+    {
+      "path": "src/simulation/workspace-ui.js",
+      "bytes": 94920,
+      "sha256": "4d825ad121309b00cfc85e37d24685fca1e3f81845d00850abb4307d9d86a155",
+      "gitBlob": "895cf2d206ba2980f4e1d4f191363832ff61c199"
+    },
+    {
+      "path": "src/solid-mpm.js",
+      "bytes": 6007,
+      "sha256": "8a8a0d7a0e196b9bc1b523ea9219e1754ef83ecfb7822ab37e26de356c4a20f8",
+      "gitBlob": "a2fd35796a4bafeda8e8e53d920f4d4474c61d00"
+    },
+    {
+      "path": "src/structures.js",
+      "bytes": 8890,
+      "sha256": "2959def33b0d6cf4496be02ade0204873a2af1fdd3435d25d5872fc7433681a5",
+      "gitBlob": "2cc3df7e72f5c08e8ca5b68f30e8294847b72433"
+    },
+    {
+      "path": "src/thermal.js",
+      "bytes": 2748,
+      "sha256": "2236a484ee70de1e6f6ff2fcf93b811ac8808ae0c17fd6700e375d68e82e3a01",
+      "gitBlob": "4aad3aa65828a6cacd702896799982e69dc2d06c"
+    },
+    {
+      "path": "src/three/app.js",
+      "bytes": 24872,
+      "sha256": "7db8188bbea348533d371c734b84a5b3e54caf19275952ea9e568c47b0b84abf",
+      "gitBlob": "69aa98320cc7a1853e56e5af39ecd32ab54370b4"
+    },
+    {
+      "path": "src/three/cad-geometry.js",
+      "bytes": 5091,
+      "sha256": "ac3b134746525203a34d7670bd0e4cb614c02387a0d61dfd0aea6d1a773c13f1",
+      "gitBlob": "7ba94858035823822fcd3c96459b3f593c1d1902"
+    },
+    {
+      "path": "src/three/cad-profiles.js",
+      "bytes": 3457,
+      "sha256": "ba41dbcc2f57741fc46f61b629caaadfdac4c327272e01b500597e90337c4344",
+      "gitBlob": "3c78f388be35aec69d57fe99b407f7d53a5b04a6"
+    },
+    {
+      "path": "src/three/cad-surface-render.js",
+      "bytes": 8623,
+      "sha256": "3a44e263e15b1e11f303569b43f8f1d110c84193d86adcf29012df46ac87eb1f",
+      "gitBlob": "2248dc7110bc21ca96bb455512c6f1e5d72cfea9"
+    },
+    {
+      "path": "src/three/cad-surfaces.js",
+      "bytes": 4757,
+      "sha256": "67c0a9edb65c3e1e4c2967e7ebfabea8affcb660d38726585f73d12c656ba2ed",
+      "gitBlob": "9cdec055328658aa17b71847ae31e52bdd20c5e8"
+    },
+    {
+      "path": "src/three/cad-tools.js",
+      "bytes": 5485,
+      "sha256": "b0d50e85d6235f1ea16512dd6b5feea16b6677d3353c9e386ae02e2c14ac1c5d",
+      "gitBlob": "1efbd08c659757c974587957bf403b480e3f27cb"
+    },
+    {
+      "path": "src/three/constitutive.js",
+      "bytes": 6244,
+      "sha256": "103424e3d39336062231215d886b159b93aca396af2aa93461d6c497957d7df4",
+      "gitBlob": "9484b349ec45d4ff49398d68a4ef80de0088a9af"
+    },
+    {
+      "path": "src/three/discretization.js",
+      "bytes": 4567,
+      "sha256": "3f056915b7fb634a9fae82e35382a607f7b40451f1f6afec088ccdc18fc721b1",
+      "gitBlob": "2a6d4a17b9d22489794605a6bfff0f47a451112a"
+    },
+    {
+      "path": "src/three/display-settings.js",
+      "bytes": 4335,
+      "sha256": "5c5f4749edeb5b78fad06c3d04bfebf89a5eb1fe455dd70224c29e93a4f32875",
+      "gitBlob": "1cb953ca9c6bc8630b4ec84be8269c3f96548c82"
+    },
+    {
+      "path": "src/three/experiment-ui.js",
+      "bytes": 12576,
+      "sha256": "3bfe79f985c0ce9d0da4721e0cdd4a405ecbd0516ad646f8448fd1d60d58defd",
+      "gitBlob": "47abaf0cbfcd19187d44f22760e9194a7ace6d6a"
+    },
+    {
+      "path": "src/three/fracture.js",
+      "bytes": 1032,
+      "sha256": "bb4fff5b2ad70c941a958c559dcef6d541de28d923231a90265d34dcc73ef922",
+      "gitBlob": "470e4595fabd5c1d763d94c7e80af3288016aa91"
+    },
+    {
+      "path": "src/three/gpu-worker.js",
+      "bytes": 3831,
+      "sha256": "2c3e81a5b049af19603467f0004db5b072d6826eb859ba25fcf76df9268c3302",
+      "gitBlob": "99caf528592116e1297c28f86ace54b45f579010"
+    },
+    {
+      "path": "src/three/gravity-options.js",
+      "bytes": 1705,
+      "sha256": "691d6b38481da58070c354a0c037676c7b130c849d4d0120ea9fde6987fd9cad",
+      "gitBlob": "de6f41fa31ca454ffb6335a009c535bd44f79da0"
+    },
+    {
+      "path": "src/three/grid-coordinates.js",
+      "bytes": 15387,
+      "sha256": "deb96adf25bbc71c7074d7d9ad04fbf954e33f6a798e78b1976e9eaacd0ddbc7",
+      "gitBlob": "0aba331f19be03a827ba167bb48ea9f8dd86a0ab"
+    },
+    {
+      "path": "src/three/index-wave.js",
+      "bytes": 3442,
+      "sha256": "461b645dfc8f0f9fff696f5fcb64155b34457425254903e24b7abe1b38984703",
+      "gitBlob": "c4f8c6640553e5299670525167bf3a3259b389dd"
+    },
+    {
+      "path": "src/three/laboratory.js",
+      "bytes": 3082,
+      "sha256": "7f8f2f8123b6d0d4dd36215f9e16be1ff557f64e69888a6305fe448acd037e7e",
+      "gitBlob": "ccd11532fb3c67bceee53f664f49877629171bba"
+    },
+    {
+      "path": "src/three/locale.js",
+      "bytes": 42811,
+      "sha256": "26869a931083a4cc167a29e3dcd255c904dc26fd3b25838a868a757acf5d7ff4",
+      "gitBlob": "247df2415b72fa2c860174143aac1e5cbf00106e"
+    },
+    {
+      "path": "src/three/math.js",
+      "bytes": 1394,
+      "sha256": "f70cc59b3205a1ef74722e02b7c64efef08b44ff937e1b96493fa835084c1510",
+      "gitBlob": "032142989bcc9760a7b7bdb33528ce1948714af8"
+    },
+    {
+      "path": "src/three/metal-plasticity.js",
+      "bytes": 2116,
+      "sha256": "518a5c991c1345756902ba88084ad7ce8bf5fe2e5aa4f222ce5f851bb72d3bbd",
+      "gitBlob": "8b94a9dfa2a288612dd5c41edcef5caf63e3eb44"
+    },
+    {
+      "path": "src/three/modeling-ui.js",
+      "bytes": 7632,
+      "sha256": "e8ece009fb9e7da60dfbb32307c631c742fa1828f0b4b6d24ce4bced6ea48946",
+      "gitBlob": "99ba9de635f5aaac803687c3b612bbbbce1b2ae3"
+    },
+    {
+      "path": "src/three/mpm.js",
+      "bytes": 8753,
+      "sha256": "b1ba2a8bfae65271eba6ac5412e5d4e54fdf8920149791832cfc199b5a70489c",
+      "gitBlob": "6594a566d9bec8fdf6fc9fb075bd3cdc19df2b92"
+    },
+    {
+      "path": "src/three/particle-lighting.js",
+      "bytes": 752,
+      "sha256": "d88ed4091560070100200a861d53617a1c14abdd1768b4465199b9ef9c82b166",
+      "gitBlob": "bbf069b30b413a8c89bd5598d601c8e608d9adb1"
+    },
+    {
+      "path": "src/three/phase-change-ui.js",
+      "bytes": 1825,
+      "sha256": "b879264ba8aaf0363860c6eaee90cc3cb5597de2f5db4645ed43ce77fe8b1851",
+      "gitBlob": "7360ede057a8f5e0c381346ee27dec54699eed46"
+    },
+    {
+      "path": "src/three/phase-change.js",
+      "bytes": 1221,
+      "sha256": "28f80f16be931b13d2e2a1f9a252017f7056e0ee4332761c19dfc13ad1bf7819",
+      "gitBlob": "3a5e9bcdd3be61ea1e46d657222d47c83ed6af51"
+    },
+    {
+      "path": "src/three/plasticity-ui.js",
+      "bytes": 2730,
+      "sha256": "b45472ab17508bb4bb2381bd747c6e5a0d55c73911c26e4cf8620fd886f79821",
+      "gitBlob": "3f4a252243cfeee9bb71a839769f32da7a57a7cd"
+    },
+    {
+      "path": "src/three/pressure-plasticity.js",
+      "bytes": 2580,
+      "sha256": "4fb10843cf52ceb4bdd77df067108e94d153148b4e28be7f28ef3d247ae291ec",
+      "gitBlob": "39330a7cbf73d03f81c5615e950f4a215279c4b1"
+    },
+    {
+      "path": "src/three/pressure-ui.js",
+      "bytes": 2582,
+      "sha256": "877eaa72d4b6932822237179abb67bc3a36c050b4a38aaa5258504173fa5929b",
+      "gitBlob": "09bc5984a7e2a21c2f8629a63a5db7dbb0b75884"
+    },
+    {
+      "path": "src/three/renderer.js",
+      "bytes": 11289,
+      "sha256": "1b7b5102f970b414389a3d84312c3e31290897eca436e6182b6edb40bc9e8192",
+      "gitBlob": "93423419558890a404d5602e6f0611a2f155bd80"
+    },
+    {
+      "path": "src/three/run-control.js",
+      "bytes": 911,
+      "sha256": "c9d317e7326c96cbf373473cf91456332e0bdc7f9401f1e004cecdce4cc4575b",
+      "gitBlob": "898e887a3417c549393a3fad20534809c6b23264"
+    },
+    {
+      "path": "src/three/sampling.js",
+      "bytes": 1597,
+      "sha256": "929fc0e9dc893a2e63db197d0b31f5711f9ad5d2468e9c69a7995e26dd8f50b0",
+      "gitBlob": "09ba6d139795e0a623b649a9a6eef864a20b9868"
+    },
+    {
+      "path": "src/three/simulation.js",
+      "bytes": 30195,
+      "sha256": "e7a19629955624c62e9866c2e7b40d4524ac111918b010628b31fa4be22830ce",
+      "gitBlob": "fa03cbe333dd60216d42148f2e9709f074d81f30"
+    },
+    {
+      "path": "src/three/solid-sampling.js",
+      "bytes": 2397,
+      "sha256": "6aaf445d39adee20ce39c4f682f968ccd4814a7cc28c07d7088c5d9637fa9b7a",
+      "gitBlob": "bf763f2598ed13a896599caa2c7cd006931e292f"
+    },
+    {
+      "path": "src/three/style.css",
+      "bytes": 3723,
+      "sha256": "a79f8e8e46e4c7c4af1e71bd7db206c72037c6095768fcf9b65aa72650dc04d7",
+      "gitBlob": "6031f800a6fc24eec3f059c274b2f6d5c0aeecea"
+    },
+    {
+      "path": "src/three/thermal-material-ui.js",
+      "bytes": 2869,
+      "sha256": "f2173cd25c2234bae03c132f412245b28b9ba1071b474e41807478ae5644d983",
+      "gitBlob": "e6f53f41eed847c80226b3529484fe56b5954d36"
+    },
+    {
+      "path": "src/three/thermal-plasticity.js",
+      "bytes": 2252,
+      "sha256": "aee0db3f7d62918630086d74c64f829cc4406eeea6dd864ce607f4db03e47d6a",
+      "gitBlob": "053296215cb21bc808a7c1025abb93eec077247d"
+    },
+    {
+      "path": "src/three/time-history.js",
+      "bytes": 1783,
+      "sha256": "3a1260d1bf9446a41ec2e7fc9ee040d4415943bf8895e506d27fe29c2450dabf",
+      "gitBlob": "b125eb98be20464688a1f2654d52b4fdcacbf6b1"
+    },
+    {
+      "path": "src/three/workbench.css",
+      "bytes": 16808,
+      "sha256": "648352175f4107ba8255b7e26c018d16c18378a8fccbbf6061c75b2d23e000c2",
+      "gitBlob": "89424c55afdbe958f13a6110403ebd944d26f6f1"
+    },
+    {
+      "path": "src/three/workbench.js",
+      "bytes": 16310,
+      "sha256": "7a087b77fcc35faaaf2b69d8f50fef41ed4146386f4011f5faaf8c7e6770c6b6",
+      "gitBlob": "36e106c28e0577f80b630884c76b1f1e8d635eb2"
+    },
+    {
+      "path": "src/three/worker.js",
+      "bytes": 2365,
+      "sha256": "1c1801598e8c603f8ed7cc94e58d54d84d8a800dc740fab6ed5fca9666cd4a9b",
+      "gitBlob": "3c31fdf44135c69be6f817965d69f3e23e373e87"
+    },
+    {
+      "path": "src/worker.js",
+      "bytes": 2865,
+      "sha256": "1b4cd29f03a6c6d1033bcdd9a60b31db1a8b670fa192a0c97e7453965cc859af",
+      "gitBlob": "16b701aa4fa9eb87968fd7b46c5ec8afad01bb19"
+    },
+    {
+      "path": "style.css",
+      "bytes": 19429,
+      "sha256": "9543c1f4e78ee7de654ea4a5cc8ec0b9f5f9e8e4865cf341fb8e1e83611d742b",
+      "gitBlob": "0c0c07c06b599ae4db38304b5dc99aea182d753d"
+    }
+  ],
+  "relatedEvidence": [
+    "docs/cad-dependencies.lock.json",
+    "docs/cad-source-evidence.json",
+    "docs/runtime-license-evidence.json"
+  ],
+  "limitations": [
+    "Initial Git history is an aggregate import, not a complete record of earlier creation.",
+    "Pinned comparison revisions are review snapshots, not verified original development revisions.",
+    "Limited similarity checks do not establish universal originality, absence of infringement or legal compatibility.",
+    "This record preserves known references; no numerical or graphical implementation was rewritten in this review.",
+    "Manuals, proprietary binaries, private license documents and local audit artifacts are excluded from the source distribution.",
+    "Full native binary/offline/container/service distribution, including TetGen/Triangle and embedded runtimes, requires a separate review of the actual distribution and applicable terms.",
+    "No global trademark search or engineering correctness certification is claimed."
+  ]
+}

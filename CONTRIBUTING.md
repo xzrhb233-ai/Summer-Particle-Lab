@@ -1,6 +1,6 @@
 # Contributing
 
-Project-owned code uses the [MIT License](LICENSE). Public contribution intake remains pending completion of the source-rights and release checks. The following workflow describes the intended review standard.
+Project-owned code uses the [MIT License](LICENSE). Contributions must have a verified right to be submitted under the applicable terms; preserve third-party notices and identify any other license requirements. The [source review](docs/SOURCE_RELEASE_REVIEW.md) documents the current baseline and does not automatically cover later contributions.
 
 ## Reproduce first
 

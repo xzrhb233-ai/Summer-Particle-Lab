@@ -1,23 +1,25 @@
 # 第三方依赖与参考来源
 
-本文记录发布前可核验的依赖、许可和出处，范围为当前源码、安装清单、锁文件及已安装发行包的元数据。维护者已为项目自身拥有权利的代码选择 [MIT 许可证](../LICENSE)，署名为 `xzrhb233-ai and contributors`。这不证明整个依赖栈采用统一许可，也不替代尚未完成的来源权利核查；第三方依赖的条款继续独立适用。
+本文记录当前源码、安装清单、锁文件和已核对发行包的依赖、许可与出处。截至 **2026-11-05**，本次源码分发范围的 CAD 与非 CAD 来源登记及识别出的通知缺口已完成处理，见 [源码来源核查报告](SOURCE_RELEASE_REVIEW.md)、[源码证据清单](source-release-evidence.json) 与 [运行依赖证据](runtime-license-evidence.json)。完整二进制、离线包、容器及服务的分发条件另行核对。
+
+维护者为项目自身拥有权利的代码选择了 [MIT 许可证](../LICENSE)，署名为 `xzrhb233-ai and contributors`。第三方条款继续独立适用；本轮结论不证明全部代码原创、整个依赖栈采用统一许可或已获完整法律批准，也不表示仓库已经公开。
 
 ## 直接运行时依赖
 
 | 组件 | 固定版本与用途 | 许可证据 | 本项目入口 |
 | --- | --- | --- | --- |
-| `@dimforge/rapier3d-compat` | `0.19.3`；刚体/多体动力学，内联 WASM 的 JS 包 | 安装包 `package.json` 为 `Apache-2.0`；[官方 JS 仓库 LICENSE](https://github.com/dimforge/rapier.js/blob/master/LICENSE) | `package.json`、`pnpm-lock.yaml`、`src/multibody/engine.js`、`src/mixed/rigid-geometry.js` |
-| `taichi` | `1.7.4`；可选本机 GPU 求解器 | 安装包元数据及 [v1.7.4 LICENSE](https://github.com/taichi-dev/taichi/blob/v1.7.4/LICENSE)：Apache-2.0 | `gpu/requirements.txt`、`gpu/runtime.py` |
-| `websockets` | `15.0.1`；GPU 服务与浏览器的本机 WebSocket 通信 | 安装包元数据及 [15.0.1 LICENSE](https://github.com/python-websockets/websockets/blob/15.0.1/LICENSE)：BSD-3-Clause | `gpu/requirements.txt`、`gpu/server.py`、`gpu/project_server.py`、`gpu/mixed_server.py` |
+| `@dimforge/rapier3d-compat` | `0.19.3`；刚体/多体动力学，内联 WASM 的 JS 包 | 包元数据为 Apache-2.0；已从与 npm `gitHead`/版本 tag 一致的固定源码补入 [完整 LICENSE](../third_party/runtime/rapier3d-compat-0.19.3/LICENSE) | `package.json`、`pnpm-lock.yaml`、`src/multibody/engine.js`、`src/mixed/rigid-geometry.js` |
+| `taichi` | `1.7.4`；可选本机 GPU 求解器 | Apache-2.0；固定源码与安装包许可在换行归一后相同，已保存 [完整 LICENSE](../third_party/runtime/taichi-1.7.4/LICENSE) | `gpu/requirements.txt`、`gpu/runtime.py` |
+| `websockets` | `15.0.1`；GPU 服务与浏览器的本机 WebSocket 通信 | BSD-3-Clause；固定源码与安装包许可在换行归一后相同，已保存 [完整 LICENSE](../third_party/runtime/websockets-15.0.1/LICENSE) | `gpu/requirements.txt`、`gpu/server.py`、`gpu/project_server.py`、`gpu/mixed_server.py` |
 | `numpy` | `2.5.4`；GPU/CAD 数组运算 | NumPy 主体为 BSD-3-Clause；已安装 wheel 的 `METADATA` 还列出 `0BSD AND MIT AND Zlib AND CC0-1.0`，二进制包含其他组件，须保留其完整 notices；[官方发行页](https://pypi.org/project/numpy/2.5.4/) | `gpu/requirements.txt`、`cad/requirements.txt` |
 | `usd-brep` | `1.0.1`；可选 BRep CAD 内核，界面称为 SMLib | NVIDIA 编写部分 Apache-2.0；wheel 同时含 OpenUSD 等第三方组件，详见下文及[官方第三方清单](https://github.com/NVIDIA-Omniverse/usd-brep/blob/main/THIRD_PARTY_NOTICES.md) | `cad/requirements.txt`、`cad/worker.py`、`cad/curves.py`、`cad/surfaces.py` |
 | `meshpy` | `2026.1.1`；CAD 的四面体体网格生成 | 封装为 MIT；包中 TetGen、Triangle 各有独立条款；[官方 LICENSE](https://github.com/inducer/meshpy/blob/main/LICENSE) | `cad/requirements.txt`、`cad/meshing.py` 的 `meshpy.tet` 导入 |
 
-版本来自仓库固定依赖和安装包元数据，不把上游 `main` 分支当作固定版本的完整证据。具体发布物仍应以对应版本的 wheel/npm tarball 内许可文件为准。
+版本来自仓库固定依赖和安装包元数据，不把上游 `main` 分支当作固定版本的完整证据。Rapier、Taichi 与 websockets 的源码提交、原文地址、哈希及核对结果见 [运行依赖通知索引](../third_party/runtime/README.md) 和 [runtime-license-evidence.json](runtime-license-evidence.json)。具体发布物仍需核对对应版本的 wheel/npm tarball 及其内含组件。
 
 ## CAD：USD BRep、OpenUSD 与网格生成器
 
-**2026-11-05 CAD 专项核查已完成组件、许可原文及源码来源登记**，详见 [CAD_LICENSE_REVIEW.md](CAD_LICENSE_REVIEW.md)。三个安装包与对应 PyPI Windows wheel 逐文件一致；源码提交、包哈希及 36 份原文副本见 [证据清单](cad-dependencies.lock.json) 和 [通知索引](../third_party/cad/README.md)。维护者已确认 CAD 代码与示例在本项目中生成，技术检查与声明分别记录。本轮限定为源码发布准备，未放行完整二进制/闭源商业 CAD 包，也不替代全项目来源审查。
+**2026-11-05 CAD 专项核查已完成组件、许可原文及源码来源登记**，详见 [CAD_LICENSE_REVIEW.md](CAD_LICENSE_REVIEW.md)。三个安装包与对应 PyPI Windows wheel 逐文件一致；源码提交、包哈希及 36 份原文副本见 [证据清单](cad-dependencies.lock.json) 和 [通知索引](../third_party/cad/README.md)。维护者已确认 CAD 代码与示例在本项目中生成，技术检查与声明分别记录。CAD 之外的来源与通知已由 [源码来源核查](SOURCE_RELEASE_REVIEW.md) 补充处理；两者均未放行完整二进制/闭源商业 CAD 包。
 
 本项目通过 Python 包 `usd-brep==1.0.1` 调用内核；不是把上游 C++ 源码复制进本仓库。该发行包要求 64 位 CPython 3.12，并捆绑 OpenUSD 25.11。安装与平台条件见[该版本发行说明](https://pypi.org/project/usd-brep/1.0.1/)。
 
@@ -67,13 +69,17 @@ node_modules/@dimforge/rapier3d-compat/package.json
 .venv-cad/Lib/site-packages/meshpy-2026.1.1.dist-info/licenses/LICENSE
 ```
 
-当前检查的 Rapier npm 安装目录含 `package.json` 中的 Apache-2.0 声明，但没有单独的 `LICENSE` 文件。若重新打包 Rapier/WASM，应从相应上游版本补齐所需许可文本和通知，并核对发布物；本清单中的链接不是随包许可文本的替代品。
+Rapier npm 安装目录原先没有单独的 `LICENSE` 文件；本轮已从精确匹配的源码提交 `0fd32c1cbbc7018af36f09b190c16ce72fbb9301` 补入 [Apache-2.0 原文](../third_party/runtime/rapier3d-compat-0.19.3/LICENSE)。官方 npm tarball 的完整性与全部 50 个安装文件已核对一致。源码仓库保存通知文本，不包含 npm 包；安装后由本机服务向浏览器提供 Rapier JS/内联 WASM 是另一个运行路径。再分发该运行内容时仍应随包保留所需通知，并核对实际发布物；三份直接运行依赖许可证不是完整原生/传递依赖清单。
 
 ## 设计与概念参考
 
-界面设计和数值文献参考见 [PROVENANCE.md](PROVENANCE.md)。该记录不是完整的来源清单；产品名称和界面中的宣传链接调整不改变相关义务。它不是逐行来源鉴定，也不能证明全部历史代码均为原创。
+界面设计、数值文献及实现谱系见 [PROVENANCE.md](PROVENANCE.md)。本轮已补齐下列已记录实现参考的许可文本，并在 [源码证据清单](source-release-evidence.json) 保存本地映射和哈希；产品更名不改变这些参考事实。
 
-RhineLabUI 上游 [LICENSE](https://github.com/LBEILC/RhineLabUI/blob/main/LICENSE) 为 MIT，署名 LBEILC。当前界面使用原生 DOM/CSS；本次入口检查未发现该项目运行时或 3D 资产导入。若实际复制了源码或资产，需要核实并保留相应通知，不能用“风格参考”替代这一检查。
+- [数值实现通知](../third_party/numerics/README.md)：Taichi MPM Authors 与 Taichi Elements Developers 的独立 MIT 通知。MLS-MPM/APIC、雪与砂的已知实现参考/适配继续保留，不能被 Taichi 运行时的 Apache-2.0 替代。
+- [UI/着色器通知](../third_party/ui/README.md)：固定 RhineLabUI 的设计/交互比较快照并保存 LBEILC MIT 原文；为优化高斯滤波的公开实现参考保存 Jam3 MIT 原文。通用 CSS 或标准滤波系数的相同不独立证明复制链。
+- 三角形最近点例程已登记 Ericson 的 Voronoi 区域算法谱系；有限相似性不足以认定实际复制了 Three.js 或 Bullet，未虚构这些依赖或许可关系。
+
+维护者确认非 CAD 代码、图标及示例在本项目中生成，没有登记依赖之外的额外复制/导入；参考商业软件是允许其研究/开发用途的正式授权版本。以上作为维护者声明保存，不是独立权利证明，也不覆盖商业手册、截图、源码或素材的再分发权。已知公开实现参考/适配与必要署名照常保留，本地参考资料和授权文件不进入源码候选。内联 favicon、logo、20 个 SVG 图标、纹理和字体入口已检查；简单线段相同未被当作 Lucide/Feather 复制或运行依赖的证据。
 
 ### Three.js 与 CDN
 
@@ -81,12 +87,12 @@ RhineLabUI 上游 [LICENSE](https://github.com/LBEILC/RhineLabUI/blob/main/LICEN
 
 当前 Rapier 从本地 `node_modules` 导入。检索到的外部 URL 包括来源署名、文档链接及用户选择的 AI API 地址；它们与 CDN 运行时依赖不同。此结论限于本次检查的入口和源码，不覆盖用户后来导入的文件、模型服务或浏览器扩展。
 
-## 发布前尚待确定
+## 本轮完成范围与后续分发条件
 
-1. 根项目已选择 MIT 并添加 LICENSE；仍需完成代码与贡献的权利核查。该许可不重新授权第三方组件，第三方清单也不构成来源授权证明。
-2. CAD 的本轮分发范围已确定为源码及许可文本，依赖身份、许可原文和 CAD 来源核查见专项报告。若制作完整运行包或商业部署，另行完成 TetGen/Triangle 的适用授权及原生运行库再分发证据，不能沿用“源码审查通过”作为二进制放行结论。
-3. 是否提供二进制/离线包。若提供，需补齐实际包的组件与许可文本，尤其是 Rapier、USD BRep、NumPy 和 Taichi 内嵌库。
-4. CAD 已记录维护者来源确认、42 文件证据和有限上游比较；其余源码与素材仍需核对，包括 [PROVENANCE.md](PROVENANCE.md) 中的算法和 UI 参考，以及本地保存、不随源码发布的其他参考资料记录。产品已更名 Summer；旧名称的移除不完成权利核实，也不构成权利转让。
-5. Python 间接依赖和跨平台 wheel 哈希锁定。目前可以复现直接版本约束，不能承诺字节一致或跨硬件数值一致的环境。
+1. 当前源码、项目示例、文档与通知文本的来源登记及本轮识别通知缺口已完成处理；新增贡献、素材或依赖时继续更新证据。根 MIT 不重新授权第三方组件，源码核查不等于全部代码原创或完整法律批准。
+2. 完整运行包、离线安装包、容器或服务另按实际内容审查：核对 TetGen/Triangle 的适用许可路径、原生运行库及传递依赖条件。不能沿用源码范围的完成结论作为二进制/闭源商业包放行结论，也不把未制作发布物的条件一概视作当前源码核查未完成。
+3. 三份运行依赖原文和 CAD 通知已保存；再分发 Rapier/WASM、USD BRep、NumPy、Taichi 及其内嵌库时，继续核对确切版本、平台和完整组件/通知清单。
+4. Python 全量间接依赖、跨平台 wheel 哈希和内嵌运行库的锁定仍未完成。目前固定直接版本，不承诺字节一致或跨硬件数值一致的环境。
+5. 仓库可见性、最终提交 CI、私密漏洞报告渠道和正式 release 是独立的发布操作，执行状态见 [发布检查表](OPEN_SOURCE_CHECKLIST.md)；本文件不宣称仓库已经公开或软件包已经发布。
 
 安装步骤见 [INSTALL.md](INSTALL.md)，数值证据的适用范围见 [VV.md](VV.md)。

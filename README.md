@@ -2,7 +2,7 @@
 
 A local, browser-based multiphysics workbench for exploring **MPM solids, FEM, PBF fluids, rigid bodies and thermal coupling**. It includes optional native CAD modeling, a restricted AI command interface, and tools for numerical verification and experimental comparison.
 
-**Status: research software, v0.71.0; preparing for public release.** Project-owned code is licensed under [MIT](LICENSE). Third-party redistribution and source-rights reviews are still pending, so this repository remains private during release preparation. See the [release checklist](docs/OPEN_SOURCE_CHECKLIST.md) and [third-party inventory](docs/THIRD_PARTY.md).
+**Status: research software, v0.71.0.** Project-owned code is licensed under [MIT](LICENSE). The [source distribution review](docs/SOURCE_RELEASE_REVIEW.md) records the inspected dependencies, retained notices, maintainer source statements and limits of the review. Packaged native applications require a separate redistribution review. See the [release checklist](docs/OPEN_SOURCE_CHECKLIST.md) and [third-party inventory](docs/THIRD_PARTY.md).
 
 ## Start with the CPU workbench
 
@@ -43,7 +43,7 @@ pnpm validate:vv     # independent CPU V&V report in artifacts/
 pnpm check:release   # stricter publication gate; missing project LICENSE blocks it
 ```
 
-The test runner discovers files without shell wildcard expansion. Run `node scripts/test.mjs --list` to inspect the core/native classification. Core tests with GPU-related names exercise JavaScript adapters or CPU/mock paths; they do **not** claim a GPU hardware run. The [CI workflow](.github/workflows/ci.yml) runs Node 22/24 core jobs on Linux and Windows, plus a separate Linux native CAD job. All five jobs [passed on commit `aa104ea`](https://github.com/xzrhb233-ai/Summer-Particle-Lab/actions/runs/42133095524) on 2026-11-05; subsequent revisions need their own checks.
+The test runner discovers files without shell wildcard expansion. Run `node scripts/test.mjs --list` to inspect the core/native classification. Core tests with GPU-related names exercise JavaScript adapters or CPU/mock paths; they do **not** claim a GPU hardware run. The [CI workflow](.github/workflows/ci.yml) runs Node 22/24 core jobs on Linux and Windows, plus a separate Linux native CAD job. All five jobs [passed on the reviewed implementation baseline `22c9f16`](https://github.com/xzrhb233-ai/Summer-Particle-Lab/actions/runs/42138730503); subsequent revisions need their own checks.
 
 Local release-preparation evidence (Windows, Node 24.22.1): **726/726** selected tests passed with zero skips. An isolated pnpm 10.19.0 cold install preserved the lockfile and passed CPU FEM, Rapier and HTTP smoke checks. Details and unexecuted checks are in the [release checklist](docs/OPEN_SOURCE_CHECKLIST.md).
 
@@ -65,8 +65,8 @@ See [architecture and data flow](docs/ARCHITECTURE.md), [contribution guidance](
 
 ## Attribution and release licensing
 
-Design references, numerical sources and the outstanding source-rights review are recorded in [PROVENANCE.md](docs/PROVENANCE.md). Summer is an independent project; the product rename does not change third-party rights or imply affiliation or endorsement.
+Design references and numerical sources are recorded in [PROVENANCE.md](docs/PROVENANCE.md). The [source review](docs/SOURCE_RELEASE_REVIEW.md) distinguishes file evidence, implementation references, maintainer statements and unresolved distribution scopes. Summer is an independent project; the product rename does not change third-party rights or imply affiliation or endorsement.
 
-The maintainer selected the [MIT License](LICENSE) for project-owned code, allowing commercial use, modification and distribution, including closed-source reuse, while retaining the copyright and license notices. This grant does not relicense third-party code, dependencies or assets and does not certify that the source-rights review is complete.
+The maintainer selected the [MIT License](LICENSE) for project-owned code, allowing commercial use, modification and distribution, including closed-source reuse, while retaining the copyright and license notices. This grant does not relicense third-party code, dependencies or assets. Complete notice texts are retained under [third_party](third_party); the review does not claim universal originality or provide a legal certification.
 
 Dependencies retain their own licenses. The [CAD review](docs/CAD_LICENSE_REVIEW.md) records exact upstream revisions, verified wheel hashes, 36 original notice texts, generated-example evidence and the maintainer's CAD source statement. MeshPy combines TetGen and Triangle in one extension, with terms separate from the MIT wrapper. This source repository does not bundle those native packages; complete binary/closed-source CAD redistribution has not been cleared. The project MIT license does not make the complete stack MIT. See [THIRD_PARTY.md](docs/THIRD_PARTY.md) before distributing source bundles, native wheels or packaged applications.
