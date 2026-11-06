@@ -370,6 +370,13 @@ Triangle notices. The volume path uses TetGen; it does not call Triangle.
 Retain upstream notices and review the selected distribution terms when
 bundling the dependencies.
 
+The [2026-11-05 CAD license/source review](../docs/CAD_LICENSE_REVIEW.md) pins
+upstream revisions and verified Windows wheel hashes and retains 36 original
+license texts. Although this application calls only `meshpy.tet`, the examined
+MeshPy build combines TetGen and Triangle in one extension. The repository's
+source-only scope is distinct from redistributing its complete native runtime;
+no commercial license or full binary redistribution clearance is asserted.
+
 ## AI modeling workflow (v0.66)
 
 1. Open **AI 助手**, configure the provider, model and memory-only API key.

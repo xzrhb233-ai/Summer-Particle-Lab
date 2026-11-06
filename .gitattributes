@@ -9,3 +9,5 @@
 *.yml text eol=lf
 *.yaml text eol=lf
 *.ps1 text eol=crlf
+# Preserve upstream notice bytes so the CAD evidence hashes survive checkout.
+third_party/cad/** -text

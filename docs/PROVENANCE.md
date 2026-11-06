@@ -30,6 +30,12 @@ Summer 是独立项目，不是上述项目的官方版本。
 | 自引力 | [Princeton Barnes–Hut 介绍](https://fpretori.scholar.princeton.edu/n-body-simulations-introduction) | 分层自引力近似参考；规模演示不等于精度或性能保证。 |
 | 热物性 | [NIST 水物性](https://www.nist.gov/programs-projects/contributions-international-standards-properties-water)、[冰与过冷水](https://www.nist.gov/publications/properties-ice-and-supercooled-water)、[铁热化学](https://webbook.nist.gov/cgi/cbook.cgi?ID=C7439896&Mask=A) | 固定参考近似与代表性参数，不是全温压区间拟合。 |
 
+## CAD 来源核查（2026-11-05）
+
+CAD 的组件、固定源码版本、许可证和本地实现映射已单独记录在 [CAD_LICENSE_REVIEW.md](CAD_LICENSE_REVIEW.md)。维护者明确确认，除安装的 usd-brep、MeshPy 和 NumPy 外，没有另行复制或导入其他软件的 CAD 代码、模型或素材，CAD 代码与示例均在本项目开发过程中生成。该声明与技术证据分别保存，不被表述为独立作者权利证明。
+
+本轮核对了 42 个 CAD 文件、5 个 Python 适配文件对固定上游源码的有限相似性筛查，以及穿孔块示例的精确重建；未识别出须另行登记的第三方复制实现。详细结果与限制见 [CAD 源码证据清单](cad-source-evidence.json)。这项 CAD 核查不扩展为数值实现、旧参考资料或界面资产的全项目通过结论；内联 favicon、logo、SVG 图标和纹理亦应纳入后续素材核查。
+
 ## 发布前复核
 
 维护者需确认具体复制片段、算法实现、素材和贡献的来源，记录许可依据与所需通知，并完成 [发布检查 R17–R20](OPEN_SOURCE_CHECKLIST.md)。现有来源表不构成授权证明，也未覆盖全部参考资料。

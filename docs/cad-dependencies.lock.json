@@ -1,0 +1,408 @@
+{
+  "schema": "summer-cad-dependency-evidence/1",
+  "reviewDate": "2026-11-05",
+  "observedUtc": "2026-11-06T00:32:14.004827+00:00",
+  "auditedBaseCommit": "7401cd51eadc90b9a5cc0ca15afac10a512c9965",
+  "scope": "Pinned CAD packages, observed CPython 3.12 Windows AMD64 wheels, their shipped notices and referenced source distributions. No binary redistribution approval.",
+  "installationLock": false,
+  "packages": [
+    {
+      "name": "usd-brep",
+      "version": "1.0.1",
+      "metadataLicenseExpression": "Apache-2.0 AND LicenseRef-TOST-1.0 AND BSD-2-Clause AND BSD-3-Clause AND MIT AND BSL-1.0",
+      "sourceRepository": "https://github.com/NVIDIA-Omniverse/usd-brep",
+      "sourceRevision": "3fd5b9548d19aa8c12c29bc9637a96d42a06f8a5",
+      "pypiMetadataUrl": "https://pypi.org/pypi/usd-brep/1.0.1/json",
+      "installedRecordCheck": {
+        "verified_files": 207,
+        "issues": []
+      },
+      "distributions": [
+        {
+          "filename": "usd_brep-1.0.1-cp312-cp312-win_amd64.whl",
+          "url": "https://files.pythonhosted.org/packages/e7/36/e40176b4172ffcaf29ffb760e8747da5766bc87451be587639ab5030cb0f/usd_brep-1.0.1-cp312-cp312-win_amd64.whl",
+          "sha256": "f574296194863b317d70ffc22ca739f8b046c1d8aa44eee32e16395b1a1e59e6",
+          "size": 17632209,
+          "type": "bdist_wheel",
+          "installedComparison": {
+            "identical_files": 205,
+            "missing": [],
+            "different": [],
+            "note": "RECORD excluded because installers may regenerate it; installed RECORD was checked separately."
+          }
+        },
+        {
+          "filename": "usd-brep-v1.0.1-source.tar.gz",
+          "url": "https://codeload.github.com/NVIDIA-Omniverse/usd-brep/tar.gz/3fd5b9548d19aa8c12c29bc9637a96d42a06f8a5",
+          "sha256": "6b45c5345ef6681f4efe8b2df4db258533ae9c7ec4a3a96f6db79761de9be1e3",
+          "size": 15338088,
+          "type": "upstream-source-archive"
+        }
+      ]
+    },
+    {
+      "name": "meshpy",
+      "version": "2026.1.1",
+      "metadataLicenseExpression": null,
+      "sourceRepository": "https://github.com/inducer/meshpy",
+      "sourceRevision": "8da82ffd160091dc8f0b5e07dfcccea6fd2bc66a",
+      "pypiMetadataUrl": "https://pypi.org/pypi/meshpy/2026.1.1/json",
+      "installedRecordCheck": {
+        "verified_files": 19,
+        "issues": []
+      },
+      "distributions": [
+        {
+          "filename": "meshpy-2026.1.1-cp312-cp312-win_amd64.whl",
+          "url": "https://files.pythonhosted.org/packages/7c/a0/d1f300315446bc2369de456ed341742850417d53244a4c6b80abf6b98012/meshpy-2026.1.1-cp312-cp312-win_amd64.whl",
+          "sha256": "9d96a72eaeaa88c3e6d9f06417126a781c8a3fe2ef3b22ba5abc5e9544a67372",
+          "size": 1611953,
+          "type": "bdist_wheel",
+          "installedComparison": {
+            "identical_files": 17,
+            "missing": [],
+            "different": [],
+            "note": "RECORD excluded because installers may regenerate it; installed RECORD was checked separately."
+          }
+        },
+        {
+          "filename": "meshpy-2026.1.1.tar.gz",
+          "url": "https://files.pythonhosted.org/packages/70/a9/f9c2f8d57790fc4c0013a3c8d7a35063a39ac40d7e0672593be1dec9a628/meshpy-2026.1.1.tar.gz",
+          "sha256": "21376b339a9d9c017c9bb1e9126f6595b344c8c7790e00ce6d46e929edd9d2ff",
+          "size": 535977,
+          "type": "sdist"
+        }
+      ]
+    },
+    {
+      "name": "numpy",
+      "version": "2.5.4",
+      "metadataLicenseExpression": "BSD-3-Clause AND 0BSD AND MIT AND Zlib AND CC0-1.0",
+      "sourceRepository": "https://github.com/numpy/numpy",
+      "sourceRevision": "a3d0ef1df045b858e68115001fdabc930bb3b68c",
+      "pypiMetadataUrl": "https://pypi.org/pypi/numpy/2.5.4/json",
+      "installedRecordCheck": {
+        "verified_files": 947,
+        "issues": []
+      },
+      "distributions": [
+        {
+          "filename": "numpy-2.5.4-cp312-cp312-win_amd64.whl",
+          "url": "https://files.pythonhosted.org/packages/12/33/fefe62073dc8acfd0f2b9ed7c003af2f50aa61555e113e6db02b8f79f145/numpy-2.5.4-cp312-cp312-win_amd64.whl",
+          "sha256": "a7b1b6353e36a7e50de2973a38d705c88ee93adcf120673cee7f45a4a3fa223a",
+          "size": 12573091,
+          "type": "bdist_wheel",
+          "installedComparison": {
+            "identical_files": 944,
+            "missing": [],
+            "different": [],
+            "note": "RECORD excluded because installers may regenerate it; installed RECORD was checked separately."
+          }
+        },
+        {
+          "filename": "numpy-2.5.4.tar.gz",
+          "url": "https://files.pythonhosted.org/packages/95/b0/c7453d0b6e2073c3264468b106ee1563750cecc910965e67357e3698c83e/numpy-2.5.4.tar.gz",
+          "sha256": "9a94cf751c9ad8ebaa835bcd3d40dacf8534ad086b88c38029b65123c7999d2a",
+          "size": 20866315,
+          "type": "sdist"
+        }
+      ]
+    }
+  ],
+  "notices": [
+    {
+      "package": "usd-brep",
+      "path": "third_party/cad/usd-brep-1.0.1/LICENSE",
+      "bytes": 11652,
+      "sha256": "8bf1e49a84e1aa5495f07b6f5929dc03ce7d463dd64965910362884f56b5593b",
+      "distribution": "usd_brep-1.0.1-cp312-cp312-win_amd64.whl",
+      "archivePath": "usd_brep-1.0.1.dist-info/licenses/LICENSE"
+    },
+    {
+      "package": "usd-brep",
+      "path": "third_party/cad/usd-brep-1.0.1/THIRD_PARTY_NOTICES.md",
+      "bytes": 26707,
+      "sha256": "bddbb5cc4b7c22ad75e6a9c1312eb9c359db1168379102e0a16337a4bfd2569d",
+      "distribution": "usd_brep-1.0.1-cp312-cp312-win_amd64.whl",
+      "archivePath": "usd_brep-1.0.1.dist-info/licenses/THIRD_PARTY_NOTICES.md"
+    },
+    {
+      "package": "usd-brep",
+      "path": "third_party/cad/usd-brep-1.0.1/PACKAGE-LICENSES/LICENSE.txt",
+      "bytes": 48854,
+      "sha256": "96ab8f00d1f73b78e20a4aa950818db1e8b36809e4553f322773cf4a9df15b2d",
+      "distribution": "usd_brep-1.0.1-cp312-cp312-win_amd64.whl",
+      "archivePath": "usd_brep-1.0.1.dist-info/licenses/PACKAGE-LICENSES/LICENSE.txt"
+    },
+    {
+      "package": "usd-brep",
+      "path": "third_party/cad/usd-brep-1.0.1/PACKAGE-LICENSES/alembic-LICENSE.txt",
+      "bytes": 4893,
+      "sha256": "00a7b288ee40635e15adf85703b0fb3be3ef2f3000beb74d21c1f19b19147906",
+      "distribution": "usd_brep-1.0.1-cp312-cp312-win_amd64.whl",
+      "archivePath": "usd_brep-1.0.1.dist-info/licenses/PACKAGE-LICENSES/alembic-LICENSE.txt"
+    },
+    {
+      "package": "usd-brep",
+      "path": "third_party/cad/usd-brep-1.0.1/PACKAGE-LICENSES/cpython-LICENSE.txt",
+      "bytes": 13936,
+      "sha256": "3b2f81fe21d181c499c59a256c8e1968455d6689d269aa85373bfb6af41da3bf",
+      "distribution": "usd_brep-1.0.1-cp312-cp312-win_amd64.whl",
+      "archivePath": "usd_brep-1.0.1.dist-info/licenses/PACKAGE-LICENSES/cpython-LICENSE.txt"
+    },
+    {
+      "package": "usd-brep",
+      "path": "third_party/cad/usd-brep-1.0.1/PACKAGE-LICENSES/hwloc-COPYING.txt",
+      "bytes": 2552,
+      "sha256": "d79a936a42f3c6cb7c8375a023d43f4435f4664d3a5a2ea6b4623cff83c7fc06",
+      "distribution": "usd_brep-1.0.1-cp312-cp312-win_amd64.whl",
+      "archivePath": "usd_brep-1.0.1.dist-info/licenses/PACKAGE-LICENSES/hwloc-COPYING.txt"
+    },
+    {
+      "package": "usd-brep",
+      "path": "third_party/cad/usd-brep-1.0.1/PACKAGE-LICENSES/imath-LICENSE.md",
+      "bytes": 1497,
+      "sha256": "c20236d3b39fd20eba8e3d1fb3b892a5483df2e7d8d61bf43f165d3fac22f601",
+      "distribution": "usd_brep-1.0.1-cp312-cp312-win_amd64.whl",
+      "archivePath": "usd_brep-1.0.1.dist-info/licenses/PACKAGE-LICENSES/imath-LICENSE.md"
+    },
+    {
+      "package": "usd-brep",
+      "path": "third_party/cad/usd-brep-1.0.1/PACKAGE-LICENSES/libffi-LICENSE.txt",
+      "bytes": 1153,
+      "sha256": "9e3ab8d6acb921b93f16be0cc19b702baa620fd00ac0cbfb8f2610d72c5881a0",
+      "distribution": "usd_brep-1.0.1-cp312-cp312-win_amd64.whl",
+      "archivePath": "usd_brep-1.0.1.dist-info/licenses/PACKAGE-LICENSES/libffi-LICENSE.txt"
+    },
+    {
+      "package": "usd-brep",
+      "path": "third_party/cad/usd-brep-1.0.1/PACKAGE-LICENSES/materialx-LICENSE.txt",
+      "bytes": 10173,
+      "sha256": "a6cba85bc92e0cff7a450b1d873c0eaa2e9fc96bf472df0247a26bec77bf3ff9",
+      "distribution": "usd_brep-1.0.1-cp312-cp312-win_amd64.whl",
+      "archivePath": "usd_brep-1.0.1.dist-info/licenses/PACKAGE-LICENSES/materialx-LICENSE.txt"
+    },
+    {
+      "package": "usd-brep",
+      "path": "third_party/cad/usd-brep-1.0.1/PACKAGE-LICENSES/onetbb-LICENSE.txt",
+      "bytes": 11357,
+      "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+      "distribution": "usd_brep-1.0.1-cp312-cp312-win_amd64.whl",
+      "archivePath": "usd_brep-1.0.1.dist-info/licenses/PACKAGE-LICENSES/onetbb-LICENSE.txt"
+    },
+    {
+      "package": "usd-brep",
+      "path": "third_party/cad/usd-brep-1.0.1/PACKAGE-LICENSES/openssl-LICENSE.txt",
+      "bytes": 10175,
+      "sha256": "7d5450cb2d142651b8afa315b5f238efc805dad827d91ba367d8516bc9d49e7a",
+      "distribution": "usd_brep-1.0.1-cp312-cp312-win_amd64.whl",
+      "archivePath": "usd_brep-1.0.1.dist-info/licenses/PACKAGE-LICENSES/openssl-LICENSE.txt"
+    },
+    {
+      "package": "usd-brep",
+      "path": "third_party/cad/usd-brep-1.0.1/PACKAGE-LICENSES/opensubdiv-LICENSE.txt",
+      "bytes": 10038,
+      "sha256": "c52718780b46e8c7ea48b9ae0406061d4918761e385b6e024571a37c6d02dd95",
+      "distribution": "usd_brep-1.0.1-cp312-cp312-win_amd64.whl",
+      "archivePath": "usd_brep-1.0.1.dist-info/licenses/PACKAGE-LICENSES/opensubdiv-LICENSE.txt"
+    },
+    {
+      "package": "usd-brep",
+      "path": "third_party/cad/usd-brep-1.0.1/PACKAGE-LICENSES/pybind11-LICENSE.txt",
+      "bytes": 1684,
+      "sha256": "83965b843b98f670d3a85bd041ed4b372c8ec50d7b4a5995a83ac697ba675dcb",
+      "distribution": "usd_brep-1.0.1-cp312-cp312-win_amd64.whl",
+      "archivePath": "usd_brep-1.0.1.dist-info/licenses/PACKAGE-LICENSES/pybind11-LICENSE.txt"
+    },
+    {
+      "package": "usd-brep",
+      "path": "third_party/cad/usd-brep-1.0.1/PACKAGE-LICENSES/python-LICENSE.txt",
+      "bytes": 14215,
+      "sha256": "343237e4be4e1787bb54019abcd61d48465ac7fc2e12f4183846fa68b8447371",
+      "distribution": "usd_brep-1.0.1-cp312-cp312-win_amd64.whl",
+      "archivePath": "usd_brep-1.0.1.dist-info/licenses/PACKAGE-LICENSES/python-LICENSE.txt"
+    },
+    {
+      "package": "usd-brep",
+      "path": "third_party/cad/usd-brep-1.0.1/PACKAGE-LICENSES/usd-license.txt",
+      "bytes": 48854,
+      "sha256": "96ab8f00d1f73b78e20a4aa950818db1e8b36809e4553f322773cf4a9df15b2d",
+      "distribution": "usd_brep-1.0.1-cp312-cp312-win_amd64.whl",
+      "archivePath": "usd_brep-1.0.1.dist-info/licenses/PACKAGE-LICENSES/usd-license.txt"
+    },
+    {
+      "package": "usd-brep",
+      "path": "third_party/cad/usd-brep-1.0.1/PACKAGE-LICENSES/xz-LICENSE.txt",
+      "bytes": 3189,
+      "sha256": "4dbe5cdb52dad9399c88936770aea0d59198f1bd35a0031fbdcc7c151c4b1cf1",
+      "distribution": "usd_brep-1.0.1-cp312-cp312-win_amd64.whl",
+      "archivePath": "usd_brep-1.0.1.dist-info/licenses/PACKAGE-LICENSES/xz-LICENSE.txt"
+    },
+    {
+      "package": "usd-brep",
+      "path": "third_party/cad/usd-brep-1.0.1/PACKAGE-LICENSES/zlib-LICENSE.txt",
+      "bytes": 1323,
+      "sha256": "cd71bb78391bd288dfcce9b381e3bd847eaa18ecff0fe93aff33510e21c4b65d",
+      "distribution": "usd_brep-1.0.1-cp312-cp312-win_amd64.whl",
+      "archivePath": "usd_brep-1.0.1.dist-info/licenses/PACKAGE-LICENSES/zlib-LICENSE.txt"
+    },
+    {
+      "package": "meshpy",
+      "path": "third_party/cad/meshpy-2026.1.1/LICENSE",
+      "bytes": 5095,
+      "sha256": "c748822d836e7bff5806fa0ede25b1a892c4b4d2ae0d03dbbf5c92ed0ba1436c",
+      "distribution": "meshpy-2026.1.1-cp312-cp312-win_amd64.whl",
+      "archivePath": "meshpy-2026.1.1.dist-info/licenses/LICENSE"
+    },
+    {
+      "package": "meshpy",
+      "path": "third_party/cad/meshpy-2026.1.1/tetgen-LICENSE",
+      "bytes": 33858,
+      "sha256": "4a8a051671e2b25acbadd6997875f4b7aca33283d2c9e37a63b62b267fa892a3",
+      "distribution": "meshpy-2026.1.1.tar.gz",
+      "archivePath": "meshpy-2026.1.1/src/cpp/tetgen-LICENSE"
+    },
+    {
+      "package": "numpy",
+      "path": "third_party/cad/numpy-2.5.4/LICENSE.txt",
+      "bytes": 45831,
+      "sha256": "a804dff0ead9fadc5293456410bcbfc32bf024be9c4513459663fb7b442d2341",
+      "distribution": "numpy-2.5.4-cp312-cp312-win_amd64.whl",
+      "archivePath": "numpy-2.5.4.dist-info/licenses/LICENSE.txt"
+    },
+    {
+      "package": "numpy",
+      "path": "third_party/cad/numpy-2.5.4/numpy/fft/pocketfft/LICENSE.md",
+      "bytes": 1523,
+      "sha256": "8db000e158c162e7249787852d8c69764706502ccee725c06641b31c1e95c8af",
+      "distribution": "numpy-2.5.4-cp312-cp312-win_amd64.whl",
+      "archivePath": "numpy-2.5.4.dist-info/licenses/numpy/fft/pocketfft/LICENSE.md"
+    },
+    {
+      "package": "numpy",
+      "path": "third_party/cad/numpy-2.5.4/numpy/linalg/lapack_lite/LICENSE.txt",
+      "bytes": 2314,
+      "sha256": "19060ef465e1797d682ee0fc3081bd25ab1395e995e43d25c9d13c95d9a3cd6b",
+      "distribution": "numpy-2.5.4-cp312-cp312-win_amd64.whl",
+      "archivePath": "numpy-2.5.4.dist-info/licenses/numpy/linalg/lapack_lite/LICENSE.txt"
+    },
+    {
+      "package": "numpy",
+      "path": "third_party/cad/numpy-2.5.4/numpy/ma/LICENSE",
+      "bytes": 1616,
+      "sha256": "d78dbb208b80d92b4d333e41a4baae50d12444f46e53199fa7726a91de6e2da7",
+      "distribution": "numpy-2.5.4-cp312-cp312-win_amd64.whl",
+      "archivePath": "numpy-2.5.4.dist-info/licenses/numpy/ma/LICENSE"
+    },
+    {
+      "package": "numpy",
+      "path": "third_party/cad/numpy-2.5.4/numpy/random/LICENSE.md",
+      "bytes": 3582,
+      "sha256": "b4bc2f4fa1c95778f1ed3dd8f14706bece399475b978f9f34b5d3cd72521b48a",
+      "distribution": "numpy-2.5.4-cp312-cp312-win_amd64.whl",
+      "archivePath": "numpy-2.5.4.dist-info/licenses/numpy/random/LICENSE.md"
+    },
+    {
+      "package": "numpy",
+      "path": "third_party/cad/numpy-2.5.4/numpy/random/src/distributions/LICENSE.md",
+      "bytes": 2805,
+      "sha256": "cf5619f25b112d5ce7c896efffc8e610bcb345dfadcc19f2c1460aa48fff2c9e",
+      "distribution": "numpy-2.5.4-cp312-cp312-win_amd64.whl",
+      "archivePath": "numpy-2.5.4.dist-info/licenses/numpy/random/src/distributions/LICENSE.md"
+    },
+    {
+      "package": "numpy",
+      "path": "third_party/cad/numpy-2.5.4/numpy/random/src/mt19937/LICENSE.md",
+      "bytes": 2986,
+      "sha256": "92c10699884321f1c2947fe2a70ab23b0fbf1507f756d89dd08f38c61fc3d4fa",
+      "distribution": "numpy-2.5.4-cp312-cp312-win_amd64.whl",
+      "archivePath": "numpy-2.5.4.dist-info/licenses/numpy/random/src/mt19937/LICENSE.md"
+    },
+    {
+      "package": "numpy",
+      "path": "third_party/cad/numpy-2.5.4/numpy/random/src/pcg64/LICENSE.md",
+      "bytes": 1176,
+      "sha256": "41190663b77bee5302386495a07b7eabfbfa571aa0ae2f11da6764162062fc4f",
+      "distribution": "numpy-2.5.4-cp312-cp312-win_amd64.whl",
+      "archivePath": "numpy-2.5.4.dist-info/licenses/numpy/random/src/pcg64/LICENSE.md"
+    },
+    {
+      "package": "numpy",
+      "path": "third_party/cad/numpy-2.5.4/numpy/random/src/philox/LICENSE.md",
+      "bytes": 1540,
+      "sha256": "322ac46d870c8aeead6c53adcccc839296fb3c8e456eae155081297daf7f8013",
+      "distribution": "numpy-2.5.4-cp312-cp312-win_amd64.whl",
+      "archivePath": "numpy-2.5.4.dist-info/licenses/numpy/random/src/philox/LICENSE.md"
+    },
+    {
+      "package": "numpy",
+      "path": "third_party/cad/numpy-2.5.4/numpy/random/src/sfc64/LICENSE.md",
+      "bytes": 1253,
+      "sha256": "28cad82ce1379dc529df30da78ec012d7d0d1d576b03ddcb93388aee53659f59",
+      "distribution": "numpy-2.5.4-cp312-cp312-win_amd64.whl",
+      "archivePath": "numpy-2.5.4.dist-info/licenses/numpy/random/src/sfc64/LICENSE.md"
+    },
+    {
+      "package": "numpy",
+      "path": "third_party/cad/numpy-2.5.4/numpy/random/src/splitmix64/LICENSE.md",
+      "bytes": 340,
+      "sha256": "454ec7350e478e037061850b67395753b425b1cb0a34bbc26290b020bf89d763",
+      "distribution": "numpy-2.5.4-cp312-cp312-win_amd64.whl",
+      "archivePath": "numpy-2.5.4.dist-info/licenses/numpy/random/src/splitmix64/LICENSE.md"
+    },
+    {
+      "package": "numpy",
+      "path": "third_party/cad/numpy-2.5.4/numpy/_core/include/numpy/libdivide/LICENSE.txt",
+      "bytes": 1039,
+      "sha256": "d544761558b510866c21f7e8a2d5716fca76e0b98117e3b6b86314db7244d150",
+      "distribution": "numpy-2.5.4-cp312-cp312-win_amd64.whl",
+      "archivePath": "numpy-2.5.4.dist-info/licenses/numpy/_core/include/numpy/libdivide/LICENSE.txt"
+    },
+    {
+      "package": "numpy",
+      "path": "third_party/cad/numpy-2.5.4/numpy/_core/src/common/pythoncapi-compat/COPYING",
+      "bytes": 704,
+      "sha256": "aea41976c720f91bd19725c16916a1ace40eb1ea42620d340e587a5de4bbcea0",
+      "distribution": "numpy-2.5.4-cp312-cp312-win_amd64.whl",
+      "archivePath": "numpy-2.5.4.dist-info/licenses/numpy/_core/src/common/pythoncapi-compat/COPYING"
+    },
+    {
+      "package": "numpy",
+      "path": "third_party/cad/numpy-2.5.4/numpy/_core/src/highway/LICENSE",
+      "bytes": 21155,
+      "sha256": "d208152e2777ffd0126eacc1bd21c0320d69e4e6b622d21a2a12a47e8ef73763",
+      "distribution": "numpy-2.5.4-cp312-cp312-win_amd64.whl",
+      "archivePath": "numpy-2.5.4.dist-info/licenses/numpy/_core/src/highway/LICENSE"
+    },
+    {
+      "package": "numpy",
+      "path": "third_party/cad/numpy-2.5.4/numpy/_core/src/multiarray/dragon4_LICENSE.txt",
+      "bytes": 1441,
+      "sha256": "b0fd592d4ead563148e3977e7b589169d46a5ef2ff133c755a81af880a3fc919",
+      "distribution": "numpy-2.5.4-cp312-cp312-win_amd64.whl",
+      "archivePath": "numpy-2.5.4.dist-info/licenses/numpy/_core/src/multiarray/dragon4_LICENSE.txt"
+    },
+    {
+      "package": "numpy",
+      "path": "third_party/cad/numpy-2.5.4/numpy/_core/src/npysort/x86-simd-sort/LICENSE.md",
+      "bytes": 1542,
+      "sha256": "a732977853530066790c42817087f4829b518dd98d340c916acbfd227e39d3cb",
+      "distribution": "numpy-2.5.4-cp312-cp312-win_amd64.whl",
+      "archivePath": "numpy-2.5.4.dist-info/licenses/numpy/_core/src/npysort/x86-simd-sort/LICENSE.md"
+    },
+    {
+      "package": "numpy",
+      "path": "third_party/cad/numpy-2.5.4/numpy/_core/src/umath/svml/LICENSE",
+      "bytes": 1573,
+      "sha256": "585483905b13d4b42f800c55ba99e89d6e2e33ccd5f503e201c07531d148ff41",
+      "distribution": "numpy-2.5.4-cp312-cp312-win_amd64.whl",
+      "archivePath": "numpy-2.5.4.dist-info/licenses/numpy/_core/src/umath/svml/LICENSE"
+    }
+  ],
+  "limitations": [
+    "Exact upstream tags and PyPI hashes identify inputs, not a reproducible binary build or vendor signature.",
+    "The notice copies reproduce the packages as observed. Their completeness for all bundled native runtimes has not been established.",
+    "No Linux or macOS wheel contents were audited in this record; these hashes are not a cross-platform pip lock.",
+    "No TetGen or Triangle commercial license was supplied or verified."
+  ]
+}

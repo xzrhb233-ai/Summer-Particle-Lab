@@ -48,6 +48,8 @@ Web 服务默认仅监听 `127.0.0.1:5173`。可选 GPU 服务当前只接受这
 
 ## 2. 可选 CAD 环境
 
+该环境从外部包源安装完整 USD BRep、MeshPy 与 NumPy；其中 MeshPy 的原生扩展同时含 TetGen 和 Triangle。项目自有代码的 MIT 不替代它们的条款。固定版本、许可副本与源码来源已完成本轮登记，见 [CAD 许可核查](CAD_LICENSE_REVIEW.md)；该核查不批准把完整环境制作成闭源商业安装包。
+
 Windows PowerShell：
 
 ```powershell

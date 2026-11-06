@@ -17,6 +17,8 @@
 
 ## CAD：USD BRep、OpenUSD 与网格生成器
 
+**2026-11-05 CAD 专项核查已完成组件、许可原文及源码来源登记**，详见 [CAD_LICENSE_REVIEW.md](CAD_LICENSE_REVIEW.md)。三个安装包与对应 PyPI Windows wheel 逐文件一致；源码提交、包哈希及 36 份原文副本见 [证据清单](cad-dependencies.lock.json) 和 [通知索引](../third_party/cad/README.md)。维护者已确认 CAD 代码与示例在本项目中生成，技术检查与声明分别记录。本轮限定为源码发布准备，未放行完整二进制/闭源商业 CAD 包，也不替代全项目来源审查。
+
 本项目通过 Python 包 `usd-brep==1.0.1` 调用内核；不是把上游 C++ 源码复制进本仓库。该发行包要求 64 位 CPython 3.12，并捆绑 OpenUSD 25.11。安装与平台条件见[该版本发行说明](https://pypi.org/project/usd-brep/1.0.1/)。
 
 该 wheel 的 `License-Expression` 为：
@@ -33,7 +35,9 @@ Apache-2.0 AND LicenseRef-TOST-1.0 AND BSD-2-Clause AND BSD-3-Clause AND MIT AND
 - TetGen：AGPL-3.0-or-later，另有商业许可路径。
 - Triangle：自定义许可，包含关于商业系统分发的限制。本项目当前体网格路径未调用 `meshpy.triangle`，但完整 MeshPy 发行包仍携带 Triangle 组件和通知。
 
-**TetGen 的 AGPL/商业许可选择是发布前需要维护者决定的事项。** 应按拟发布的源码、二进制包、服务部署方式及所持商业许可核对义务，必要时取得专业意见；此处不是“整个项目必须采用某许可证”或“隔离进程即可豁免”的法律结论。只保留 MeshPy 的 MIT 封装声明会遗漏关键条款。[MeshPy 官方 LICENSE](https://github.com/inducer/meshpy/blob/main/LICENSE)
+固定版本的 [MeshPy 构建文件](https://github.com/inducer/meshpy/blob/8da82ffd160091dc8f0b5e07dfcccea6fd2bc66a/meson.build) 把 TetGen 与 Triangle 编译到同一个扩展，不能因未调用 Triangle 就把它从发行包清单中删除。内嵌 TetGen 标为 1.6.1；本次没有取得针对该版本的商业授权。完整 AGPL 已从对应源码包补充归档，wheel 内其他 GCC/libstdc++/winpthread 运行库的完整再分发证据尚未补齐。
+
+**当前拟发布物为源码及许可文本，不含 CAD 原生包；完整运行包或服务分发前仍须核对 TetGen 的适用许可路径。** 应按实际源码、二进制、部署方式及所持授权核对义务；此处不是“整个项目必须采用某许可证”或“隔离进程即可豁免”的法律结论。只保留 MeshPy 的 MIT 封装声明会遗漏关键条款。[固定版本 LICENSE](https://github.com/inducer/meshpy/blob/8da82ffd160091dc8f0b5e07dfcccea6fd2bc66a/LICENSE)
 
 ## Python 间接依赖与二进制 notices
 
@@ -80,9 +84,9 @@ RhineLabUI 上游 [LICENSE](https://github.com/LBEILC/RhineLabUI/blob/main/LICEN
 ## 发布前尚待确定
 
 1. 根项目已选择 MIT 并添加 LICENSE；仍需完成代码与贡献的权利核查。该许可不重新授权第三方组件，第三方清单也不构成来源授权证明。
-2. CAD 分发是否包含 MeshPy/TetGen/Triangle，以及相应许可路径；保留完整 notices，并核对具体分发和部署方式。
+2. CAD 的本轮分发范围已确定为源码及许可文本，依赖身份、许可原文和 CAD 来源核查见专项报告。若制作完整运行包或商业部署，另行完成 TetGen/Triangle 的适用授权及原生运行库再分发证据，不能沿用“源码审查通过”作为二进制放行结论。
 3. 是否提供二进制/离线包。若提供，需补齐实际包的组件与许可文本，尤其是 Rapier、USD BRep、NumPy 和 Taichi 内嵌库。
-4. 源码与素材出处确认，包括 [PROVENANCE.md](PROVENANCE.md) 中的算法和 UI 参考，以及本地保存、不随源码发布的其他参考资料记录。产品已更名 Summer；旧名称的移除不完成权利核实，也不构成权利转让。
+4. CAD 已记录维护者来源确认、42 文件证据和有限上游比较；其余源码与素材仍需核对，包括 [PROVENANCE.md](PROVENANCE.md) 中的算法和 UI 参考，以及本地保存、不随源码发布的其他参考资料记录。产品已更名 Summer；旧名称的移除不完成权利核实，也不构成权利转让。
 5. Python 间接依赖和跨平台 wheel 哈希锁定。目前可以复现直接版本约束，不能承诺字节一致或跨硬件数值一致的环境。
 
 安装步骤见 [INSTALL.md](INSTALL.md)，数值证据的适用范围见 [VV.md](VV.md)。

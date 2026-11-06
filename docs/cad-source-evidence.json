@@ -1,0 +1,323 @@
+{
+  "schema": "summer-cad-source-evidence/1",
+  "reviewDate": "2026-11-05",
+  "auditedBaseCommit": "7401cd51eadc90b9a5cc0ca15afac10a512c9965",
+  "hashBasis": "Exact git blob bytes at auditedBaseCommit; not the current working-tree line endings.",
+  "maintainerStatement": {
+    "date": "2026-11-05",
+    "source": "Explicit response in project review conversation",
+    "statement": "除安装的 usd-brep、MeshPy 和 NumPy 外，没有额外复制或导入其他软件的 CAD 代码、模型或素材；CAD 代码与示例均在本项目开发过程中生成。",
+    "kind": "maintainer attestation, not an independently proven authorship certificate"
+  },
+  "fixtureReproduction": {
+    "fields": {
+      "schema": true,
+      "kernel": true,
+      "version": true,
+      "recipe": true,
+      "lower": true,
+      "upper": true,
+      "volume": true,
+      "vertices": true,
+      "indices": true,
+      "closed": true
+    },
+    "fixtureVertices": 72,
+    "builtVertices": 72,
+    "fixtureIndices": 432,
+    "builtIndices": 432,
+    "fixtureVolume": 0.20465708470119137,
+    "builtVolume": 0.20465708470119137
+  },
+  "limitedSimilarityScreen": {
+    "method": "exact contiguous five nonblank normalized line blocks of >=120 characters; comments and import statements excluded; only .py files; does not prove original authorship or absence of adaptation",
+    "upstream_python_file_counts": {
+      "usd-brep-v1.0.1-source.tar.gz": 81,
+      "meshpy-2026.1.1.tar.gz": 31,
+      "numpy-2.5.4.tar.gz": 1070
+    },
+    "local_files": [
+      {
+        "file": "cad/curves.py",
+        "sha256": "88624ffbe27d5bc4a92f40ba3a46bdbc10c899734bd5dba92abe4b5591411ac3"
+      },
+      {
+        "file": "cad/meshing.py",
+        "sha256": "c1e202fd8728661fdcf55f888d0dc89c139687af73560465695e69db24da9768"
+      },
+      {
+        "file": "cad/profiles.py",
+        "sha256": "7e0832fe0813dc8708377e74aa7c5a5c2409370a5b0cdcb1021f34f5487bde62"
+      },
+      {
+        "file": "cad/surfaces.py",
+        "sha256": "6e0793850825cf8c5ac0b8034e54a397fab6b36dd829f01df8f623a40732075f"
+      },
+      {
+        "file": "cad/worker.py",
+        "sha256": "21a092fce286bde70ec76c768bf52b5d13875a2e8623b309faa18877b3fc5acf"
+      }
+    ],
+    "matches": []
+  },
+  "files": [
+    {
+      "path": "Install-CAD.ps1",
+      "bytes": 567,
+      "sha256": "f82d97727676013daaace8bc114ac4ac9ebd0f45eb4b4c6050d7f27a47e618b5",
+      "gitBlob": "0bef624a0dc06733d0808ee5499e1ea74758e090"
+    },
+    {
+      "path": "cad-server.mjs",
+      "bytes": 6624,
+      "sha256": "d54d082fd43434434cec4f63691e1337341fe1e87e4f8caee19da6636c3c878c",
+      "gitBlob": "b177c14543c1adbe2d1a8288d5f0d5a39cc9844b"
+    },
+    {
+      "path": "cad/README.md",
+      "bytes": 37200,
+      "sha256": "d9c4f74c2b65856ac984a73de7656d26c03ee33a41b0bfe20b1acfd765e8bffe",
+      "gitBlob": "2938a7d7b5de266f7f839e2701419c4b3b82e117"
+    },
+    {
+      "path": "cad/curves.py",
+      "bytes": 5469,
+      "sha256": "88624ffbe27d5bc4a92f40ba3a46bdbc10c899734bd5dba92abe4b5591411ac3",
+      "gitBlob": "561762bf60c81ff62d5bf9b6569062b7a1c3fa57"
+    },
+    {
+      "path": "cad/examples/perforated-block.json",
+      "bytes": 20538,
+      "sha256": "bf4518d34ac749064c9bc31255c77e1f4c240faf15415cec7c16be59bb84cd22",
+      "gitBlob": "b896749878522b4ca62ea4c2b439147687131d67"
+    },
+    {
+      "path": "cad/meshing.py",
+      "bytes": 12503,
+      "sha256": "c1e202fd8728661fdcf55f888d0dc89c139687af73560465695e69db24da9768",
+      "gitBlob": "fc3757a48abc85fc05896ed2196365a651571df3"
+    },
+    {
+      "path": "cad/profiles.py",
+      "bytes": 4688,
+      "sha256": "7e0832fe0813dc8708377e74aa7c5a5c2409370a5b0cdcb1021f34f5487bde62",
+      "gitBlob": "c98985abe32dd6ee1848892c1bb2c4122913d638"
+    },
+    {
+      "path": "cad/requirements.txt",
+      "bytes": 46,
+      "sha256": "141c3276d2a14e3a8e6ebbfbb84c23bab0ef6207886277e3e4a4daafdd6bc6f0",
+      "gitBlob": "c91a2356d14e247300e2e59a7d456dfd3dff9c8e"
+    },
+    {
+      "path": "cad/surfaces.py",
+      "bytes": 6186,
+      "sha256": "6e0793850825cf8c5ac0b8034e54a397fab6b36dd829f01df8f623a40732075f",
+      "gitBlob": "e35ad3787ee4d8f44343c7a2b46a31affb1b8991"
+    },
+    {
+      "path": "cad/worker.py",
+      "bytes": 8944,
+      "sha256": "21a092fce286bde70ec76c768bf52b5d13875a2e8623b309faa18877b3fc5acf",
+      "gitBlob": "d5f50349e77caa689005c7389f20f22fa0f88e20"
+    },
+    {
+      "path": "src/simulation/cad-client.js",
+      "bytes": 3305,
+      "sha256": "139dbb07962e11656d24f69d452a72562d03de8a0b37406f0e3c499cfb84e86c",
+      "gitBlob": "5e125631319aa36a35812c65dc4811e2f0541c35"
+    },
+    {
+      "path": "src/simulation/cad-curve-ui.js",
+      "bytes": 13363,
+      "sha256": "b429c7359658e605965e5b78c296245db4c0c4a4ac1eac7d8d090225a70d61ce",
+      "gitBlob": "7f1e1cf7a50afde22d0799483604319808e6bdf6"
+    },
+    {
+      "path": "src/simulation/cad-example.js",
+      "bytes": 334,
+      "sha256": "60e47d582939e28538a44d2177ff038dd484bc0a1c6629c495f4b5b793e10515",
+      "gitBlob": "7b022a623c2ec020969fe0e455fb0b999c31e7bc"
+    },
+    {
+      "path": "src/simulation/cad-mesh-model.js",
+      "bytes": 1236,
+      "sha256": "91316950926322dce96972631b941b3c5ea28459477a865e0889dc53eda56172",
+      "gitBlob": "6fe511c08f406a2bbfed83059e2ad647dfbd6347"
+    },
+    {
+      "path": "src/simulation/cad-mesh-ui.js",
+      "bytes": 7025,
+      "sha256": "2ef7a42699d2daa700e67048c14f3cbca42d7fcd47f7c7ab34df10a5f870c239",
+      "gitBlob": "111a53ca5111230b59ebe83b3acf388173b4cb02"
+    },
+    {
+      "path": "src/simulation/cad-parametric-ui.js",
+      "bytes": 16633,
+      "sha256": "1567afc09594e4ab9357d54c16c2b9e86bc793c7e0f9c7e61b0289d716f5d884",
+      "gitBlob": "d1d4136887b9a195a70ca1a393fba41aa05bb2a2"
+    },
+    {
+      "path": "src/simulation/cad-parametric.js",
+      "bytes": 8283,
+      "sha256": "c951b5257f3c3ee989111d7d4e7f37064f4832a26ba2082e8229e8560ef573a0",
+      "gitBlob": "472f3a3fa65d105ca809edc79073d5d48377c36c"
+    },
+    {
+      "path": "src/simulation/cad-preview.js",
+      "bytes": 5807,
+      "sha256": "faea58f7460c419d42aaa52497eca91dc431f423a056837ec19d9e0984c0dee7",
+      "gitBlob": "e077d07372d303e75a25a4baebfb5d234c720318"
+    },
+    {
+      "path": "src/simulation/cad-profile-editor.js",
+      "bytes": 7803,
+      "sha256": "1c4c0d7898d7a0e67f977a91ddcd102c6b0130f02006b698b26a937728fd7e69",
+      "gitBlob": "d5d9aa8c564fbf5ab98f04e6887cd8c230597a20"
+    },
+    {
+      "path": "src/simulation/cad-surface-ui.js",
+      "bytes": 14617,
+      "sha256": "3fdcfdc6b8d964a2510a747b1b675ce4c56338b174bbee7edb9c6aa5ba796f11",
+      "gitBlob": "44614024f630171de3c720aa7202652ae7a11847"
+    },
+    {
+      "path": "src/simulation/cad-templates.js",
+      "bytes": 3057,
+      "sha256": "3915408d13716ce806b644a494d668b1716a606acd512fdd9d30b60cf629fdd6",
+      "gitBlob": "e8c81dbabf66542a27aa0455de37ebd324bbaca1"
+    },
+    {
+      "path": "src/simulation/cad-ui.js",
+      "bytes": 15739,
+      "sha256": "0ee0d3e43db43de7ee0f09d8bee51da656e11f8cde80facba8375106f26934c5",
+      "gitBlob": "e7a8114ab6c54dcdc61c171954b31c025d0f755c"
+    },
+    {
+      "path": "src/three/cad-geometry.js",
+      "bytes": 5091,
+      "sha256": "ac3b134746525203a34d7670bd0e4cb614c02387a0d61dfd0aea6d1a773c13f1",
+      "gitBlob": "7ba94858035823822fcd3c96459b3f593c1d1902"
+    },
+    {
+      "path": "src/three/cad-profiles.js",
+      "bytes": 3457,
+      "sha256": "ba41dbcc2f57741fc46f61b629caaadfdac4c327272e01b500597e90337c4344",
+      "gitBlob": "3c78f388be35aec69d57fe99b407f7d53a5b04a6"
+    },
+    {
+      "path": "src/three/cad-surface-render.js",
+      "bytes": 8623,
+      "sha256": "3a44e263e15b1e11f303569b43f8f1d110c84193d86adcf29012df46ac87eb1f",
+      "gitBlob": "2248dc7110bc21ca96bb455512c6f1e5d72cfea9"
+    },
+    {
+      "path": "src/three/cad-surfaces.js",
+      "bytes": 4757,
+      "sha256": "67c0a9edb65c3e1e4c2967e7ebfabea8affcb660d38726585f73d12c656ba2ed",
+      "gitBlob": "9cdec055328658aa17b71847ae31e52bdd20c5e8"
+    },
+    {
+      "path": "src/three/cad-tools.js",
+      "bytes": 5485,
+      "sha256": "b0d50e85d6235f1ea16512dd6b5feea16b6677d3353c9e386ae02e2c14ac1c5d",
+      "gitBlob": "1efbd08c659757c974587957bf403b480e3f27cb"
+    },
+    {
+      "path": "src/three/cad.css",
+      "bytes": 6649,
+      "sha256": "c60ded3fe4edebe35c71e4630041ccc47d66a2e73d9ee45334696d4277c79af4",
+      "gitBlob": "17f32edc697648c3c393400d5dff054d78fbd548"
+    },
+    {
+      "path": "tests/assistant-cad-tools.test.mjs",
+      "bytes": 12192,
+      "sha256": "669d541c065f41bbffbed87104a09bf80f0f81b4ccef26b00cdacb309058ab27",
+      "gitBlob": "2e52711265da471e7dff24925d1a3d02769fbb92"
+    },
+    {
+      "path": "tests/assistant-cad.test.mjs",
+      "bytes": 10998,
+      "sha256": "30b1131d457607b7266deb61fe2aafe035cf5680984e11d0df7c5c7ece0af32c",
+      "gitBlob": "5db8f402705237eeca5e110f8fcd093c8636e70e"
+    },
+    {
+      "path": "tests/cad-curves.test.mjs",
+      "bytes": 3283,
+      "sha256": "43c5a25867eb11a2458037c2055012b7c92aa4ebc2b80fd7b04cca136d0ec8f2",
+      "gitBlob": "21f8cd9803a0da6240309f9b890cede95d8f9f87"
+    },
+    {
+      "path": "tests/cad-fem.test.mjs",
+      "bytes": 9906,
+      "sha256": "d895e53f9d04466e6d1f612dd22c19ce2ac4b9586ea192acf36e00cc691eaa48",
+      "gitBlob": "4660c6a720cfe4c67647beee0aad52b7237f82ff"
+    },
+    {
+      "path": "tests/cad-modeling-tools.test.mjs",
+      "bytes": 3540,
+      "sha256": "c9efb4067dbfc8d1d02f295d6df0718a03261f32d20c555eb98e82b7b670d267",
+      "gitBlob": "a6436ad62e21a0426ea2c09c2279417e24cc5128"
+    },
+    {
+      "path": "tests/cad-parametric.test.mjs",
+      "bytes": 8214,
+      "sha256": "704cbfcd7ba4bae28e2ba4319192fcd2eaaccf2cc886109779e8acf349024666",
+      "gitBlob": "2578fb989dedb0c691eae40bdf2c97dde73e29c7"
+    },
+    {
+      "path": "tests/cad-profile-geometry.test.mjs",
+      "bytes": 7600,
+      "sha256": "28fcce6a28f4c1990a5eecce495743edf1aa9339cc41dbbcc30f712c2810369c",
+      "gitBlob": "ccb2bbb9cd63389edb52ad91f85984a9178cd816"
+    },
+    {
+      "path": "tests/cad-profile-kernel.test.mjs",
+      "bytes": 7170,
+      "sha256": "4883289ed6b3815903542c7b39280191febff32f8fe1a3b6bfcc775ea3172b86",
+      "gitBlob": "bbdb4ddf7e07fc62892e6d326ed317dd968670d6"
+    },
+    {
+      "path": "tests/cad-surface-render.test.mjs",
+      "bytes": 4908,
+      "sha256": "c167ef409a51f30c565335a416095f7d995b7e3aac0d5839901f28fb4bfa47d3",
+      "gitBlob": "1c88105f75d2179629637ba41110991bd2ead82b"
+    },
+    {
+      "path": "tests/cad-surface-tools.test.mjs",
+      "bytes": 8049,
+      "sha256": "617614b50d13bdc246da4bb8e6e2fe8771957e3c7cff74f36397cd266d589740",
+      "gitBlob": "ce7383f5bc6d08856e68ce0425ab65a78188d027"
+    },
+    {
+      "path": "tests/cad-surfaces.test.mjs",
+      "bytes": 5387,
+      "sha256": "d46d9fce2e4cdb1cdaf2db05ed318176c791c06ac06f02e6f5ccf64a0e39d24a",
+      "gitBlob": "1e9e8c713d0e28c9d7a6a3d9cf2647f3c084d1dc"
+    },
+    {
+      "path": "tests/cad-tools.test.mjs",
+      "bytes": 7481,
+      "sha256": "fe6d8d4562d859b8205868a5d24a80caf07f1ef3add19fb743075c5b385e01d7",
+      "gitBlob": "a9b0eda42ffd43ce697b080e862f7be0f29d2007"
+    },
+    {
+      "path": "tests/cad-volume-mesh.test.mjs",
+      "bytes": 8072,
+      "sha256": "a65042ab77d7b2fbfd8d9def4669cdfd13a9dc6ca9691c356ef26ac628800152",
+      "gitBlob": "41e0616ac692b1dc9347c3671b81a79d6920b19e"
+    },
+    {
+      "path": "tests/cad.test.mjs",
+      "bytes": 5148,
+      "sha256": "6943b6d3ac76be17b32ed36d5225a6b39ef47776b3559a7ab86f396d09734841",
+      "gitBlob": "43c7ec876ff06ea1fa37daa87cae1e97dee36aec"
+    }
+  ],
+  "limitations": [
+    "Initial repository import lacks earlier Git history.",
+    "The similarity screen covers only specified upstream Python sources and cannot exclude rewritten, shorter or unsearched copying.",
+    "This review concerns CAD, not every numerical model, user-interface asset or other project dependency.",
+    "Generated geometry evidence does not establish rights to user-imported future models."
+  ]
+}
