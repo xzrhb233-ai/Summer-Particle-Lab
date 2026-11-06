@@ -2,6 +2,7 @@
   "name": "summer-particle-lab",
   "version": "0.71.0",
   "private": true,
+  "license": "MIT",
   "description": "Local multiphysics simulation workbench with MPM, FEM, PBF, rigid bodies, CAD and evidence-based verification tools",
   "packageManager": "pnpm@10.19.0",
   "engines": {"node": ">=22.10 <25"},

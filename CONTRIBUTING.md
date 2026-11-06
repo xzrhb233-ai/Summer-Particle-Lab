@@ -1,6 +1,6 @@
 # Contributing
 
-Public contribution intake is pending selection of the project license and completion of the release checklist. Once those are resolved, the following workflow describes the intended review standard.
+Project-owned code uses the [MIT License](LICENSE). Public contribution intake remains pending completion of the source-rights and release checks. The following workflow describes the intended review standard.
 
 ## Reproduce first
 
